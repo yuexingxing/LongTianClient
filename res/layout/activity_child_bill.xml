@@ -1,0 +1,184 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="2dp"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="12dp"
+            android:gravity="center_vertical"
+            android:text="起始单号:"
+            android:textSize="13sp" />
+
+        <EditText
+            android:id="@+id/child_bill_billcode"
+            android:layout_width="0dp"
+            android:layout_height="35dp"
+            android:layout_marginRight="8dp"
+            android:layout_weight="1"
+            android:background="@drawable/edit_text_grey"
+            android:gravity="center|left"
+            android:hint="请输入14位单号"
+            android:paddingLeft="12dp"
+            android:textSize="13sp" />
+
+        <CheckBox
+            android:id="@+id/child_bill_checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="12dp"
+            android:text="连续"
+            android:textSize="12sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="2dp"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="12dp"
+            android:gravity="center_vertical"
+            android:text="应录:"
+            android:textSize="13sp" />
+
+        <EditText
+            android:id="@+id/child_bill_count1"
+            android:layout_width="0dp"
+            android:layout_height="35dp"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="8dp"
+            android:layout_weight="0"
+            android:background="@drawable/shape_order_sort_gray"
+            android:focusable="false"
+            android:gravity="center"
+            android:paddingLeft="12dp"
+            android:text="1"
+            android:textSize="13sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="实录:"
+            android:textSize="13sp" />
+
+        <EditText
+            android:id="@+id/child_bill_count2"
+            android:layout_width="0dp"
+            android:layout_height="35dp"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="8dp"
+            android:layout_weight="0"
+            android:background="@drawable/shape_order_sort_gray"
+            android:focusable="false"
+            android:gravity="center"
+            android:paddingLeft="12dp"
+            android:text="1"
+            android:textSize="13sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="3dp"
+        android:layout_weight="1"
+        android:orientation="horizontal" >
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="2dp"
+            android:layout_marginLeft="2dp"
+            android:layout_weight="1"
+            android:background="@drawable/shape_rec_black"
+            android:orientation="vertical" >
+
+            <include layout="@layout/listview_public" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <Button
+                android:layout_width="80dp"
+                android:layout_height="35dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/shape_color_main_button"
+                android:onClick="add"
+                android:text="新增"
+                android:textSize="13sp" />
+
+            <Button
+                android:layout_width="80dp"
+                android:layout_height="35dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/shape_color_main_button"
+                android:onClick="addAll"
+                android:text="生成全部"
+                android:textSize="13sp" />
+
+            <Button
+                android:layout_width="80dp"
+                android:layout_height="35dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/shape_color_main_button"
+                android:onClick="delete"
+                android:text="删除"
+                android:textSize="13sp" />
+
+            <Button
+                android:layout_width="80dp"
+                android:layout_height="35dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/shape_color_main_button"
+                android:onClick="clear"
+                android:text="清空"
+                android:textSize="13sp" />
+
+            <Button
+                android:layout_width="80dp"
+                android:layout_height="35dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/shape_color_main_button"
+                android:onClick="commit"
+                android:text="确定"
+                android:textSize="13sp" />
+
+            <Button
+                android:layout_width="80dp"
+                android:layout_height="35dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/shape_color_main_button"
+                android:onClick="exit"
+                android:text="关闭"
+                android:textSize="13sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

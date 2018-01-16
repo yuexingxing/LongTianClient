@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">LongTianClient</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_base">BaseActivity</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="title_activity_site_select">SiteSelectActivity</string>
+    <string name="title_activity_input_bill">InputBillActivity</string>
+    <string name="title_activity_input_bill2">InputBill2Activity</string>
+    <string name="title_activity_input_bill3">InputBill3Activity</string>
+    <string name="title_activity_site_list">SiteListActivity</string>
+    <string name="title_activity_customer_list">CustomerListActivity</string>
+    <string name="title_activity_send_scan">SendScanActivity</string>
+    <string name="title_activity_send_query">SendQueryActivity</string>
+    <string name="title_activity_choose_join_bill">ChooseJoinBillActivity</string>
+    <string name="title_activity_send_compare">SendCompareActivity</string>
+    <string name="title_activity_arrive_scan">ArriveScanActivity</string>
+    <string name="title_activity_sign_scan">SignScanActivity</string>
+    <string name="title_activity_query_menu">QueryMenuActivity</string>
+    <string name="title_activity_query_receive">QueryReceiveActivity</string>
+    <string name="title_activity_order_detail">OrderDetailActivity</string>
+    <string name="title_activity_scan_record">ScanRecordActivity</string>
+    <string name="title_activity_receive_detail">ReceiveDetailActivity</string>
+    <string name="title_activity_child_bill">ChildBillActivity</string>
+
+</resources>

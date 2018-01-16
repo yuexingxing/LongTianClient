@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<lint>
+    <issue id="HandlerLeak">
+        <ignore path="src/com/exam/longtian/activity/inputbill/SiteListActivity.java" />
+    </issue>
+    <issue id="NewApi">
+        <ignore path="src/com/exam/longtian/adapter/ViewHolder.java" />
+    </issue>
+</lint>

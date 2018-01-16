@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:id="@+id/item_layout_send_query"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/item_layout_sendcompare_billcode"
+            android:layout_width="150dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/shape_rec_black"
+            android:gravity="center"
+            android:text="单号" />
+
+        <TextView
+            android:id="@+id/item_layout_sendcompare_flag"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/shape_rec_black"
+            android:gravity="center"
+            android:text="主单是否已扫描" />
+
+        <TextView
+            android:id="@+id/item_layout_sendcompare_num1"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/shape_rec_black"
+            android:gravity="center"
+            android:text="已扫描子单数" />
+
+        <TextView
+            android:id="@+id/item_layout_sendcompare_num2"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/shape_rec_black"
+            android:gravity="center"
+            android:text="未扫描子单数" />
+
+        <TextView
+            android:id="@+id/item_layout_sendcompare_backbillcode"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/shape_rec_black"
+            android:gravity="center"
+            android:text="回单号" />
+
+        <TextView
+            android:id="@+id/item_layout_sendcompare_flag2"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/shape_rec_black"
+            android:gravity="center"
+            android:text="回单是否扫描" />
+
+        <TextView
+            android:id="@+id/item_layout_sendcompare_time"
+            android:layout_width="150dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/shape_rec_black"
+            android:gravity="center"
+            android:text="扫描时间" />
+    </LinearLayout>
+
+</LinearLayout>
