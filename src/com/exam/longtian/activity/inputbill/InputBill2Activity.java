@@ -48,7 +48,7 @@ public class InputBill2Activity extends BaseActivity {
 	@ViewInject(R.id.input_bill2_fee) EditText edtFee;
 	@ViewInject(R.id.input_bill2_fee2) EditText edtFee2;
 	@ViewInject(R.id.input_bill2_pay_type) EditText edtPayType;
-	
+
 	@ViewInject(R.id.input_bill2_check1) CheckBox checkBox1;
 
 	private List<String> listServiceType = new ArrayList<String>();
@@ -65,9 +65,9 @@ public class InputBill2Activity extends BaseActivity {
 	public void initView() {
 		// TODO Auto-generated method stub
 		setTitle("录单二");
-		
+
 		checkBox1.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			
+
 			@Override
 			public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
 				// TODO Auto-generated method stub
@@ -221,13 +221,11 @@ public class InputBill2Activity extends BaseActivity {
 			return;
 		}
 
-		String data = "goodsFlowType=" + "P80"
-				+ "&sendSiteGCode=" + MyApplication.mUser.getOwnSiteGcode()
+		String data = "sendSiteGCode=" + MyApplication.mUser.getOwnSiteGcode()
 				+ "&destSiteGCode=" + billInfo.getDestSiteGcode()
 				+ "&weight=" + edtWeight.getText().toString()
 				+ "&volume=" + edtV3.getText().toString();
 
-		
 		PresenterUtil.route_getRouteByParam(this, data, new ObjectCallback() {
 
 			@Override
@@ -239,19 +237,16 @@ public class InputBill2Activity extends BaseActivity {
 					if(data == null){
 						return;
 					}
-					
-					try {
-						JSONObject jsonObject = new JSONObject(data.toString());
-						
-						String routeId = jsonObject.optString("routeId");
-						InputBillActivity.mBillInfo.setRouteId(routeId);
 
+					boolean flag = (Boolean) data;
+					if(flag){
 						Intent intent = new Intent(InputBill2Activity.this, InputBill3Activity.class);
 						startActivity(intent);
 						finish();
-					} catch (JSONException e) {
-						e.printStackTrace();
+					}else{
+						CommandTools.showToast("路由为空，请选择其他派件网点");
 					}
+
 				}
 			}
 		});
