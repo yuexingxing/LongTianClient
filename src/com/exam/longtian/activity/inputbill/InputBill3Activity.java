@@ -2,11 +2,8 @@ package com.exam.longtian.activity.inputbill;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import com.exam.longtian.MyApplication;
 import com.exam.longtian.R;
-import com.exam.longtian.R.id;
-import com.exam.longtian.R.layout;
 import com.exam.longtian.activity.BaseActivity;
 import com.exam.longtian.entity.BillInfo;
 import com.exam.longtian.util.API;
@@ -17,7 +14,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Message;
@@ -38,7 +34,6 @@ public class InputBill3Activity extends BaseActivity {
 	@ViewInject(R.id.input_bill3_phone) EditText edtPhone;
 	@ViewInject(R.id.input_bill3_name) EditText edtName;
 	@ViewInject(R.id.input_bill3_passenger) EditText edtPassenger;
-	@ViewInject(R.id.input_bill3_rule) EditText edtRules;
 	@ViewInject(R.id.input_bill3_company) EditText edtCompany;
 	@ViewInject(R.id.input_bill3_address) EditText edtAddress;
 	@ViewInject(R.id.input_bill3_remark) EditText edtRemark;

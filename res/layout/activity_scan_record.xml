@@ -32,23 +32,32 @@
     </LinearLayout>
 
     <HorizontalScrollView
-        android:id="@+id/horizontalScrollView1"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1" >
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="1dp"
             android:orientation="vertical" >
 
-            <include
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                layout="@layout/item_layout_scanrecord" />
+                android:layout_height="wrap_content" >
 
-            <include layout="@layout/listview_public" />
+                <include
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    layout="@layout/item_layout_scanrecord" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1" >
+
+                <include layout="@layout/listview_public" />
+            </LinearLayout>
         </LinearLayout>
     </HorizontalScrollView>
 

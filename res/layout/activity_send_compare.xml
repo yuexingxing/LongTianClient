@@ -17,7 +17,7 @@
             android:text="下一站:"
             android:textSize="13sp" />
 
-        <EditText
+        <TextView
             android:id="@+id/send_compare_nextstop"
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -36,7 +36,7 @@
             android:text="业务员:"
             android:textSize="13sp" />
 
-        <EditText
+        <TextView
             android:id="@+id/send_compare_name"
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -83,15 +83,6 @@
         android:layout_marginRight="12dp"
         android:gravity="center"
         android:orientation="horizontal" >
-
-        <Button
-            android:layout_width="0dp"
-            android:layout_height="35dp"
-            android:layout_weight="1"
-            android:background="@drawable/selector_btn_button"
-            android:onClick="commit"
-            android:text="继续"
-            android:textSize="13sp" />
 
         <Button
             android:layout_width="0dp"

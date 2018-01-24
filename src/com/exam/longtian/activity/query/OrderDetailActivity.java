@@ -27,7 +27,7 @@ import android.widget.TextView;
 public class OrderDetailActivity extends BaseActivity {
 
 	@ViewInject(R.id.order_detail_billcode) EditText edtBillcode;
-	
+
 	@ViewInject(R.id.order_detail_tv_billcode) TextView tvBillcode;
 
 	@Override
@@ -64,7 +64,32 @@ public class OrderDetailActivity extends BaseActivity {
 				// TODO Auto-generated method stub
 
 				BillInfo billInfo = (BillInfo) data;
-				tvBillcode.setText(billInfo.getBillCode());
+				((TextView)findViewById(R.id.order_detail_tv_billcode)).setText(billInfo.getBillCode());
+				((TextView)findViewById(R.id.order_detail_send_site)).setText(billInfo.getSendSiteName());
+				((TextView)findViewById(R.id.order_detail_deli_site)).setText(billInfo.getDispScanSiteName());
+				((TextView)findViewById(R.id.order_detail_send_man)).setText(billInfo.getSenderName());
+				((TextView)findViewById(R.id.order_detail_send_time)).setText(billInfo.getSendDate());
+				((TextView)findViewById(R.id.order_detail_send_customer)).setText(billInfo.getSenderCustName());
+				((TextView)findViewById(R.id.order_detail_send_company)).setText(billInfo.getSenderCompanyName());
+				((TextView)findViewById(R.id.order_detail_send_addr)).setText(billInfo.getSenderAddress());
+
+				((TextView)findViewById(R.id.order_detail_service_type)).setText(billInfo.getServicePatternName());
+				((TextView)findViewById(R.id.order_detail_goods_type)).setText(billInfo.getPackageKindName());
+				((TextView)findViewById(R.id.order_detail_piece_num)).setText(billInfo.getPieceNum());
+				((TextView)findViewById(R.id.order_detail_fee1)).setText(billInfo.getAgencyFund());
+
+				((TextView)findViewById(R.id.order_detail_total_weight)).setText(billInfo.getTotalWeight());
+				((TextView)findViewById(R.id.order_detail_total_v3)).setText(billInfo.getTotalVolume());
+				((TextView)findViewById(R.id.order_detail_pay_type)).setText(billInfo.getPayModeName());
+				((TextView)findViewById(R.id.order_detail_fee2)).setText(billInfo.getFreight());
+
+				((TextView)findViewById(R.id.order_detail_rec_man)).setText(billInfo.getRecipientsCustName());
+				((TextView)findViewById(R.id.order_detail_rec_phone)).setText(billInfo.getRecipientsPhone());
+				((TextView)findViewById(R.id.order_detail_rec_customer)).setText(billInfo.getRecipientsCustName());
+				((TextView)findViewById(R.id.order_detail_rec_company)).setText(billInfo.getRecipientsCompanyName());
+				((TextView)findViewById(R.id.order_detail_rec_addr)).setText(billInfo.getRecipientsAddress());
+
+				((TextView)findViewById(R.id.order_detail_child_billcode)).setText(billInfo.getSubBillcode());
 			}
 		});
 	}

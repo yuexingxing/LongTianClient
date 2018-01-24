@@ -59,9 +59,9 @@
             style="?android:attr/buttonStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="nextStop"
             android:layout_margin="2dp"
             android:background="@drawable/shape_color_main_button"
+            android:onClick="nextStop"
             android:text="..." />
     </LinearLayout>
 
@@ -88,15 +88,6 @@
             android:paddingLeft="12dp"
             android:text=""
             android:textSize="13sp" />
-
-        <Button
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="joinBillcode"
-            android:layout_margin="2dp"
-            android:background="@drawable/shape_color_main_button"
-            android:text="..." />
     </LinearLayout>
 
     <LinearLayout
@@ -127,38 +118,38 @@
             style="?android:attr/buttonStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="query"
             android:layout_margin="2dp"
             android:background="@drawable/shape_color_main_button"
-            android:textSize="13sp"
-            android:text="查询" />
+            android:onClick="query"
+            android:text="查询"
+            android:textSize="13sp" />
     </LinearLayout>
 
-    <LinearLayout
+    <HorizontalScrollView
+        android:id="@+id/horizontalScrollView1"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="2dp"
-        android:layout_weight="1"
-        android:orientation="vertical" >
+        android:layout_weight="1" >
 
-        <HorizontalScrollView
-            android:id="@+id/horizontalScrollView1"
+        <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" >
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
+
+            <include
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                layout="@layout/item_layout_send_query" />
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical" >
-
-                <include
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    layout="@layout/item_layout_send_query" />
+                android:layout_height="0dp"
+                android:layout_weight="1" >
 
                 <include layout="@layout/listview_public" />
             </LinearLayout>
-        </HorizontalScrollView>
-    </LinearLayout>
+        </LinearLayout>
+    </HorizontalScrollView>
 
 </LinearLayout>

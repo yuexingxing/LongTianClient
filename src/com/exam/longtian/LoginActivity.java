@@ -1,5 +1,6 @@
 package com.exam.longtian;
 
+import com.exam.longtian.activity.MainMenuActivity;
 import com.exam.longtian.interfac.ILogin;
 import com.exam.longtian.presenter.PLogin;
 import com.lidroid.xutils.ViewUtils;
@@ -49,7 +50,11 @@ public class LoginActivity extends Activity {
 			@Override
 			public void success() {
 				// TODO Auto-generated method stub
-				Intent intent = new Intent(LoginActivity.this, SiteSelectActivity.class);
+//				Intent intent = new Intent(LoginActivity.this, SiteSelectActivity.class);
+//				startActivity(intent);
+//				finish();
+				
+				Intent intent = new Intent(LoginActivity.this, MainMenuActivity.class);
 				startActivity(intent);
 				finish();
 			}

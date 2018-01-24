@@ -71,6 +71,11 @@ public class OkHttpUtil {
 		public abstract void callback(boolean success, String message, String code, Object data);
 	}
 
+	public static Request getRequest(String url){
+
+		return null;
+	}
+
 	/**
 	 * 
 	 * @param url

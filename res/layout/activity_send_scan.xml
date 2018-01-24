@@ -65,7 +65,6 @@
             android:focusable="false"
             android:gravity="center|left"
             android:paddingLeft="12dp"
-            android:text=""
             android:textSize="13sp" />
     </LinearLayout>
 
@@ -90,8 +89,18 @@
             android:layout_weight="1"
             android:background="@drawable/edit_text_grey"
             android:gravity="center|left"
+            android:inputType="number"
+            android:maxLength="14"
             android:paddingLeft="12dp"
             android:text=""
+            android:textSize="13sp" />
+
+        <Button
+            android:layout_width="80dp"
+            android:layout_height="35dp"
+            android:background="@drawable/selector_btn_button"
+            android:onClick="save"
+            android:text="保存"
             android:textSize="13sp" />
     </LinearLayout>
 

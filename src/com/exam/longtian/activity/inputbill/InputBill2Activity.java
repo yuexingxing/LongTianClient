@@ -189,7 +189,7 @@ public class InputBill2Activity extends BaseActivity {
 		billInfo.setPieceNum(edtCount.getText().toString());
 		billInfo.setTotalWeight(edtWeight.getText().toString());
 		billInfo.setTotalVolume(edtV3.getText().toString());
-		billInfo.setGoodsFlowTypePcode("P80");
+		billInfo.setAgencyFund(edtFee.getText().toString());		
 
 		if(TextUtils.isEmpty(billInfo.getServicePatternName())){
 			CommandTools.showToast("请选择服务方式");

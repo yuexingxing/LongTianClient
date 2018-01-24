@@ -107,31 +107,6 @@
                 android:layout_width="80dp"
                 android:layout_height="match_parent"
                 android:gravity="center"
-                android:text="货品规则:"
-                android:textSize="13sp" />
-
-            <EditText
-                android:id="@+id/input_bill3_rule"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@drawable/edit_text_grey"
-                android:gravity="center|left"
-                android:paddingLeft="12dp"
-                android:text=""
-                android:textSize="13sp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginTop="2dp"
-            android:orientation="horizontal" >
-
-            <TextView
-                android:layout_width="80dp"
-                android:layout_height="match_parent"
-                android:gravity="center"
                 android:text="寄件公司:"
                 android:textSize="13sp" />
 

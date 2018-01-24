@@ -20,6 +20,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -57,6 +58,7 @@ public class SignScanActivity extends BaseActivity {
 	public void initView() {
 		// TODO Auto-generated method stub
 		setTitle("签收");
+		edtName.setText(MyApplication.mUser.getEmpName());
 	}
 
 	@Override
@@ -127,23 +129,31 @@ public class SignScanActivity extends BaseActivity {
 	public void commit(View v){
 
 		String billCode = edtBillcode.getText().toString();
+		if(TextUtils.isEmpty(billCode)){
+			CommandTools.showToast("运单号不能为空");
+			return;
+		}
+
+		String singer = edtSinger.getText().toString();
+		if(TextUtils.isEmpty(singer)){
+			CommandTools.showToast("签收人不能为空");
+			return;
+		}
 
 		JSONObject jsonObject = new JSONObject();
 		try {
-			
-			jsonObject.put("barcode", "");
+
 			jsonObject.put("billCode", billCode);
-			jsonObject.put("billType", "");
-			jsonObject.put("dataSourcePcode", "");
-			jsonObject.put("dispEmpGcode", "");
+			jsonObject.put("dataSourcePcode", "P42");//数据来源 PDA固定值
+			jsonObject.put("dispEmpGcode", MyApplication.mUser.getEmpGcode());
 			jsonObject.put("marchineCode", CommandTools.getMIME(this));
 			jsonObject.put("regEmpGcode", MyApplication.mUser.getEmpGcode());
-			jsonObject.put("regSiteGcode", "");
+			jsonObject.put("regSiteGcode", MyApplication.mUser.getOwnSiteGcode());
 			jsonObject.put("remark", edtRemark.getText().toString());
-			jsonObject.put("signSiteGcode", "");
-			jsonObject.put("signSiteName", "");
+			jsonObject.put("signSiteGcode", MyApplication.mUser.getOwnSiteGcode());
+			jsonObject.put("signSiteName", MyApplication.mUser.getEmpName());
 			jsonObject.put("signTime", CommandTools.getTime());
-			jsonObject.put("signer", edtSinger.getText().toString());
+			jsonObject.put("signer", singer);
 			jsonObject.put("uploadTime", CommandTools.getTime());
 		} catch (JSONException e) {
 			e.printStackTrace();
@@ -155,6 +165,11 @@ public class SignScanActivity extends BaseActivity {
 			public void callback(boolean success, String message, String code, Object data) {
 				// TODO Auto-generated method stub
 
+				CommandTools.showToast(message);
+				if(success){
+					edtBillcode.setText("");
+					edtRemark.setText("");
+				}
 			}
 		});
 	}
