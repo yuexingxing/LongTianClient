@@ -14,10 +14,11 @@
             android:layout_width="80dp"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:text="网点:"
+            android:text="名称:"
             android:textSize="13sp" />
 
         <EditText
+            android:id="@+id/customerlist_search"
             android:layout_width="0dp"
             android:layout_height="35dp"
             android:layout_marginRight="20dp"

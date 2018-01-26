@@ -2,12 +2,14 @@ package com.exam.longtian.entity;
 
 public class CompareResultInfo {
 
-	private int SCAN_SUB_COUNT;// 10,
-	private int BE_SCAN;// 1,
-	private int RECEIPT_SCAN;// 0,
+	private int SCAN_SUB_COUNT = 0;// 10,
+	private int BE_SCAN = 0;// 1,
+	private int RECEIPT_SCAN = 0;// 0,
 	private String BILL_CODE;// "55555555555555",
-	private int UNSAN_SUB_COUNT;// 0,
-	private int ROW_ID;// 3
+	private int COME_NO_SEND = 0;
+	private int SEND_NO_COME = 0;
+	private int UNSAN_SUB_COUNT = 0;// 0,
+	private int ROW_ID = 0;// 3
 
 	public int getSCAN_SUB_COUNT() {
 		return SCAN_SUB_COUNT;
@@ -44,5 +46,17 @@ public class CompareResultInfo {
 	}
 	public void setROW_ID(int rOW_ID) {
 		ROW_ID = rOW_ID;
+	}
+	public int getCOME_NO_SEND() {
+		return COME_NO_SEND;
+	}
+	public void setCOME_NO_SEND(int cOME_NO_SEND) {
+		COME_NO_SEND = cOME_NO_SEND;
+	}
+	public int getSEND_NO_COME() {
+		return SEND_NO_COME;
+	}
+	public void setSEND_NO_COME(int sEND_NO_COME) {
+		SEND_NO_COME = sEND_NO_COME;
 	}
 }

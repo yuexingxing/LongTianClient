@@ -13,13 +13,13 @@ import com.exam.longtian.util.CommandTools;
 import com.exam.longtian.util.Res;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
-
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.AdapterView.OnItemClickListener;
 
@@ -33,8 +33,11 @@ import android.widget.AdapterView.OnItemClickListener;
  */
 public class SiteListActivity extends BaseActivity {
 
+	@ViewInject(R.id.sitelist_search) EditText edtSearch;
+
 	@ViewInject(R.id.lv_public) ListView listView;
 	List<SiteInfo> dataList = new ArrayList<SiteInfo>();
+	List<SiteInfo> sortList = new ArrayList<SiteInfo>();
 	CommonAdapter<SiteInfo> commonAdapter;
 
 	private int currPos = -1;//当前选择的位置
@@ -52,7 +55,7 @@ public class SiteListActivity extends BaseActivity {
 		// TODO Auto-generated method stub
 		setTitle("网点选择");
 
-		commonAdapter = new CommonAdapter<SiteInfo>(this, dataList, R.layout.item_layout_site_list) {
+		commonAdapter = new CommonAdapter<SiteInfo>(this, sortList, R.layout.item_layout_site_list) {
 
 			@Override
 			public void convert(ViewHolder helper, SiteInfo item) {
@@ -72,11 +75,11 @@ public class SiteListActivity extends BaseActivity {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
 				// TODO Auto-generated method stub
-				SiteInfo info = dataList.get(arg2);
+				SiteInfo info = sortList.get(arg2);
 
 				currPos = arg2;
-				for(int i=0; i<dataList.size(); i++){
-					dataList.get(i).setFlag(false);
+				for(int i=0; i<sortList.size(); i++){
+					sortList.get(i).setFlag(false);
 				}
 
 				info.setFlag(true);
@@ -86,6 +89,28 @@ public class SiteListActivity extends BaseActivity {
 		});
 
 		listView.setAdapter(commonAdapter);
+
+		edtSearch.addTextChangedListener(new TextWatcher() {
+
+			@Override
+			public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
+				// TODO Auto-generated method stub
+
+				sortData(arg0.toString());
+			}
+
+			@Override
+			public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void afterTextChanged(Editable arg0) {
+				// TODO Auto-generated method stub
+
+			}
+		});
 	}
 
 	@Override
@@ -96,10 +121,12 @@ public class SiteListActivity extends BaseActivity {
 			@Override
 			public void success(List<SiteInfo> list) {
 				// TODO Auto-generated method stub
-				dataList.clear();
+				sortList.clear();
+				sortList.addAll(list);
+
 				dataList.addAll(list);
 
-				mHandler.sendEmptyMessage(0x0011);
+				commonAdapter.notifyDataSetChanged();
 			}
 
 			@Override
@@ -122,8 +149,8 @@ public class SiteListActivity extends BaseActivity {
 		}
 
 		Intent intent = new Intent();
-		intent.putExtra("code", dataList.get(currPos).getSiteGcode());
-		intent.putExtra("name", dataList.get(currPos).getSiteName());
+		intent.putExtra("code", sortList.get(currPos).getSiteGcode());
+		intent.putExtra("name", sortList.get(currPos).getSiteName());
 		setResult(RESULT_OK, intent);
 		finish();
 	}
@@ -136,13 +163,19 @@ public class SiteListActivity extends BaseActivity {
 		finish();
 	}
 
-	public Handler mHandler = new Handler(){
+	public void sortData(String data){
 
-		public void handleMessage(Message msg){
+		sortList.clear();
+		commonAdapter.notifyDataSetChanged();
+		int len = dataList.size();
+		for(int i=0; i<len; i++){
 
-			if(msg.what == 0x0011){
-				commonAdapter.notifyDataSetChanged();
+			SiteInfo info = dataList.get(i);
+			if(info.getSiteName().contains(data) || info.getSiteCode().toLowerCase().contains(data)){
+				sortList.add(info);
 			}
 		}
-	};
+
+		commonAdapter.notifyDataSetChanged();
+	}
 }

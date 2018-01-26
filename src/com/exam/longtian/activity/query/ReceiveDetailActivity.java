@@ -2,16 +2,18 @@ package com.exam.longtian.activity.query;
 
 import java.util.ArrayList;
 import java.util.List;
+import android.os.Bundle;
+import android.widget.ListView;
 import com.exam.longtian.R;
 import com.exam.longtian.activity.BaseActivity;
 import com.exam.longtian.adapter.CommonAdapter;
 import com.exam.longtian.adapter.ViewHolder;
-import com.exam.longtian.entity.SiteInfo;
+import com.exam.longtian.entity.BillInfo;
 import com.exam.longtian.presenter.PresenterQuery;
+import com.exam.longtian.presenter.PresenterUtil;
+import com.exam.longtian.util.OkHttpUtil.ObjectCallback;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
-import android.os.Bundle;
-import android.widget.ListView;
 
 /** 
  * 收件明细
@@ -23,10 +25,12 @@ import android.widget.ListView;
  */
 public class ReceiveDetailActivity extends BaseActivity {
 
-
 	@ViewInject(R.id.lv_public) ListView listView;
-	List<SiteInfo> dataList = new ArrayList<SiteInfo>();
-	CommonAdapter<SiteInfo> commonAdapter;
+	List<BillInfo> dataList = new ArrayList<BillInfo>();
+	CommonAdapter<BillInfo> commonAdapter;
+
+	private String billcode = "666666666666610001";
+	private String orderType;
 
 	@Override
 	protected void onBaseCreate(Bundle savedInstanceState) {
@@ -38,26 +42,22 @@ public class ReceiveDetailActivity extends BaseActivity {
 	@Override
 	public void initView() {
 		// TODO Auto-generated method stub
-		setTitle("收件明细");
-
-		for(int i=0; i<20; i++){
-
-			SiteInfo user = new SiteInfo();
-			user.setName("杭州萧山");
-//			user.setTime("2017-12-12 12:12:12");
-//			user.setRecord("到达【杭州分拨】上一站是【杭州萧山】");
-
-			dataList.add(user);
+		orderType = getIntent().getStringExtra("order_type");
+		if(PresenterUtil.ORDER_TYPE_DISP.equals(orderType)){
+			setTitle("派件明细");
+		}else{
+			setTitle("收件明细");
 		}
 
-		commonAdapter = new CommonAdapter<SiteInfo>(this, dataList, R.layout.item_layout_receivedetail) {
+
+		commonAdapter = new CommonAdapter<BillInfo>(this, dataList, R.layout.item_layout_receivedetail) {
 
 			@Override
-			public void convert(ViewHolder helper, SiteInfo item) {
+			public void convert(ViewHolder helper, BillInfo item) {
 
-				helper.setText(R.id.item_layout_receivedetail_billcode, item.getName());
-//				helper.setText(R.id.item_layout_receivedetail_sitename, item.getTime());
-//				helper.setText(R.id.item_layout_receivedetail_count, item.getRecord());
+				helper.setText(R.id.item_layout_receivedetail_billcode, item.getDispScanSiteName());
+				//				helper.setText(R.id.item_layout_receivedetail_sitename, item.getTime());
+				//				helper.setText(R.id.item_layout_receivedetail_count, item.getRecord());
 			}
 		};
 
@@ -68,7 +68,14 @@ public class ReceiveDetailActivity extends BaseActivity {
 	public void initData() {
 		// TODO Auto-generated method stub
 
-//		PresenterQuery.waybill_detail(this, billcode, callback)
+		PresenterQuery.waybill_detail(this, billcode, new ObjectCallback() {
+
+			@Override
+			public void callback(boolean success, String message, String code, Object data) {
+				// TODO Auto-generated method stub
+
+			}
+		});
 	}
 
 }

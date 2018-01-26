@@ -1,17 +1,26 @@
 package com.exam.longtian.presenter;
 
+import java.util.ArrayList;
+import java.util.List;
+import org.json.JSONArray;
 import org.json.JSONObject;
-
 import android.content.Context;
-
-import com.exam.longtian.entity.BillInfo;
-import com.exam.longtian.entity.DictInfo;
+import com.exam.longtian.entity.JoinBillInfo;
 import com.exam.longtian.util.API;
+import com.exam.longtian.util.CommandTools;
 import com.exam.longtian.util.OkHttpUtil;
 import com.exam.longtian.util.OkHttpUtil.ObjectCallback;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
+/** 
+ * ≤È—Ø¿‡-P
+ * 
+ * @author yxx
+ *
+ * @date 2018-1-25 œ¬ŒÁ1:57:35
+ * 
+ */
 public class PresenterQuery {
 
 	/**
@@ -27,13 +36,26 @@ public class PresenterQuery {
 			@Override
 			public void callback(boolean success, String message, String code, Object data) {
 				// TODO Auto-generated method stub
-				
-				JSONObject jsonObject = (JSONObject) data;
-				BillInfo billInfo = new GsonBuilder().create().fromJson(jsonObject.toString(), new TypeToken<BillInfo>(){}.getType());
 
+				CommandTools.showToast(message);
+				List<JoinBillInfo> dataList = new ArrayList<JoinBillInfo>();
 				if(success){
-					callback.callback(success, message, code, billInfo);
+
+					JSONObject jsonObject = (JSONObject) data;
+
+					JSONArray jsonArray = jsonObject.optJSONArray("rows");
+
+					int len = jsonArray.length();
+					for(int i=0; i<len; i++){
+
+						jsonObject = jsonArray.optJSONObject(i);
+						JoinBillInfo joinBillInfo = new GsonBuilder().create().fromJson(jsonObject.toString(), new TypeToken<JoinBillInfo>(){}.getType());
+
+						dataList.add(joinBillInfo);
+					}
 				}
+
+				callback.callback(success, message, code, dataList);
 			}
 		});
 	}
@@ -64,15 +86,25 @@ public class PresenterQuery {
 	 * @param billcode
 	 * @param callback
 	 */
-	public static void waybill_getReWaybillList(Context context, final ObjectCallback callback){
+	public static void waybill_getReWaybillList(Context context, String orderType, final ObjectCallback callback){
+
+		String url = API.waybill_getReWaybillList;
+		if(PresenterUtil.ORDER_TYPE_DISP.equals(orderType)){
+			url = API.waybill_getDispWaybillList;
+		}else{
+			url = API.waybill_getReWaybillList;
+		}
 
 		String page = "?page=" + API.page + "&size=" + API.size;
-		OkHttpUtil.get(context, API.waybill_getReWaybillList + page, new ObjectCallback() {
+		OkHttpUtil.get(context, url + page, new ObjectCallback() {
 
 			@Override
 			public void callback(boolean success, String message, String code, Object data) {
-				// TODO Auto-generated method stub
-				callback.callback(success, message, code, data);
+
+				CommandTools.showToast(message);
+				if(success){
+					callback.callback(success, message, code, data);
+				}
 			}
 		});
 	}

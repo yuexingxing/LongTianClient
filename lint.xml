@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <lint>
+    <issue id="DefaultLocale" severity="ignore">
+        <ignore path="src/com/exam/longtian/activity/inputbill/SiteListActivity.java" />
+    </issue>
     <issue id="HandlerLeak">
         <ignore path="src/com/exam/longtian/activity/inputbill/SiteListActivity.java" />
     </issue>

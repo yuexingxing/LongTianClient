@@ -143,6 +143,7 @@ public class SendScanActivity extends BaseActivity {
 		Intent intent = new Intent(this, ChooseJoinBillActivity.class);
 		intent.putExtra("billcodes", sb.toString());
 		intent.putExtra("siteGCode", siteGCode);
+		intent.putExtra("order_type", PresenterUtil.ORDER_TYPE_SEND);
 		intent.putExtra("siteName", edtNextStop.getText().toString());
 		startActivity(intent);
 	}
@@ -193,7 +194,7 @@ public class SendScanActivity extends BaseActivity {
 
 			dataList.add(billInfo);
 			commonAdapter.notifyDataSetChanged();
-			
+
 			edtBillcode.setText("");
 		}
 

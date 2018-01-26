@@ -1,0 +1,268 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="2dp"
+        android:orientation="horizontal" >
+
+        <EditText
+            android:id="@+id/query_disp_starttime"
+            android:layout_width="0dp"
+            android:layout_height="35dp"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="8dp"
+            android:layout_weight="2"
+            android:background="@drawable/edit_text_grey"
+            android:focusable="false"
+            android:gravity="center|left"
+            android:onClick="startTime"
+            android:paddingLeft="12dp"
+            android:text="起始日期"
+            android:textSize="11sp" />
+
+        <EditText
+            android:id="@+id/query_disp_endtime"
+            android:layout_width="0dp"
+            android:layout_height="35dp"
+            android:layout_marginRight="8dp"
+            android:layout_weight="2"
+            android:background="@drawable/edit_text_grey"
+            android:focusable="false"
+            android:gravity="center|left"
+            android:onClick="endTime"
+            android:paddingLeft="12dp"
+            android:text="结束日期"
+            android:textSize="11sp" />
+
+        <Button
+            android:id="@+id/button2"
+            android:layout_width="80dp"
+            android:layout_height="30dp"
+            android:onClick="query"
+            android:text="查询"
+            android:layout_marginRight="12dp"
+            android:background="@drawable/selector_btn_button"
+            android:textSize="11sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="2dp"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="12dp"
+            android:gravity="center"
+            android:text="我的收件合计"
+            android:textSize="13sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="2dp"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="单数:"
+            android:textSize="13sp" />
+
+        <EditText
+            android:id="@+id/query_disp_bill_count"
+            android:layout_width="0dp"
+            android:layout_height="35dp"
+            android:layout_marginRight="8dp"
+            android:layout_weight="1"
+            android:background="@drawable/edit_text_grey"
+            android:gravity="center|left"
+            android:paddingLeft="12dp"
+            android:text=""
+            android:textSize="13sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="2dp"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="件数:"
+            android:textSize="13sp" />
+
+        <EditText
+            android:id="@+id/query_disp_count"
+            android:layout_width="0dp"
+            android:layout_height="35dp"
+            android:layout_marginRight="8dp"
+            android:layout_weight="1"
+            android:background="@drawable/edit_text_grey"
+            android:gravity="center|left"
+            android:paddingLeft="12dp"
+            android:text=""
+            android:textSize="13sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="2dp"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="总重量:"
+            android:textSize="13sp" />
+
+        <EditText
+            android:id="@+id/query_disp_total_weight"
+            android:layout_width="0dp"
+            android:layout_height="35dp"
+            android:layout_marginRight="8dp"
+            android:layout_weight="1"
+            android:background="@drawable/edit_text_grey"
+            android:gravity="center|left"
+            android:paddingLeft="12dp"
+            android:text=""
+            android:textSize="13sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="2dp"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="总体积:"
+            android:textSize="13sp" />
+
+        <EditText
+            android:id="@+id/query_disp_total_v3"
+            android:layout_width="0dp"
+            android:layout_height="35dp"
+            android:layout_marginRight="8dp"
+            android:layout_weight="1"
+            android:background="@drawable/edit_text_grey"
+            android:gravity="center|left"
+            android:paddingLeft="12dp"
+            android:text=""
+            android:textSize="13sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="2dp"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="代收货款:"
+            android:textSize="13sp" />
+
+        <EditText
+            android:id="@+id/query_disp_fee1"
+            android:layout_width="0dp"
+            android:layout_height="35dp"
+            android:layout_marginRight="8dp"
+            android:layout_weight="1"
+            android:background="@drawable/edit_text_grey"
+            android:gravity="center|left"
+            android:paddingLeft="12dp"
+            android:text=""
+            android:textSize="13sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="2dp"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="运费:"
+            android:textSize="13sp" />
+
+        <EditText
+            android:id="@+id/query_disp_fee2"
+            android:layout_width="0dp"
+            android:layout_height="35dp"
+            android:layout_marginRight="8dp"
+            android:layout_weight="1"
+            android:background="@drawable/edit_text_grey"
+            android:gravity="center|left"
+            android:paddingLeft="12dp"
+            android:text=""
+            android:textSize="13sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="2dp"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="到付款:"
+            android:textSize="13sp" />
+
+        <EditText
+            android:id="@+id/query_disp_fee3"
+            android:layout_width="0dp"
+            android:layout_height="35dp"
+            android:layout_marginRight="8dp"
+            android:layout_weight="1"
+            android:background="@drawable/edit_text_grey"
+            android:gravity="center|left"
+            android:paddingLeft="12dp"
+            android:text=""
+            android:textSize="13sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:orientation="horizontal" >
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/selector_btn_button"
+            android:onClick="detail"
+            android:text="查看明细"
+            android:textSize="13sp" />
+    </LinearLayout>
+
+</LinearLayout>

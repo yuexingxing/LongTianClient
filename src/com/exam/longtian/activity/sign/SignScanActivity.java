@@ -1,5 +1,7 @@
 package com.exam.longtian.activity.sign;
 
+import java.io.File;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -8,6 +10,7 @@ import com.exam.longtian.R;
 import com.exam.longtian.activity.BaseActivity;
 import com.exam.longtian.presenter.PresenterUtil;
 import com.exam.longtian.util.CommandTools;
+import com.exam.longtian.util.OkHttpUtil;
 import com.exam.longtian.util.OkHttpUtil.ObjectCallback;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -46,6 +49,7 @@ public class SignScanActivity extends BaseActivity {
 	private static final int TAKE_FOLDER = 0x000002;
 
 	private Bitmap mBitmap;
+	private String billCode;
 
 	@Override
 	protected void onBaseCreate(Bundle savedInstanceState) {
@@ -122,13 +126,72 @@ public class SignScanActivity extends BaseActivity {
 		imgIcon.setImageBitmap(null);
 	}
 
+	public void uploadImg(View v){
+
+		billCode = edtBillcode.getText().toString();
+		if(TextUtils.isEmpty(billCode)){
+			CommandTools.showToast("运单号不能为空");
+			return;
+		}
+
+
+		if(mBitmap == null){
+			CommandTools.showToast("请先拍照或选择照片");
+			return;
+		}
+
+		final File file = CommandTools.compressImage(mBitmap);
+		PresenterUtil.uploadImg(file, new ObjectCallback() {
+
+			@Override
+			public void callback(boolean success, String message, String code, Object data) {
+				// TODO Auto-generated method stub
+
+				JSONObject jsonObjectData = (JSONObject) data;
+
+				JSONObject jsonObject = new JSONObject();
+				try {
+
+					jsonObject.put("billCode", billCode);
+					jsonObject.put("serverId", jsonObjectData.optInt("serviceId"));
+					jsonObject.put("path", jsonObjectData.optString("path"));
+					jsonObject.put("virtualPath", jsonObjectData.optString("virPath"));
+					jsonObject.put("fileName", jsonObjectData.optString("picName"));
+					jsonObject.put("fileSize", jsonObjectData.optInt("size"));
+
+					jsonObject.put("imageType", "");
+					jsonObject.put("lockEmpGcode", "");
+					jsonObject.put("lockTime", "");
+					jsonObject.put("unlockEmpGcode", "");
+					jsonObject.put("uploadEmpGcode", "");
+					jsonObject.put("uploadPath", "");
+					jsonObject.put("uploadSiteGcode", "");
+					jsonObject.put("uploadTime", "");
+
+					PresenterUtil.waybillImage_add(SignScanActivity.this, jsonObject, new ObjectCallback() {
+
+						@Override
+						public void callback(boolean success, String message, String code, Object data) {
+							// TODO Auto-generated method stub
+							clearPhoto(null);
+						}
+					});
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+
+
+			}
+		});
+	}
+
 	/**
 	 * 提交
 	 * @param v
 	 */
 	public void commit(View v){
 
-		String billCode = edtBillcode.getText().toString();
+		billCode = edtBillcode.getText().toString();
 		if(TextUtils.isEmpty(billCode)){
 			CommandTools.showToast("运单号不能为空");
 			return;

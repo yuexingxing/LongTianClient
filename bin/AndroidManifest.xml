@@ -143,6 +143,10 @@
             android:name="com.exam.longtian.DriverListActivity"
             android:label="@string/title_activity_driver_list" >
         </activity>
+        <activity
+            android:name="com.exam.longtian.activity.query.QueryDispActivity"
+            android:label="@string/title_activity_query_disp" >
+        </activity>
     </application>
 
 </manifest>

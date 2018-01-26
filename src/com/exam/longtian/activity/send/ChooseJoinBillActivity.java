@@ -50,6 +50,7 @@ public class ChooseJoinBillActivity extends BaseActivity {
 	private String siteName;
 	private String siteGCode;
 	private int curPos = -2;
+	private String orderType;
 
 	@Override
 	protected void onBaseCreate(Bundle savedInstanceState) {
@@ -79,12 +80,6 @@ public class ChooseJoinBillActivity extends BaseActivity {
 				}else{
 					helper.setImageBackground(R.id.item_layout_choose_joinbill_flag, R.drawable.checkbox_bg);
 				}
-
-				//				if(item.getDriverId().equals("ÐÂ½¨")){
-				//					helper.setEditable(R.id.item_layout_choose_joinbill_name, true);
-				//				}else{
-				//					helper.setEditable(R.id.item_layout_choose_joinbill_name, false);
-				//				}
 			}
 		};
 
@@ -136,8 +131,9 @@ public class ChooseJoinBillActivity extends BaseActivity {
 
 		siteGCode = getIntent().getStringExtra("siteGCode");
 		siteName = getIntent().getStringExtra("siteName");
+		orderType = getIntent().getStringExtra("order_type");
 
-		PresenterUtil.handover_queryHandoverList(this, new ObjectCallback() {
+		PresenterUtil.handover_queryHandoverList(this, "", "", "", "", new ObjectCallback() {
 
 			@Override
 			public void callback(boolean success, String message, String code, Object data) {
@@ -196,14 +192,16 @@ public class ChooseJoinBillActivity extends BaseActivity {
 			e.printStackTrace();
 		}
 
-		PresenterUtil.handover_comeScanBindHandover(this, jsonObject, new ObjectCallback() {
+		PresenterUtil.handover_BindHandover(this, orderType, jsonObject, new ObjectCallback() {
 
 			@Override
 			public void callback(boolean success, String message, String code, Object data) {
 				// TODO Auto-generated method stub
 				CommandTools.showToast(message);
 				if(success){
+					
 					Intent intent = new Intent(ChooseJoinBillActivity.this, SendCompareActivity.class);
+					intent.putExtra("order_type", orderType);
 					intent.putExtra("siteName", siteName);
 					intent.putExtra("handoverId", joinBillInfo.getHandoverId());
 					startActivity(intent);

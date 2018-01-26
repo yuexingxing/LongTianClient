@@ -1,10 +1,12 @@
 package com.exam.longtian.util;
 
+import java.io.File;
 import java.io.IOException;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.FormBody;
 import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
@@ -94,6 +96,7 @@ public class OkHttpUtil {
 		.addHeader("Content-Type", "application/json")
 		.build();
 
+		Log.i("post-data", API.URL + url);
 		Log.i("post-data", jsonObject.toString());
 		mHandler.sendEmptyMessage(0x0011);
 		MyApplication.mOkHttpClient.newCall(request).enqueue(new Callback() {
@@ -109,7 +112,7 @@ public class OkHttpUtil {
 				// TODO Auto-generated method stub
 				mHandler.sendEmptyMessage(0x0012);
 				String result = arg1.body().string();
-				Log.i("post-data", result);
+				Log.e("post-data", result);
 
 				try {
 
@@ -164,6 +167,69 @@ public class OkHttpUtil {
 			public void onFailure(Call call, IOException e) {
 				mHandler.sendEmptyMessage(0x0012);
 				Log.e("zd", "testHttpPost ... onFailure() e=" + e);
+			}
+
+			@Override
+			public void onResponse(Call arg0, Response arg1) throws IOException {
+				// TODO Auto-generated method stub
+				mHandler.sendEmptyMessage(0x0012);
+				String result = arg1.body().string();
+				Log.e("post-data", result);
+
+				try {
+
+					JSONObject jsonObject = new JSONObject(result);
+					boolean success = jsonObject.optBoolean("success");
+					String message = jsonObject.optString("message");
+					String code = jsonObject.optString("code");
+
+					Object data = null;
+					if(success){
+						data = jsonObject.opt("data");
+					}
+
+					CallBackData callBackData = new CallBackData();
+					callBackData.setSuccess(success);
+					callBackData.setCode(code);
+					callBackData.setData(data);
+					callBackData.setMessage(message);
+					callBackData.setCallback(callback);
+
+					Message msg = new Message();
+					msg.what = 0x10001;
+					msg.obj = callBackData;
+					mHandler.sendMessage(msg);
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	private static final MediaType MEDIA_TYPE_PNG = MediaType.parse("image/png");
+	public static void uploadFile(File file, final ObjectCallback callback){
+
+		MultipartBody.Builder builder = new MultipartBody.Builder().setType(MultipartBody.FORM);
+		if (file != null) {
+			builder.addFormDataPart("file", file.getName(), RequestBody.create(MEDIA_TYPE_PNG, file));
+		}
+
+		MultipartBody requestBody = builder.build();
+		//构建请求
+		Request request = new Request.Builder()
+		.addHeader("Authorization", "Bearer " + MyApplication.mToken)
+		.url(API.URL + API.imageServer_uploadImg)//地址
+		.post(requestBody)//添加请求体
+		.build();
+
+		Log.e("post-data", API.URL + API.imageServer_uploadImg);
+		mHandler.sendEmptyMessage(0x0011);
+		MyApplication.mOkHttpClient.newCall(request).enqueue(new Callback() {
+
+			@Override
+			public void onFailure(Call call, IOException e) {
+				mHandler.sendEmptyMessage(0x0012);
+				Log.e("post-data", "testHttpPost ... onFailure() e=" + e);
 			}
 
 			@Override

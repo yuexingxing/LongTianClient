@@ -4,8 +4,7 @@ import java.util.Calendar;
 import com.exam.longtian.R;
 import com.exam.longtian.activity.BaseActivity;
 import com.exam.longtian.presenter.PresenterQuery;
-import com.exam.longtian.util.API;
-import com.exam.longtian.util.OkHttpUtil;
+import com.exam.longtian.presenter.PresenterUtil;
 import com.exam.longtian.util.OkHttpUtil.ObjectCallback;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -49,6 +48,7 @@ public class QueryReceiveActivity extends BaseActivity {
 	public void initView() {
 		// TODO Auto-generated method stub
 		setTitle("ÊÕ¼þ²éÑ¯");
+
 	}
 
 	@Override
@@ -106,12 +106,12 @@ public class QueryReceiveActivity extends BaseActivity {
 	 */
 	public void query(View v){
 
-		PresenterQuery.waybill_getReWaybillList(this, new ObjectCallback() {
-			
+		PresenterQuery.waybill_getReWaybillList(this, PresenterUtil.ORDER_TYPE_RECEIVE, new ObjectCallback() {
+
 			@Override
 			public void callback(boolean success, String message, String code, Object data) {
 				// TODO Auto-generated method stub
-				
+
 			}
 		});
 	}
@@ -122,6 +122,8 @@ public class QueryReceiveActivity extends BaseActivity {
 	 */
 	public void detail(View v){
 
-		startActivity((new Intent(this, ReceiveDetailActivity.class)));
+		Intent intent = new Intent(this, ReceiveDetailActivity.class);
+		intent.putExtra("order_type", PresenterUtil.ORDER_TYPE_RECEIVE);
+		startActivity(intent);
 	}
 }

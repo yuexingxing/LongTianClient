@@ -1,6 +1,9 @@
 package com.exam.longtian.util;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.text.SimpleDateFormat;
@@ -21,6 +24,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.graphics.Bitmap.CompressFormat;
+import android.os.Environment;
 import android.telephony.TelephonyManager;
 import android.util.Base64;
 import android.view.View;
@@ -399,6 +403,53 @@ public class CommandTools {
 		bitMap = Bitmap.createBitmap(bitMap, 0, 0, width, height, matrix, true);
 
 		return bitMap;
+	}  
+
+	/** 
+	 * 压缩图片（质量压缩） 
+	 * @param bitmap 
+	 */  
+	public static File compressImage(Bitmap bitmap) {  
+		
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();  
+		bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);//质量压缩方法，这里100表示不压缩，把压缩后的数据存放到baos中  
+		int options = 100;  
+		while (baos.toByteArray().length / 1024 > 500) {  //循环判断如果压缩后图片是否大于500kb,大于继续压缩  
+			baos.reset();//重置baos即清空baos  
+			options -= 10;//每次都减少10  
+			bitmap.compress(Bitmap.CompressFormat.JPEG, options, baos);//这里压缩options%，把压缩后的数据存放到baos中  
+			long length = baos.toByteArray().length;  
+		}  
+		SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");  
+		Date date = new Date(System.currentTimeMillis());  
+		String filename = format.format(date);  
+		File file = new File(Environment.getExternalStorageDirectory(),filename+".png");  
+		try {  
+			FileOutputStream fos = new FileOutputStream(file);  
+			try {  
+				fos.write(baos.toByteArray());  
+				fos.flush();  
+				fos.close();  
+			} catch (IOException e) {  
+				e.printStackTrace();  
+			}  
+		} catch (FileNotFoundException e) {  
+			e.printStackTrace();  
+		}  
+//		recycleBitmap(bitmap);  
+		return file;  
+	}  
+
+	public static void recycleBitmap(Bitmap... bitmaps) {  
+
+		if (bitmaps==null) {  
+			return;  
+		}  
+		for (Bitmap bm : bitmaps) {  
+			if (null != bm && !bm.isRecycled()) {  
+				bm.recycle();  
+			}  
+		}  
 	}  
 }
 

@@ -18,6 +18,7 @@
             android:textSize="13sp" />
 
         <EditText
+            android:id="@+id/sitelist_search"
             android:layout_width="0dp"
             android:layout_height="35dp"
             android:layout_marginRight="20dp"

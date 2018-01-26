@@ -3,25 +3,20 @@ package com.exam.longtian.activity.send;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
-import java.util.Date;
 import java.util.List;
-
 import com.exam.longtian.MyApplication;
 import com.exam.longtian.R;
-import com.exam.longtian.R.id;
-import com.exam.longtian.R.layout;
 import com.exam.longtian.activity.BaseActivity;
 import com.exam.longtian.activity.inputbill.SiteListActivity;
 import com.exam.longtian.adapter.CommonAdapter;
 import com.exam.longtian.adapter.ViewHolder;
 import com.exam.longtian.entity.CompareResultInfo;
-import com.exam.longtian.entity.SiteInfo;
+import com.exam.longtian.entity.JoinBillInfo;
 import com.exam.longtian.presenter.PresenterUtil;
 import com.exam.longtian.util.CommandTools;
 import com.exam.longtian.util.OkHttpUtil.ObjectCallback;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
-
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -50,17 +45,24 @@ public class SendQueryActivity extends BaseActivity {
 	List<CompareResultInfo> dataList = new ArrayList<CompareResultInfo>();
 	CommonAdapter<CompareResultInfo> commonAdapter;
 
+	private String orderType;
 	private String siteGcode;
 
 	@Override
 	protected void onBaseCreate(Bundle savedInstanceState) {
 		setContentViewId(R.layout.activity_send_query);
 		ViewUtils.inject(this);
+		orderType = getIntent().getStringExtra("order_type");
 	}
 
 	@Override
 	public void initView() {
-		setTitle("发件查询");
+
+		if(PresenterUtil.ORDER_TYPE_ARRIVE.equals(orderType)){
+			setTitle("到件查询");
+		}else{
+			setTitle("发件查询");
+		}
 
 		commonAdapter = new CommonAdapter<CompareResultInfo>(this, dataList, R.layout.item_layout_send_query) {
 
@@ -68,6 +70,14 @@ public class SendQueryActivity extends BaseActivity {
 			public void convert(ViewHolder helper, CompareResultInfo item) {
 
 				helper.setText(R.id.item_layout_sendquery_billcode, item.getBILL_CODE());
+				helper.setText(R.id.item_layout_sendquery_num1, item.getSCAN_SUB_COUNT() + "");
+				helper.setText(R.id.item_layout_sendquery_num2, item.getUNSAN_SUB_COUNT() + "");
+
+				if(item.getRECEIPT_SCAN() == 1){
+					helper.setText(R.id.item_layout_sendquery_flag, "是");
+				}else{
+					helper.setText(R.id.item_layout_sendquery_billcode, "否");
+				}
 			}
 		};
 
@@ -134,6 +144,45 @@ public class SendQueryActivity extends BaseActivity {
 	}
 
 	/**
+	 * 获取交接单号--辅助查询
+	 * @param v
+	 */
+	public void queryJoinBill(View v){
+
+		String billcode = edtBillcode.getText().toString();
+		String handoverTimeFrom = edtTime.getText().toString() + " 00:00:00";
+		String handoverTimeTo = edtTime.getText().toString() + " 23:59:59";
+
+		if(TextUtils.isEmpty(siteGcode)){
+			CommandTools.showToast("请选择下一站");
+			return;
+		}
+
+		if(TextUtils.isEmpty(billcode)){
+			CommandTools.showToast("请输入交接单号");
+			return;
+		}
+
+		PresenterUtil.handover_queryHandoverList(this, handoverTimeFrom, handoverTimeTo, siteGcode, billcode, new ObjectCallback() {
+
+			@Override
+			public void callback(boolean success, String message, String code, Object data) {
+				// TODO Auto-generated method stub
+
+				if(success){
+
+					JoinBillInfo joinBillInfo = (JoinBillInfo) data;
+					if(joinBillInfo != null){
+						edtJoinBillcode.setText(joinBillInfo.getHandoverId());
+						query(null);
+					}
+				}
+			}
+		});
+
+	}
+
+	/**
 	 * 查询
 	 * @param v
 	 */
@@ -141,17 +190,12 @@ public class SendQueryActivity extends BaseActivity {
 
 		String handoverId = edtJoinBillcode.getText().toString();
 
-		if(TextUtils.isEmpty(siteGcode)){
-			CommandTools.showToast("请先选择站点");
-			return;
-		}
-
 		if(TextUtils.isEmpty(handoverId)){
 			CommandTools.showToast("请输入交接单号");
 			return;
 		}
 
-		PresenterUtil.scan_sendComparedResult(this, siteGcode, handoverId, new ObjectCallback() {
+		PresenterUtil.scan_sendComparedResult(this, orderType, MyApplication.mUser.getOwnSiteGcode(), handoverId, new ObjectCallback() {
 
 			@Override
 			public void callback(boolean success, String message, String code, Object data) {

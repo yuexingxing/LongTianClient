@@ -1,14 +1,12 @@
 package com.exam.longtian.activity.inputbill;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import com.exam.longtian.R;
 import com.exam.longtian.activity.BaseActivity;
 import com.exam.longtian.adapter.CommonAdapter;
 import com.exam.longtian.adapter.ViewHolder;
 import com.exam.longtian.entity.CustomInfo;
-import com.exam.longtian.entity.SiteInfo;
 import com.exam.longtian.presenter.PCustom;
 import com.exam.longtian.util.CommandTools;
 import com.exam.longtian.util.OkHttpUtil.ObjectCallback;
@@ -17,10 +15,11 @@ import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.AdapterView.OnItemClickListener;
 
@@ -34,9 +33,12 @@ import android.widget.AdapterView.OnItemClickListener;
  */
 public class CustomerListActivity extends BaseActivity {
 
+	@ViewInject(R.id.customerlist_search) EditText edtSearch;
+
 	@ViewInject(R.id.lv_public) ListView listView;
-	List<CustomInfo> dataList = new ArrayList<CustomInfo>();
 	CommonAdapter<CustomInfo> commonAdapter;
+	List<CustomInfo> dataList = new ArrayList<CustomInfo>();
+	List<CustomInfo> sortList = new ArrayList<CustomInfo>();
 
 	private int currPos = -1;//当前选择的位置
 
@@ -51,7 +53,7 @@ public class CustomerListActivity extends BaseActivity {
 	public void initView() {
 		// TODO Auto-generated method stub
 
-		commonAdapter = new CommonAdapter<CustomInfo>(this, dataList, R.layout.item_layout_customer_list) {
+		commonAdapter = new CommonAdapter<CustomInfo>(this, sortList, R.layout.item_layout_customer_list) {
 
 			@Override
 			public void convert(ViewHolder helper, CustomInfo item) {
@@ -71,11 +73,11 @@ public class CustomerListActivity extends BaseActivity {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
 				// TODO Auto-generated method stub
-				CustomInfo info = dataList.get(arg2);
+				CustomInfo info = sortList.get(arg2);
 
 				currPos = arg2;
-				for(int i=0; i<dataList.size(); i++){
-					dataList.get(i).setFlag(false);
+				for(int i=0; i<sortList.size(); i++){
+					sortList.get(i).setFlag(false);
 				}
 
 				info.setFlag(true);
@@ -85,6 +87,28 @@ public class CustomerListActivity extends BaseActivity {
 		});
 
 		listView.setAdapter(commonAdapter);
+
+		edtSearch.addTextChangedListener(new TextWatcher() {
+
+			@Override
+			public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
+				// TODO Auto-generated method stub
+
+				sortData(arg0.toString());
+			}
+
+			@Override
+			public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void afterTextChanged(Editable arg0) {
+				// TODO Auto-generated method stub
+
+			}
+		});
 	}
 
 	@Override
@@ -96,11 +120,13 @@ public class CustomerListActivity extends BaseActivity {
 			@Override
 			public void callback(boolean success, String message, String code, Object data) {
 				// TODO Auto-generated method stub
+				sortList.clear();
 				dataList.clear();
 				if(data != null){
 
+					sortList.addAll((List<CustomInfo>) data);
 					dataList.addAll((List<CustomInfo>) data);
-					mHandler.sendEmptyMessage(0x0011);
+					commonAdapter.notifyDataSetChanged();
 				}
 			}
 		});
@@ -117,13 +143,15 @@ public class CustomerListActivity extends BaseActivity {
 			return;
 		}
 
+		CustomInfo info = sortList.get(currPos);
+
 		Intent intent = new Intent();
-		intent.putExtra("linkMan", dataList.get(currPos).getCustLinkman());
-		intent.putExtra("customer", dataList.get(currPos).getCustName());
-		intent.putExtra("phone", dataList.get(currPos).getCustPhone());
-		intent.putExtra("code", dataList.get(currPos).getCustGcode());
-		intent.putExtra("address", dataList.get(currPos).getAddress());
-		intent.putExtra("companyName", dataList.get(currPos).getCustCompanyName());
+		intent.putExtra("linkMan", info.getCustLinkman());
+		intent.putExtra("customer", info.getCustName());
+		intent.putExtra("phone", info.getCustPhone());
+		intent.putExtra("code", info.getCustGcode());
+		intent.putExtra("address", info.getAddress());
+		intent.putExtra("companyName", info.getCustCompanyName());
 		setResult(RESULT_OK, intent);
 		finish();
 	}
@@ -136,13 +164,19 @@ public class CustomerListActivity extends BaseActivity {
 		finish();
 	}
 
-	public Handler mHandler = new Handler(){
+	public void sortData(String data){
 
-		public void handleMessage(Message msg){
+		sortList.clear();
+		commonAdapter.notifyDataSetChanged();
+		int len = dataList.size();
+		for(int i=0; i<len; i++){
 
-			if(msg.what == 0x0011){
-				commonAdapter.notifyDataSetChanged();
+			CustomInfo info = dataList.get(i);
+			if(info.getCustName().contains(data) || info.getOpEmpName().toLowerCase().contains(data)){
+				sortList.add(info);
 			}
 		}
-	};
+
+		commonAdapter.notifyDataSetChanged();
+	}
 }

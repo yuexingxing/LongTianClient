@@ -2,6 +2,7 @@ package com.exam.longtian.activity.query;
 
 import com.exam.longtian.R;
 import com.exam.longtian.activity.BaseActivity;
+import com.exam.longtian.presenter.PresenterUtil;
 import com.lidroid.xutils.ViewUtils;
 import android.content.Intent;
 import android.os.Bundle;
@@ -44,7 +45,9 @@ public class QueryMenuActivity extends BaseActivity {
 	 */
 	public void receive(View v){
 
-		startActivity((new Intent(this, QueryReceiveActivity.class)));
+		Intent intent = new Intent(this, QueryReceiveActivity.class);
+		intent.putExtra("order_type", PresenterUtil.ORDER_TYPE_RECEIVE);
+		startActivity(intent);
 	}
 
 	/**
@@ -53,6 +56,9 @@ public class QueryMenuActivity extends BaseActivity {
 	 */
 	public void delivery(View v){
 
+		Intent intent = new Intent(this, QueryDispActivity.class);
+		intent.putExtra("order_type", PresenterUtil.ORDER_TYPE_DISP);
+		startActivity(intent);
 	}
 
 	/**

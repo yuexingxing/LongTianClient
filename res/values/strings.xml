@@ -25,5 +25,6 @@
     <string name="title_activity_receive_detail">ReceiveDetailActivity</string>
     <string name="title_activity_child_bill">ChildBillActivity</string>
     <string name="title_activity_driver_list">DriverListActivity</string>
+    <string name="title_activity_query_disp">QueryDispActivity</string>
 
 </resources>
