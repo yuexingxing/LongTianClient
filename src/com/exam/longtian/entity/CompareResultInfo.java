@@ -5,6 +5,7 @@ public class CompareResultInfo {
 	private int SCAN_SUB_COUNT = 0;// 10,
 	private int BE_SCAN = 0;// 1,
 	private int RECEIPT_SCAN = 0;// 0,
+	private String RECEIPT_CODE = "";// 0,
 	private String BILL_CODE;// "55555555555555",
 	private int COME_NO_SEND = 0;
 	private int SEND_NO_COME = 0;
@@ -58,5 +59,11 @@ public class CompareResultInfo {
 	}
 	public void setSEND_NO_COME(int sEND_NO_COME) {
 		SEND_NO_COME = sEND_NO_COME;
+	}
+	public String getRECEIPT_CODE() {
+		return RECEIPT_CODE;
+	}
+	public void setRECEIPT_CODE(String rECEIPT_CODE) {
+		RECEIPT_CODE = rECEIPT_CODE;
 	}
 }

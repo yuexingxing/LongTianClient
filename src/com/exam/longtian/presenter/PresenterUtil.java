@@ -8,6 +8,10 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import android.content.Context;
+import android.text.TextUtils;
+
+import com.exam.longtian.activity.ChildBillActivity;
+import com.exam.longtian.entity.ChildBillInfo;
 import com.exam.longtian.entity.CompareResultInfo;
 import com.exam.longtian.entity.DictInfo;
 import com.exam.longtian.entity.JoinBillInfo;
@@ -28,6 +32,7 @@ import com.google.gson.reflect.TypeToken;
  */
 public class PresenterUtil {
 
+	public static final String ORDER_TYPE_INPUT = "order_type_input";//录单
 	public static final String ORDER_TYPE_SEND = "order_type_send";//发件
 	public static final String ORDER_TYPE_ARRIVE = "order_type_arrive";//到件
 	public static final String ORDER_TYPE_RECEIVE = "order_type_receive";//收件
@@ -110,15 +115,49 @@ public class PresenterUtil {
 	 * @param context
 	 * @param callback
 	 */
-	public static void waybillSub_unscanedSendWaybillSubList(Context context, final ObjectCallback callback){
+	public static void waybillSub_unscanedSendWaybillSubList(Context context, String orderType, String siteGcode, String billcode, final ObjectCallback callback){
 
-		String page = "?page=1&size=1000";
-		OkHttpUtil.get(context, API.waybillSub_unscanedSendWaybillSubList + page, new ObjectCallback() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("?page=1&size=1000");
+
+		if(!TextUtils.isEmpty(siteGcode)){
+			sb.append("&siteGcode=" + siteGcode);
+		}
+
+		if(!TextUtils.isEmpty(billcode)){
+			sb.append("&billCode=" + billcode);
+		}
+		
+		String url = API.waybillSub_unscanedSendWaybillSubList + sb.toString();
+		if(PresenterUtil.ORDER_TYPE_ARRIVE.equals(orderType)){
+			url = API.waybillSub_unscanedComeWaybillSubList + sb.toString();
+		}else{
+			url = API.waybillSub_unscanedSendWaybillSubList + sb.toString();
+		}
+
+		OkHttpUtil.get(context, url, new ObjectCallback() {
 
 			@Override
 			public void callback(boolean success, String message, String code, Object data) {
 				// TODO Auto-generated method stub
-				callback.callback(success, message, code, data);
+
+				List<ChildBillInfo> dataList = new ArrayList<ChildBillInfo>();
+				if(success){
+
+					JSONObject jsonObject = (JSONObject) data;
+					JSONArray jsonArray = jsonObject.optJSONArray("rows");
+
+					int len = jsonArray.length();
+					for(int i=0; i<len; i++){
+
+						jsonObject = jsonArray.optJSONObject(i);
+						ChildBillInfo info = new GsonBuilder().create().fromJson(jsonObject.toString(), new TypeToken<ChildBillInfo>(){}.getType());
+
+						dataList.add(info);
+					}
+				}
+
+				callback.callback(success, message, code, dataList);
 			}
 		});
 	}
@@ -142,17 +181,26 @@ public class PresenterUtil {
 	}
 
 	/**
-	 * 发件扫描-获取交接单数据
+	 * 发件/到件扫描-获取交接单数据
 	 * @param context
 	 * @param callback
 	 */
-	public static void handover_queryHandoverList(Context context, String handoverTimeFrom, String handoverTimeTo, String siteGcode, String billCode, final ObjectCallback callback){
+	public static void handover_queryHandoverList(Context context, final String orderType, String handoverTimeFrom, String handoverTimeTo, String siteGcode, String billCode, final ObjectCallback callback){
 
 		String page = null;
 		try {
-			page = "?handoverTimeFrom=" + URLEncoder.encode(handoverTimeFrom, "utf-8") + "&handoverTimeTo=" + URLEncoder.encode(handoverTimeTo, "utf-8") 
-					+ "&siteGcode=" + siteGcode + "&billCode=" + billCode 
+
+			page = "?handoverTimeFrom=" + URLEncoder.encode(handoverTimeFrom, "utf-8") 
+					+ "&handoverTimeTo=" + URLEncoder.encode(handoverTimeTo, "utf-8") 
 					+ "&page=1&size=1000";
+			if(!TextUtils.isEmpty(siteGcode)){
+				page = page + "&oppositeSiteGcode=" + siteGcode;
+			}
+
+			if(!TextUtils.isEmpty(billCode)){
+				page = page + "&billCode=" + billCode;
+			}
+
 		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -164,9 +212,9 @@ public class PresenterUtil {
 			public void callback(boolean success, String message, String code, Object data) {
 				// TODO Auto-generated method stub
 
-				List<JoinBillInfo> dataList = new ArrayList<JoinBillInfo>();
 				if(success){
 
+					List<JoinBillInfo> dataList = new ArrayList<JoinBillInfo>();
 					JSONObject jsonObject = (JSONObject) data;
 
 					JSONArray jsonArray = jsonObject.optJSONArray("rows");
@@ -177,11 +225,43 @@ public class PresenterUtil {
 						jsonObject = jsonArray.optJSONObject(i);
 						JoinBillInfo joinBillInfo = new GsonBuilder().create().fromJson(jsonObject.toString(), new TypeToken<JoinBillInfo>(){}.getType());
 
-						dataList.add(joinBillInfo);
+						//发件类型
+						if(PresenterUtil.ORDER_TYPE_SEND.equals(orderType) && joinBillInfo.getListType().equals("1")){
+							dataList.add(joinBillInfo);
+						}
+						//到件类型
+						else if(PresenterUtil.ORDER_TYPE_ARRIVE.equals(orderType) && joinBillInfo.getListType().equals("2")){
+							dataList.add(joinBillInfo);
+						}
+
+					}
+
+					callback.callback(success, message, code, dataList);
+				}
+			}
+		});
+	}
+
+	/**
+	 * 根据handoverId获取交接单明细数据
+	 * @param context
+	 * @param callback
+	 */
+	public static void handover_handoverListId(Context context, String billCode, final ObjectCallback callback){
+
+		OkHttpUtil.get(context, API.handover_handoverListId + billCode, new ObjectCallback() {
+
+			@Override
+			public void callback(boolean success, String message, String code, Object data) {
+				// TODO Auto-generated method stub
+
+				if(success){
+
+					if(data != null){
+
+						callback.callback(success, message, code, data);
 					}
 				}
-
-				callback.callback(success, message, code, dataList);
 			}
 		});
 	}
@@ -224,8 +304,12 @@ public class PresenterUtil {
 			@Override
 			public void callback(boolean success, String message, String code, Object data) {
 
-				CommandTools.showToast(message);
-				callback.callback(success, message, code, data);
+				if(success){
+					CommandTools.showToast(message);
+					callback.callback(success, message, code, data);
+				}else{
+					CommandTools.showToast("司机不存在，创建交接单失败");
+				}
 			}
 		});
 	}
@@ -243,9 +327,9 @@ public class PresenterUtil {
 
 		String url = API.scan_comeComparedResult;
 		if(PresenterUtil.ORDER_TYPE_ARRIVE.equals(orderType)){
-			url = API.scan_sendComparedResult;
-		}else{
 			url = API.scan_comeComparedResult;
+		}else{
+			url = API.scan_sendComparedResult;
 		}
 
 		OkHttpUtil.get(context, url + page, new ObjectCallback() {
@@ -254,7 +338,6 @@ public class PresenterUtil {
 			public void callback(boolean success, String message, String code, Object data) {
 				// TODO Auto-generated method stub
 
-				CommandTools.showToast(message);
 				List<CompareResultInfo> dataList = new ArrayList<CompareResultInfo>();
 				if(success){
 
@@ -269,6 +352,7 @@ public class PresenterUtil {
 
 						dataList.add(info);
 					}
+
 				}
 
 				callback.callback(success, message, code, dataList);
@@ -324,10 +408,11 @@ public class PresenterUtil {
 			@Override
 			public void callback(boolean success, String message, String code, Object data) {
 				// TODO Auto-generated method stub
-				CommandTools.showToast(message);
 
 				if(success){
 					callback.callback(success, message, code, data);
+				}else{
+					CommandTools.showToast(message);
 				}
 			}
 		});

@@ -42,6 +42,14 @@
             android:background="@drawable/shape_rec_black"
             android:gravity="center"
             android:text="未扫描子单数" />
+
+        <TextView
+            android:id="@+id/item_layout_sendquery_num3"
+            android:layout_width="120dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/shape_rec_black"
+            android:gravity="center"
+            android:text="差异" />
     </LinearLayout>
 
 </LinearLayout>

@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.lang.reflect.Field;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -26,6 +27,7 @@ import android.graphics.Matrix;
 import android.graphics.Bitmap.CompressFormat;
 import android.os.Environment;
 import android.telephony.TelephonyManager;
+import android.text.TextUtils;
 import android.util.Base64;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -48,7 +50,7 @@ public class CommandTools {
 	public static abstract class CommandToolsCallback {
 		public abstract void callback(int position);
 	}
-
+	
 	public static String getTimes() {
 		Date date = new Date();
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
@@ -223,7 +225,7 @@ public class CommandTools {
 			}
 			return versionName;
 		} catch (Exception e) {
-			return "1.0";
+			return "1.0.0";
 			// TODO: handle exception
 		}
 
@@ -451,6 +453,51 @@ public class CommandTools {
 			}  
 		}  
 	}  
+	
+	/**
+	 * 验证手机是否合法
+	 * 
+	 * @param mobiles
+	 *            传入的手机号
+	 * @return true 合法 false 不合法
+	 */
+	public static boolean isMobileNO(String mobiles) {
+		/*
+		 * 移动：134、135、136、137、138、139、150、151、157(TD)、158、159、187、188
+		 * 联通：130、131、132、152、155、156、185、186 电信：133、153、180、189、（1349卫通）
+		 * 总结起来就是第一位必定为1，第二位必定为3或5或8，其他位置的可以为0-9
+		 */
+		String telRegex = "[1][34587]\\d{9}";// "[1]"代表第1位为数字1，"[358]"代表第二位可以为3、5、8中的一个，"\\d{9}"代表后面是可以是0～9的数字，有9位。
+		if (TextUtils.isEmpty(mobiles))
+			return false;
+		else
+			return mobiles.matches(telRegex);
+	}
+	
+	/**
+     * 对象转byte
+     * @param obj
+     * @return
+     */
+    public static byte[] ObjectToByte(Object obj) {  
+    	
+        byte[] bytes = null;  
+        try {  
+            // object to bytearray  
+            ByteArrayOutputStream bo = new ByteArrayOutputStream();  
+            ObjectOutputStream oo = new ObjectOutputStream(bo);  
+            oo.writeObject(obj);  
+      
+            bytes = bo.toByteArray();  
+      
+            bo.close();  
+            oo.close();  
+        } catch (Exception e) {  
+            System.out.println("translation" + e.getMessage());  
+            e.printStackTrace();  
+        }  
+        return bytes;  
+    } 
 }
 
 

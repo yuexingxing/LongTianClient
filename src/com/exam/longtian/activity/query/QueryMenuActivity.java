@@ -18,7 +18,6 @@ import android.view.View;
  */
 public class QueryMenuActivity extends BaseActivity {
 
-
 	@Override
 	protected void onBaseCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -45,7 +44,7 @@ public class QueryMenuActivity extends BaseActivity {
 	 */
 	public void receive(View v){
 
-		Intent intent = new Intent(this, QueryReceiveActivity.class);
+		Intent intent = new Intent(this, QueryStaticsActivity.class);
 		intent.putExtra("order_type", PresenterUtil.ORDER_TYPE_RECEIVE);
 		startActivity(intent);
 	}
@@ -56,7 +55,7 @@ public class QueryMenuActivity extends BaseActivity {
 	 */
 	public void delivery(View v){
 
-		Intent intent = new Intent(this, QueryDispActivity.class);
+		Intent intent = new Intent(this, QueryStaticsActivity.class);
 		intent.putExtra("order_type", PresenterUtil.ORDER_TYPE_DISP);
 		startActivity(intent);
 	}
@@ -66,6 +65,7 @@ public class QueryMenuActivity extends BaseActivity {
 	 * @param v
 	 */
 	public void detail(View v){
+
 		startActivity((new Intent(this, OrderDetailActivity.class)));
 	}
 

@@ -1,6 +1,7 @@
 package com.exam.longtian.activity.send;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.List;
 import org.json.JSONArray;
@@ -72,7 +73,7 @@ public class ChooseJoinBillActivity extends BaseActivity {
 				TextView tvBillcode = (TextView) helper.getView(R.id.item_layout_choose_joinbill_billcode);
 				TextView tvName = (TextView) helper.getView(R.id.item_layout_choose_joinbill_name);
 
-				tvBillcode.setText(item.getDriverId());
+				tvBillcode.setText(item.getHandoverId());
 				tvName.setText(item.getDriverName());
 
 				if(item.isFlag()){
@@ -117,9 +118,10 @@ public class ChooseJoinBillActivity extends BaseActivity {
 					for(int i=0; i<len; i++){
 						dataList.get(i).setFlag(false);
 					}
+
 					commonAdapter.notifyDataSetChanged();
 				}else{
-
+					curPos = -2;
 				}
 			}
 		});
@@ -133,7 +135,13 @@ public class ChooseJoinBillActivity extends BaseActivity {
 		siteName = getIntent().getStringExtra("siteName");
 		orderType = getIntent().getStringExtra("order_type");
 
-		PresenterUtil.handover_queryHandoverList(this, "", "", "", "", new ObjectCallback() {
+		Calendar c = Calendar.getInstance();
+		String strDate = c.get(Calendar.YEAR) + "-" + (c.get(Calendar.MONTH) + 1) + "-" + c.get(Calendar.DAY_OF_MONTH);
+
+		String startTime = strDate + " 00:00:00";
+		String endTime = strDate + " 23:59:59";
+
+		PresenterUtil.handover_queryHandoverList(this, orderType, startTime, endTime, MyApplication.mUser.getOwnSiteGcode(), "", new ObjectCallback() {
 
 			@Override
 			public void callback(boolean success, String message, String code, Object data) {
@@ -147,6 +155,23 @@ public class ChooseJoinBillActivity extends BaseActivity {
 		});
 	}
 
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+		if(requestCode == 0x1001 && resultCode == RESULT_OK){
+			dataList.clear();
+			dataList = null;
+
+			Intent intent = new Intent();
+			intent.putExtra("continu", data.getStringExtra("continu"));
+			setResult(RESULT_OK, intent);
+			finish();
+		}
+	}
+
+	/**
+	 * 绑定司机
+	 * @param v
+	 */
 	public void bind(View v){
 
 		if(curPos == -2){
@@ -199,13 +224,12 @@ public class ChooseJoinBillActivity extends BaseActivity {
 				// TODO Auto-generated method stub
 				CommandTools.showToast(message);
 				if(success){
-					
+
 					Intent intent = new Intent(ChooseJoinBillActivity.this, SendCompareActivity.class);
 					intent.putExtra("order_type", orderType);
 					intent.putExtra("siteName", siteName);
 					intent.putExtra("handoverId", joinBillInfo.getHandoverId());
-					startActivity(intent);
-					finish();
+					startActivityForResult(intent, 0x1001);
 				}
 			}
 		});
@@ -217,17 +241,24 @@ public class ChooseJoinBillActivity extends BaseActivity {
 	 */
 	public void addHandOver(String name){
 
+		String listType = "2";//发件=1 到件=2
+		if(PresenterUtil.ORDER_TYPE_SEND.equals(orderType)){
+			listType = "1";
+		}else{
+			listType = "2";
+		}
+
 		JSONObject jsonObject = new JSONObject();
 		try {
 
 			jsonObject.put("driverName", name);
 			jsonObject.put("handoverId", CommandTools.getTimes());
 			jsonObject.put("handoverTime", CommandTools.getTime());
-			jsonObject.put("listType", "1");
+			jsonObject.put("listType", listType);
 			jsonObject.put("opEmpGcode", MyApplication.mUser.getOpEmpGcode());
 			jsonObject.put("opEmpName", MyApplication.mUser.getOpEmpName());
 			jsonObject.put("opTime", CommandTools.getTime());
-			jsonObject.put("oppositeSiteGcode", siteGCode);
+			jsonObject.put("oppositeSiteGcode", MyApplication.mUser.getOwnSiteGcode());
 			jsonObject.put("plateNumber", "");
 			jsonObject.put("relaHandoverId", "");
 			jsonObject.put("siteGcode", MyApplication.mUser.getOwnSiteGcode());

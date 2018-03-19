@@ -2,16 +2,17 @@ package com.exam.longtian.entity;
 
 public class BillInfo {
 
-	private String agencyFund = "0";// 0,
+	private String agencyFund = "";// 0,
 	private String beIntoWarehouse = "0";// 0,
 	private String billCode = "";// private String stringprivate String ,
 	private String dataSource = "0";// 0,
 	private String destSiteGcode = "";// private String stringprivate String ,
+	private String destSiteName = "";
 	private String dispDistance = "0";// 0,
 	private String dispEmpgcode = "";// private String stringprivate String ,
 	private String dispScanSiteGcode = "";// private String stringprivate String ,
 	private String dispScanSiteName = "";// private String stringprivate String ,
-	private String freight = "0";// 0,
+	private String freight = "";// 0,
 	private String gisDispSiteGcode = "";// private String stringprivate String ,
 	private String goodsFlowTypePcode = "";// private String stringprivate String ,
 	private String opEmpGcode = "";// private String stringprivate String ,
@@ -21,7 +22,7 @@ public class BillInfo {
 	private String packageKindPcode = "";// private String stringprivate String ,
 	private String payModeName = "";// private String stringprivate String ,
 	private String payModePcode = "";// private String stringprivate String ,
-	private String pieceNum = "0";// 0,
+	private String pieceNum = "";// 0,
 	private String premium = "0";// 0,
 	private String premiumFee = "0";// 0,
 	private String realRouteId = "";// private String stringprivate String ,
@@ -55,12 +56,16 @@ public class BillInfo {
 	private String shiftPcode = "";// private String stringprivate String ,
 	private String signSiteGcode = "";// private String stringprivate String ,
 	private String signTime = "";// private String 2018-01-09T06:11:07.457Zprivate String ,
-	private String status = "0";// 0,
+	private String status = "1";// 0,
 	private String subBillcode = "";// private String stringprivate String ,
 	private String totalVolume = "";// 0,
 	private String totalWeight = "";// 0,
 	private String transBillLock = "0";// 0,
 	private String transportModePcode = "";// private String stringprivate String 
+
+	private String daofreight ;//0到付
+	private String signer ;//0签收人
+	private String signSiteName ;//签收网点
 
 	public String getAgencyFund() {
 		return agencyFund;
@@ -91,6 +96,12 @@ public class BillInfo {
 	}
 	public void setDestSiteGcode(String destSiteGcode) {
 		this.destSiteGcode = destSiteGcode;
+	}
+	public String getDestSiteName() {
+		return destSiteName;
+	}
+	public void setDestSiteName(String destSiteName) {
+		this.destSiteName = destSiteName;
 	}
 	public String getDispDistance() {
 		return dispDistance;
@@ -415,5 +426,23 @@ public class BillInfo {
 	}
 	public void setTransportModePcode(String transportModePcode) {
 		this.transportModePcode = transportModePcode;
+	}
+	public String getDaofreight() {
+		return daofreight;
+	}
+	public void setDaofreight(String daofreight) {
+		this.daofreight = daofreight;
+	}
+	public String getSigner() {
+		return signer;
+	}
+	public void setSigner(String signer) {
+		this.signer = signer;
+	}
+	public String getSignSiteName() {
+		return signSiteName;
+	}
+	public void setSignSiteName(String signSiteName) {
+		this.signSiteName = signSiteName;
 	}
 }

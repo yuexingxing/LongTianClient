@@ -18,7 +18,7 @@ import com.google.gson.reflect.TypeToken;
 public class PCustom {
 
 	/**
-	 * 获取所有站点
+	 * 获取当前站点下的收件客户
 	 * @param context
 	 * @param callback
 	 */

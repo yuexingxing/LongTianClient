@@ -15,6 +15,7 @@ public class User {
 	public String hireDate;// 2017-08-21 15;//17;//06,
 	public String phone;// 18675516721,
 	public String address;// ,
+	public String ownSiteName;
 	public String ownerGcode;// ,
 	public String loginName;// SCB1010,
 	public int beBindDevice;// 0,
@@ -69,6 +70,12 @@ public class User {
 	}
 	public void setEmpName(String empName) {
 		this.empName = empName;
+	}
+	public String getOwnSiteName() {
+		return ownSiteName;
+	}
+	public void setOwnSiteName(String ownSiteName) {
+		this.ownSiteName = ownSiteName;
 	}
 	public String getOwnSiteGcode() {
 		return ownSiteGcode;

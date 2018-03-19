@@ -11,24 +11,24 @@
         android:orientation="horizontal" >
 
         <TextView
-            android:id="@+id/item_layout_scanrecord_sitename"
-            android:layout_width="100dp"
+            android:id="@+id/item_layout_scanrecord_1"
+            android:layout_width="150dp"
             android:layout_height="match_parent"
             android:background="@drawable/shape_rec_black"
             android:gravity="center"
             android:text="扫描网点" />
 
         <TextView
-            android:id="@+id/item_layout_scanrecord_time"
-            android:layout_width="200dp"
+            android:id="@+id/item_layout_scanrecord_2"
+            android:layout_width="150dp"
             android:layout_height="match_parent"
             android:background="@drawable/shape_rec_black"
             android:gravity="center"
             android:text="扫描时间" />
 
         <TextView
-            android:id="@+id/item_layout_scanrecord_content"
-            android:layout_width="200dp"
+            android:id="@+id/item_layout_scanrecord_3"
+            android:layout_width="500dp"
             android:layout_height="match_parent"
             android:background="@drawable/shape_rec_black"
             android:gravity="center"

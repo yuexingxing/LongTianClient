@@ -1,21 +1,18 @@
 package com.exam.longtian.activity.sign;
 
 import java.io.File;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import com.exam.longtian.MyApplication;
 import com.exam.longtian.R;
 import com.exam.longtian.activity.BaseActivity;
+import com.exam.longtian.camera.CaptureActivity;
 import com.exam.longtian.presenter.PresenterUtil;
 import com.exam.longtian.util.CommandTools;
-import com.exam.longtian.util.OkHttpUtil;
+import com.exam.longtian.util.Constant;
 import com.exam.longtian.util.OkHttpUtil.ObjectCallback;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
-
-import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -27,6 +24,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 /** 
  * 签收扫描
@@ -50,6 +48,7 @@ public class SignScanActivity extends BaseActivity {
 
 	private Bitmap mBitmap;
 	private String billCode;
+	private String singer;
 
 	@Override
 	protected void onBaseCreate(Bundle savedInstanceState) {
@@ -93,7 +92,22 @@ public class SignScanActivity extends BaseActivity {
 			c.close();
 
 			imgIcon.setImageBitmap(mBitmap);
+		}else if (requestCode == Constant.CAPTURE_BILLCODE && resultCode == RESULT_OK) {
+			
+			if(data == null){
+				return;
+			}
+
+			Bundle bundle = data.getExtras();
+			String strBillcode = bundle.getString("result");
+			edtBillcode.setText(strBillcode);
 		}
+	}
+	
+	public void scan(View v){
+
+		Intent openCameraIntent = new Intent(this, CaptureActivity.class);
+		startActivityForResult(openCameraIntent, Constant.CAPTURE_BILLCODE);
 	}
 
 	/**
@@ -126,19 +140,10 @@ public class SignScanActivity extends BaseActivity {
 		imgIcon.setImageBitmap(null);
 	}
 
-	public void uploadImg(View v){
-
-		billCode = edtBillcode.getText().toString();
-		if(TextUtils.isEmpty(billCode)){
-			CommandTools.showToast("运单号不能为空");
-			return;
-		}
-
-
-		if(mBitmap == null){
-			CommandTools.showToast("请先拍照或选择照片");
-			return;
-		}
+	/**
+	 * 上传图片
+	 */
+	public void uploadImg(){
 
 		final File file = CommandTools.compressImage(mBitmap);
 		PresenterUtil.uploadImg(file, new ObjectCallback() {
@@ -173,13 +178,16 @@ public class SignScanActivity extends BaseActivity {
 						@Override
 						public void callback(boolean success, String message, String code, Object data) {
 							// TODO Auto-generated method stub
-							clearPhoto(null);
+
+							if(success){
+								sign();
+								clearPhoto(null);
+							}
 						}
 					});
 				} catch (JSONException e) {
 					e.printStackTrace();
 				}
-
 
 			}
 		});
@@ -197,11 +205,24 @@ public class SignScanActivity extends BaseActivity {
 			return;
 		}
 
-		String singer = edtSinger.getText().toString();
+		singer = edtSinger.getText().toString();
 		if(TextUtils.isEmpty(singer)){
 			CommandTools.showToast("签收人不能为空");
 			return;
 		}
+
+		if(mBitmap != null){
+			uploadImg();
+		}else{
+			sign();
+		}
+
+	}
+
+	/**
+	 * 确认签收
+	 */
+	public void sign(){
 
 		JSONObject jsonObject = new JSONObject();
 		try {
@@ -228,9 +249,11 @@ public class SignScanActivity extends BaseActivity {
 			public void callback(boolean success, String message, String code, Object data) {
 				// TODO Auto-generated method stub
 
-				CommandTools.showToast(message);
+				Toast.makeText(SignScanActivity.this, message, Toast.LENGTH_LONG).show();
 				if(success){
+
 					edtBillcode.setText("");
+					edtSinger.setText("");
 					edtRemark.setText("");
 				}
 			}

@@ -90,6 +90,16 @@
             android:layout_marginLeft="12dp"
             android:layout_weight="1"
             android:background="@drawable/selector_btn_button"
+            android:onClick="continu"
+            android:text="继续"
+            android:textSize="13sp" />
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="35dp"
+            android:layout_marginLeft="12dp"
+            android:layout_weight="1"
+            android:background="@drawable/selector_btn_button"
             android:onClick="back"
             android:text="结束"
             android:textSize="13sp" />

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import com.exam.longtian.R;
 import com.exam.longtian.activity.BaseActivity;
+import com.exam.longtian.activity.MainMenuActivity;
 import com.exam.longtian.adapter.CommonAdapter;
 import com.exam.longtian.adapter.ViewHolder;
 import com.exam.longtian.entity.SiteInfo;
@@ -41,6 +42,7 @@ public class SiteListActivity extends BaseActivity {
 	CommonAdapter<SiteInfo> commonAdapter;
 
 	private int currPos = -1;//当前选择的位置
+	private String orderType;
 
 	@Override
 	protected void onBaseCreate(Bundle savedInstanceState) {
@@ -96,6 +98,7 @@ public class SiteListActivity extends BaseActivity {
 			public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
 				// TODO Auto-generated method stub
 
+				currPos = -1;
 				sortData(arg0.toString());
 			}
 
@@ -116,7 +119,8 @@ public class SiteListActivity extends BaseActivity {
 	@Override
 	public void initData() {
 		// TODO Auto-generated method stub
-		PSite.site_list(this, new ISite() {
+		orderType = getIntent().getStringExtra("order_type");
+		PSite.site_list(this, orderType, new ISite() {
 
 			@Override
 			public void success(List<SiteInfo> list) {
@@ -146,6 +150,11 @@ public class SiteListActivity extends BaseActivity {
 		if(currPos < 0){
 			CommandTools.showToast("请选择一条数据");
 			return;
+		}
+
+		if(MainMenuActivity.mBillInfo != null){
+			MainMenuActivity.mBillInfo.setDestSiteGcode(sortList.get(currPos).getSiteGcode());
+			MainMenuActivity.mBillInfo.setDestSiteName(sortList.get(currPos).getSiteName());
 		}
 
 		Intent intent = new Intent();

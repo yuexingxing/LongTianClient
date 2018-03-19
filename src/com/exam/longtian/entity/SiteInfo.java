@@ -44,6 +44,8 @@ public class SiteInfo {
 	private String name;
 	private boolean flag;
 	
+	private String pinYin;//∆¥“Ù
+	
 	public String getSiteGcode() {
 		return siteGcode;
 	}
@@ -283,5 +285,11 @@ public class SiteInfo {
 	}
 	public void setName(String name) {
 		this.name = name;
+	}
+	public String getPinYin() {
+		return pinYin;
+	}
+	public void setPinYin(String pinYin) {
+		this.pinYin = pinYin;
 	}
 }

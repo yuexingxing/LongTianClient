@@ -268,6 +268,60 @@ public class OkHttpUtil {
 			}
 		});
 	}
+	
+	/**
+	 * 
+	 * @param url
+	 * @param jsonObject
+	 * @param callback
+	 */
+	public static void checkUpdate(Context context, String url, final ObjectCallback callback){
+
+		Request request = new okhttp3.Request.Builder()
+		.url(url)
+		.addHeader("accept", "application/json")
+		.addHeader("Authorization", "Bearer " + MyApplication.mToken)
+		.addHeader("Content-Type", "application/json")
+		.build();
+
+		Log.i("post-data", url);
+		mHandler.sendEmptyMessage(0x0011);
+		MyApplication.mOkHttpClient.newCall(request).enqueue(new Callback() {
+
+			@Override
+			public void onFailure(Call call, IOException e) {
+				mHandler.sendEmptyMessage(0x0012);
+				Log.e("zd", "testHttpPost ... onFailure() e=" + e);
+			}
+			
+			@Override
+			public void onResponse(Call arg0, Response arg1) throws IOException {
+				// TODO Auto-generated method stub
+				mHandler.sendEmptyMessage(0x0012);
+				String result = arg1.body().string();
+				Log.e("post-data", result);
+
+				try {
+
+					JSONObject jsonObject = new JSONObject(result);
+
+					CallBackData callBackData = new CallBackData();
+					callBackData.setSuccess(true);
+					callBackData.setCode("0");
+					callBackData.setData(jsonObject);
+					callBackData.setMessage("");
+					callBackData.setCallback(callback);
+
+					Message msg = new Message();
+					msg.what = 0x10001;
+					msg.obj = callBackData;
+					mHandler.sendMessage(msg);
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
 
 	public static Handler mHandler = new Handler(){
 

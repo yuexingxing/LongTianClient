@@ -7,6 +7,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginRight="2dp"
         android:orientation="vertical" >
 
         <LinearLayout
@@ -16,9 +17,19 @@
             android:orientation="horizontal" >
 
             <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="2dp"
+                android:gravity="center"
+                android:text="*"
+                android:textColor="@color/red"
+                android:textSize="13sp" />
+
+            <TextView
                 android:layout_width="80dp"
                 android:layout_height="match_parent"
-                android:gravity="center"
+                android:gravity="center_vertical"
                 android:text="寄件网点:"
                 android:textSize="13sp" />
 
@@ -27,6 +38,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:background="@drawable/edit_text_grey"
                 android:focusable="false"
                 android:gravity="center|left"
                 android:paddingLeft="12dp"
@@ -41,9 +53,19 @@
             android:orientation="horizontal" >
 
             <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="2dp"
+                android:gravity="center"
+                android:text="*"
+                android:textColor="@color/red"
+                android:textSize="13sp" />
+
+            <TextView
                 android:layout_width="80dp"
                 android:layout_height="match_parent"
-                android:gravity="center"
+                android:gravity="center_vertical"
                 android:text="运单编号:"
                 android:textSize="13sp" />
 
@@ -59,6 +81,20 @@
                 android:maxLength="14"
                 android:paddingLeft="12dp"
                 android:textSize="13sp" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:onClick="scan" >
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="3dp"
+                    android:layout_marginRight="3dp"
+                    android:src="@drawable/scan_camear" />
+            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
@@ -68,9 +104,19 @@
             android:orientation="horizontal" >
 
             <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="2dp"
+                android:gravity="center"
+                android:text="*"
+                android:textColor="@color/red"
+                android:textSize="13sp" />
+
+            <TextView
                 android:layout_width="80dp"
                 android:layout_height="match_parent"
-                android:gravity="center"
+                android:gravity="center_vertical"
                 android:text="派件网点:"
                 android:textSize="13sp" />
 
@@ -80,20 +126,19 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@drawable/edit_text_grey"
+                android:focusable="false"
                 android:gravity="center|left"
                 android:paddingLeft="12dp"
                 android:text=""
-                android:focusable="false"
                 android:textSize="13sp" />
 
             <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="3dp"
+                android:layout_width="80dp"
+                android:layout_height="35dp"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
-                android:layout_marginTop="3dp"
-                android:background="@drawable/shape_color_main_button"
+                android:background="@drawable/selector_btn_button"
+                android:gravity="center"
                 android:onClick="deliverySite"
                 android:text="..." />
         </LinearLayout>
@@ -105,9 +150,19 @@
             android:orientation="horizontal" >
 
             <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="2dp"
+                android:gravity="center"
+                android:text="*"
+                android:textColor="@color/red"
+                android:textSize="13sp" />
+
+            <TextView
                 android:layout_width="80dp"
                 android:layout_height="match_parent"
-                android:gravity="center"
+                android:gravity="center_vertical"
                 android:text="收件地址:"
                 android:textSize="13sp" />
 
@@ -130,9 +185,19 @@
             android:orientation="horizontal" >
 
             <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="2dp"
+                android:gravity="center"
+                android:text="*"
+                android:textColor="@color/red"
+                android:textSize="13sp" />
+
+            <TextView
                 android:layout_width="80dp"
                 android:layout_height="match_parent"
-                android:gravity="center"
+                android:gravity="center_vertical"
                 android:text="收件电话:"
                 android:textSize="13sp" />
 
@@ -142,16 +207,28 @@
                 android:layout_height="match_parent"
                 android:layout_weight="2"
                 android:background="@drawable/edit_text_grey"
+                android:digits="@string/phone"
                 android:gravity="center|left"
+                android:inputType="number"
+                android:maxLength="15"
                 android:paddingLeft="12dp"
                 android:text=""
-                android:inputType="number"
+                android:textSize="13sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="2dp"
+                android:gravity="center"
+                android:text="*"
+                android:textColor="@color/red"
                 android:textSize="13sp" />
 
             <TextView
                 android:layout_width="60dp"
                 android:layout_height="match_parent"
-                android:gravity="center"
+                android:gravity="center_vertical"
                 android:text="收件人:"
                 android:textSize="13sp" />
 
@@ -174,9 +251,20 @@
             android:orientation="horizontal" >
 
             <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="2dp"
+                android:gravity="center"
+                android:text="*"
+                android:textColor="@color/red"
+                android:textSize="13sp"
+                android:visibility="invisible" />
+
+            <TextView
                 android:layout_width="80dp"
                 android:layout_height="match_parent"
-                android:gravity="center"
+                android:gravity="center_vertical"
                 android:text="收件客户:"
                 android:textSize="13sp" />
 
@@ -186,22 +274,19 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@drawable/edit_text_grey"
+                android:focusable="false"
                 android:gravity="center|left"
                 android:paddingLeft="12dp"
                 android:text=""
-                android:focusable="false"
                 android:textSize="13sp" />
 
             <Button
-                android:id="@+id/button1"
-                style="?android:attr/buttonStyleSmall"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="3dp"
+                android:layout_width="80dp"
+                android:layout_height="35dp"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
                 android:layout_marginTop="3dp"
-                android:background="@drawable/shape_color_main_button"
+                android:background="@drawable/selector_btn_button"
                 android:onClick="recCustomer"
                 android:text="..." />
         </LinearLayout>
@@ -213,9 +298,20 @@
             android:orientation="horizontal" >
 
             <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="2dp"
+                android:gravity="center"
+                android:text="*"
+                android:textColor="@color/red"
+                android:textSize="13sp"
+                android:visibility="invisible" />
+
+            <TextView
                 android:layout_width="80dp"
                 android:layout_height="match_parent"
-                android:gravity="center"
+                android:gravity="center_vertical"
                 android:text="收件公司:"
                 android:textSize="13sp" />
 
@@ -245,8 +341,10 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@drawable/selector_btn_button"
+                android:clickable="false"
                 android:onClick="prePage"
                 android:text="上一页"
+                android:textColor="@color/text_gray"
                 android:textSize="13sp" />
 
             <Button
@@ -258,16 +356,18 @@
                 android:background="@drawable/selector_btn_button"
                 android:onClick="nextPage"
                 android:text="下一页"
+                android:textColor="@color/text_black"
                 android:textSize="13sp" />
 
             <Button
-                style="?android:attr/buttonStyleSmall"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@drawable/selector_btn_button"
+                android:clickable="false"
                 android:onClick="submit"
                 android:text="提交"
+                android:textColor="@color/text_gray"
                 android:textSize="13sp" />
         </LinearLayout>
     </LinearLayout>

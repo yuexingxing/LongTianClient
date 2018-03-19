@@ -1,10 +1,7 @@
 package com.exam.longtian.presenter;
 
 import org.json.JSONObject;
-
 import android.content.Context;
-import android.util.Log;
-
 import com.exam.longtian.MyApplication;
 import com.exam.longtian.entity.User;
 import com.exam.longtian.util.API;

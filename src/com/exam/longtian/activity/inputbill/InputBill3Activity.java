@@ -5,10 +5,14 @@ import org.json.JSONObject;
 import com.exam.longtian.MyApplication;
 import com.exam.longtian.R;
 import com.exam.longtian.activity.BaseActivity;
+import com.exam.longtian.activity.MainMenuActivity;
 import com.exam.longtian.entity.BillInfo;
+import com.exam.longtian.printer.bluetooth.PrintUtil;
 import com.exam.longtian.util.API;
 import com.exam.longtian.util.CommandTools;
+import com.exam.longtian.util.CommandTools.CommandToolsCallback;
 import com.exam.longtian.util.OkHttpUtil;
+import com.exam.longtian.util.RegularUtil;
 import com.exam.longtian.util.OkHttpUtil.ObjectCallback;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -41,16 +45,21 @@ public class InputBill3Activity extends BaseActivity {
 	private Gson gson;
 	private GsonBuilder builder;
 
+	private BillInfo mBillInfo;
+
 	@Override
 	protected void onBaseCreate(Bundle savedInstanceState) {
 		setContentViewId(R.layout.activity_input_bill3);
 		ViewUtils.inject(this);
+
+		mBillInfo = MainMenuActivity.mBillInfo;
 	}
 
 	@Override
 	public void initView() {
 		// TODO Auto-generated method stub
 		setTitle("录单三");
+		setRightTitle("打印");
 
 		//这两句代码必须的，为的是初始化出来gson这个对象，才能拿来用
 		builder = new GsonBuilder();
@@ -63,19 +72,26 @@ public class InputBill3Activity extends BaseActivity {
 
 	}
 
+	public void onResume(){
+		super.onResume();
+
+		edtPhone.setText(mBillInfo.getSenderPhone());
+		edtName.setText(mBillInfo.getSenderName());
+		edtPassenger.setText(mBillInfo.getSenderCustName());
+		edtCompany.setText(mBillInfo.getSenderCompanyName());
+		edtAddress.setText(mBillInfo.getSenderAddress());
+		edtRemark.setText(mBillInfo.getRemark());
+	}
+
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
 		if(requestCode == 0x0001 && resultCode == RESULT_OK) {
+
 			edtPassenger.setText(data.getStringExtra("customer"));
-
-			InputBillActivity.mBillInfo.setSenderCustName(data.getStringExtra("customer"));
-			InputBillActivity.mBillInfo.setSenderCustGcode(data.getStringExtra("code"));
-
 		}else if(requestCode == 0x0002 && resultCode == RESULT_OK){
 
 		}
 	}
-
 
 	/**
 	 * 寄件客户
@@ -83,7 +99,10 @@ public class InputBill3Activity extends BaseActivity {
 	 */
 	public void postPassenger(View v){
 
+		saveCurrentData();
+
 		Intent intent = new Intent(this, CustomerListActivity.class);
+		intent.putExtra("type", 3);
 		startActivityForResult(intent, 0x0001);
 	}
 
@@ -92,6 +111,8 @@ public class InputBill3Activity extends BaseActivity {
 	 * @param v
 	 */
 	public void prePage(View v){
+
+		saveCurrentData();
 		finish();
 	}
 
@@ -103,28 +124,46 @@ public class InputBill3Activity extends BaseActivity {
 
 	}
 
+	public boolean checkData(){
+
+		if(TextUtils.isEmpty(mBillInfo.getSenderPhone())){
+			CommandTools.showToast("请输入寄件人电话");
+			return false;
+		}
+
+		if(!RegularUtil.checkPhone(mBillInfo.getSenderPhone())){
+			CommandTools.showToast("寄件电话格式不正确");
+			return false;
+		}
+
+		if(TextUtils.isEmpty(mBillInfo.getSenderName())){
+			CommandTools.showToast("请输入寄件人");
+			return false;
+		}
+
+		if(TextUtils.isEmpty(mBillInfo.getSenderAddress())){
+			CommandTools.showToast("请输入寄件地址");
+			return false;
+		}
+
+		return true;
+	}
+
 	/**
 	 * 提交
 	 * @param v
 	 */
 	public void submit(View v){
 
-		BillInfo mBillInfo = InputBillActivity.mBillInfo;
+		saveCurrentData();
 
-		mBillInfo.setSenderName(edtName.getText().toString());
-		mBillInfo.setSenderPhone(edtPhone.getText().toString());
-		mBillInfo.setSenderAddress(edtAddress.getText().toString());
-
-		mBillInfo.setRemark(edtRemark.getText().toString());
-		
-		if(TextUtils.isEmpty(mBillInfo.getSenderCustGcode())){
-			CommandTools.showToast("请选择寄件人");
+		if(!checkData()){
 			return;
 		}
 
 		JSONObject jsonObject = null;
 		try {
-			jsonObject = new JSONObject(gson.toJson(InputBillActivity.mBillInfo, BillInfo.class));
+			jsonObject = new JSONObject(gson.toJson(MainMenuActivity.mBillInfo, BillInfo.class));
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
@@ -139,10 +178,67 @@ public class InputBill3Activity extends BaseActivity {
 				msg.what = 0x0011;
 				msg.obj = message;
 				MyApplication.getEventBus().post(msg);
+
 				if(success){
-					finish();
+					
+					CommandTools.showChooseDialog(InputBill3Activity.this, "确定打印标签吗？", new CommandToolsCallback() {
+						
+						@Override
+						public void callback(int position) {
+							
+							if(position == 0){
+								
+								PrintUtil.printLabel(mBillInfo);
+							}
+							
+							Intent intent = new Intent();
+							setResult(RESULT_OK, intent);
+							finish();
+						}
+					});
+				
 				}
 			}
 		});
+	}
+
+	/**
+	 * 保存当前界面数据
+	 */
+	public void saveCurrentData(){
+
+		mBillInfo.setSenderName(edtName.getText().toString());
+		mBillInfo.setSenderPhone(edtPhone.getText().toString());
+		mBillInfo.setSenderAddress(edtAddress.getText().toString());
+		mBillInfo.setSenderCompanyName(edtCompany.getText().toString());
+
+		mBillInfo.setRemark(edtRemark.getText().toString());
+	}
+
+	/*
+	 * 打印当前录入数据
+	 * (non-Javadoc)
+	 * @see com.exam.longtian.activity.BaseActivity#clickRight(android.view.View)
+	 */
+	public void clickRight(View v){
+
+		saveCurrentData();
+
+		if(!checkData()){
+			return;
+		}
+
+		CommandTools.showChooseDialog(InputBill3Activity.this, "确定打印该数据吗？", new CommandToolsCallback() {
+
+			@Override
+			public void callback(int position) {
+				// TODO Auto-generated method stub
+				if(position == 0){
+
+					PrintUtil.printLabel(mBillInfo);
+				}
+			}
+		});
+
 	}
 }

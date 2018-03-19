@@ -7,6 +7,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginRight="2dp"
         android:orientation="vertical" >
 
         <LinearLayout
@@ -16,9 +17,19 @@
             android:orientation="horizontal" >
 
             <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="2dp"
+                android:gravity="center"
+                android:text="*"
+                android:textColor="@color/red"
+                android:textSize="13sp" />
+
+            <TextView
                 android:layout_width="80dp"
                 android:layout_height="match_parent"
-                android:gravity="center"
+                android:gravity="center_vertical"
                 android:text="寄件电话:"
                 android:textSize="13sp" />
 
@@ -28,8 +39,10 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@drawable/edit_text_grey"
+                android:digits="@string/phone"
                 android:gravity="center|left"
                 android:inputType="number"
+                android:maxLength="15"
                 android:paddingLeft="12dp"
                 android:text=""
                 android:textSize="13sp" />
@@ -42,9 +55,19 @@
             android:orientation="horizontal" >
 
             <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="2dp"
+                android:gravity="center"
+                android:text="*"
+                android:textColor="@color/red"
+                android:textSize="13sp" />
+
+            <TextView
                 android:layout_width="80dp"
                 android:layout_height="match_parent"
-                android:gravity="center"
+                android:gravity="center_vertical"
                 android:text="寄件人:"
                 android:textSize="13sp" />
 
@@ -67,9 +90,20 @@
             android:orientation="horizontal" >
 
             <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="2dp"
+                android:gravity="center"
+                android:text="*"
+                android:textColor="@color/red"
+                android:textSize="13sp"
+                android:visibility="invisible" />
+
+            <TextView
                 android:layout_width="80dp"
                 android:layout_height="match_parent"
-                android:gravity="center"
+                android:gravity="center_vertical"
                 android:text="寄件客户:"
                 android:textSize="13sp" />
 
@@ -104,9 +138,20 @@
             android:orientation="horizontal" >
 
             <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="2dp"
+                android:gravity="center"
+                android:text="*"
+                android:textColor="@color/red"
+                android:textSize="13sp"
+                android:visibility="invisible" />
+
+            <TextView
                 android:layout_width="80dp"
                 android:layout_height="match_parent"
-                android:gravity="center"
+                android:gravity="center_vertical"
                 android:text="寄件公司:"
                 android:textSize="13sp" />
 
@@ -129,9 +174,19 @@
             android:orientation="horizontal" >
 
             <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="2dp"
+                android:gravity="center"
+                android:text="*"
+                android:textColor="@color/red"
+                android:textSize="13sp" />
+
+            <TextView
                 android:layout_width="80dp"
                 android:layout_height="match_parent"
-                android:gravity="center"
+                android:gravity="center_vertical"
                 android:text="寄件地址:"
                 android:textSize="13sp" />
 
@@ -154,9 +209,20 @@
             android:orientation="horizontal" >
 
             <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="2dp"
+                android:gravity="center"
+                android:text="*"
+                android:textColor="@color/red"
+                android:textSize="13sp"
+                android:visibility="invisible" />
+
+            <TextView
                 android:layout_width="80dp"
                 android:layout_height="match_parent"
-                android:gravity="center"
+                android:gravity="center_vertical"
                 android:text="录单备注:"
                 android:textSize="13sp" />
 
@@ -199,6 +265,7 @@
                 android:background="@drawable/selector_btn_button"
                 android:onClick="nextPage"
                 android:text="下一页"
+                android:textColor="@color/grey"
                 android:textSize="13sp" />
 
             <Button

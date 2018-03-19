@@ -43,6 +43,12 @@ public abstract class BaseActivity extends Activity {
 		initView();
 		initData();
 	}
+	
+	@Override
+	protected void onResume(){
+		super.onResume();
+		
+	}
 
 	private void findViewById() {
 

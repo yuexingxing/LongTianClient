@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import com.exam.longtian.R;
 import com.exam.longtian.activity.BaseActivity;
+import com.exam.longtian.activity.MainMenuActivity;
 import com.exam.longtian.adapter.CommonAdapter;
 import com.exam.longtian.adapter.ViewHolder;
 import com.exam.longtian.entity.CustomInfo;
@@ -41,6 +42,7 @@ public class CustomerListActivity extends BaseActivity {
 	List<CustomInfo> sortList = new ArrayList<CustomInfo>();
 
 	private int currPos = -1;//当前选择的位置
+	private int type = 1;
 
 	@Override
 	protected void onBaseCreate(Bundle savedInstanceState) {
@@ -115,7 +117,9 @@ public class CustomerListActivity extends BaseActivity {
 	public void initData() {
 		// TODO Auto-generated method stub
 
-		PCustom.customer_list(this, new ObjectCallback() {
+		type = getIntent().getIntExtra("type", 1);
+
+		PCustom.customer_list(this,  new ObjectCallback() {
 
 			@Override
 			public void callback(boolean success, String message, String code, Object data) {
@@ -144,6 +148,18 @@ public class CustomerListActivity extends BaseActivity {
 		}
 
 		CustomInfo info = sortList.get(currPos);
+
+		if(MainMenuActivity.mBillInfo != null){
+
+			if(type == 1){
+				MainMenuActivity.mBillInfo.setRecipientsCustName(info.getCustName());
+				MainMenuActivity.mBillInfo.setRecipientsCustGcode(info.getCustGcode());
+			}else {
+				MainMenuActivity.mBillInfo.setSenderCustName(info.getCustName());
+				MainMenuActivity.mBillInfo.setSenderCustGcode(info.getCustGcode());
+			}
+
+		}
 
 		Intent intent = new Intent();
 		intent.putExtra("linkMan", info.getCustLinkman());

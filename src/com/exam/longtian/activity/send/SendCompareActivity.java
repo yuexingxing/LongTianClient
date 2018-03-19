@@ -65,11 +65,18 @@ public class SendCompareActivity extends BaseActivity {
 				helper.setText(R.id.item_layout_sendcompare_billcode, item.getBILL_CODE());
 				helper.setText(R.id.item_layout_sendcompare_num1, item.getSCAN_SUB_COUNT() + "");
 				helper.setText(R.id.item_layout_sendcompare_num2, item.getUNSAN_SUB_COUNT() + "");
+				helper.setText(R.id.item_layout_sendcompare_backbillcode, item.getRECEIPT_CODE());
+
+				if(item.getBE_SCAN() == 0){
+					helper.setText(R.id.item_layout_sendcompare_flag, "否");
+				}else{
+					helper.setText(R.id.item_layout_sendcompare_flag, "是");
+				}
 
 				if(item.getRECEIPT_SCAN() == 0){
-					helper.setText(R.id.item_layout_sendcompare_backbillcode, "否");
+					helper.setText(R.id.item_layout_sendcompare_flag2, "否");
 				}else{
-					helper.setText(R.id.item_layout_sendcompare_backbillcode, "是");
+					helper.setText(R.id.item_layout_sendcompare_flag2, "是");
 				}
 			}
 		};
@@ -99,10 +106,26 @@ public class SendCompareActivity extends BaseActivity {
 	}
 
 	/**
+	 * 继续
+	 * @param v
+	 */
+	public void continu(View v){
+
+		Intent intent = new Intent();
+		intent.putExtra("continu", "1");
+		setResult(RESULT_OK, intent);
+		finish();
+	}
+
+	/**
 	 * 结束
 	 * @param v
 	 */
 	public void back(View v){
+
+		Intent intent = new Intent();
+		intent.putExtra("continu", "0");
+		setResult(RESULT_OK, intent);
 		finish();
 	}
 }

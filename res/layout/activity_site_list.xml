@@ -15,7 +15,7 @@
             android:layout_height="match_parent"
             android:gravity="center"
             android:text="网点:"
-            android:textSize="13sp" />
+            android:textSize="12sp" />
 
         <EditText
             android:id="@+id/sitelist_search"
@@ -26,8 +26,9 @@
             android:background="@drawable/edit_text_grey"
             android:gravity="center|left"
             android:paddingLeft="12dp"
+            android:singleLine="true"
             android:text=""
-            android:textSize="13sp" />
+            android:textSize="12sp" />
     </LinearLayout>
 
     <LinearLayout
@@ -60,7 +61,7 @@
             android:background="@drawable/selector_btn_button"
             android:onClick="submit"
             android:text="选中"
-            android:textSize="13sp" />
+            android:textSize="12sp" />
 
         <Button
             android:layout_width="0dp"
@@ -70,7 +71,7 @@
             android:background="@drawable/selector_btn_button"
             android:onClick="back"
             android:text="关闭"
-            android:textSize="13sp" />
+            android:textSize="12sp" />
     </LinearLayout>
 
 </LinearLayout>

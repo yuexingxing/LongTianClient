@@ -7,6 +7,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginRight="2dp"
         android:orientation="vertical" >
 
         <LinearLayout
@@ -16,9 +17,19 @@
             android:orientation="horizontal" >
 
             <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="2dp"
+                android:gravity="center"
+                android:text="*"
+                android:textColor="@color/red"
+                android:textSize="13sp" />
+
+            <TextView
                 android:layout_width="80dp"
                 android:layout_height="match_parent"
-                android:gravity="center"
+                android:gravity="center_vertical"
                 android:text="服务方式:"
                 android:textSize="13sp" />
 
@@ -43,9 +54,19 @@
             android:orientation="horizontal" >
 
             <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="2dp"
+                android:gravity="center"
+                android:text="*"
+                android:textColor="@color/red"
+                android:textSize="13sp" />
+
+            <TextView
                 android:layout_width="80dp"
                 android:layout_height="match_parent"
-                android:gravity="center"
+                android:gravity="center_vertical"
                 android:text="物品类别:"
                 android:textSize="13sp" />
 
@@ -70,9 +91,19 @@
             android:orientation="horizontal" >
 
             <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="2dp"
+                android:gravity="center"
+                android:text="*"
+                android:textColor="@color/red"
+                android:textSize="13sp" />
+
+            <TextView
                 android:layout_width="80dp"
                 android:layout_height="match_parent"
-                android:gravity="center"
+                android:gravity="center_vertical"
                 android:text="件数:"
                 android:textSize="13sp" />
 
@@ -108,9 +139,19 @@
             android:orientation="horizontal" >
 
             <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="2dp"
+                android:gravity="center"
+                android:text="*"
+                android:textColor="@color/red"
+                android:textSize="13sp" />
+
+            <TextView
                 android:layout_width="80dp"
                 android:layout_height="match_parent"
-                android:gravity="center"
+                android:gravity="center_vertical"
                 android:text="总重量:"
                 android:textSize="13sp" />
 
@@ -127,9 +168,19 @@
                 android:textSize="13sp" />
 
             <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="2dp"
+                android:gravity="center_vertical"
+                android:text="*"
+                android:textColor="@color/red"
+                android:textSize="13sp" />
+
+            <TextView
                 android:layout_width="60dp"
                 android:layout_height="match_parent"
-                android:gravity="center"
+                android:gravity="center_vertical"
                 android:text="总体积:"
                 android:textSize="13sp" />
 
@@ -140,7 +191,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/edit_text_grey"
                 android:gravity="center|left"
-                android:inputType="number"
+                android:inputType="numberDecimal"
                 android:paddingLeft="12dp"
                 android:text=""
                 android:textSize="13sp" />
@@ -153,9 +204,19 @@
             android:orientation="horizontal" >
 
             <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="2dp"
+                android:gravity="center"
+                android:text="*"
+                android:textColor="@color/red"
+                android:textSize="13sp" />
+
+            <TextView
                 android:layout_width="80dp"
                 android:layout_height="match_parent"
-                android:gravity="center"
+                android:gravity="center_vertical"
                 android:text="运费:"
                 android:textSize="13sp" />
 
@@ -163,7 +224,7 @@
                 android:id="@+id/input_bill2_fee"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="2"
+                android:layout_weight="1"
                 android:background="@drawable/edit_text_grey"
                 android:gravity="center|left"
                 android:inputType="number"
@@ -172,9 +233,20 @@
                 android:textSize="13sp" />
 
             <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="2dp"
+                android:gravity="center"
+                android:text="*"
+                android:textColor="@color/red"
+                android:textSize="13sp"
+                android:visibility="invisible" />
+
+            <TextView
                 android:layout_width="60dp"
                 android:layout_height="match_parent"
-                android:gravity="center"
+                android:gravity="center_vertical"
                 android:text="代收货款:"
                 android:textSize="13sp" />
 
@@ -198,9 +270,19 @@
             android:orientation="horizontal" >
 
             <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="2dp"
+                android:gravity="center"
+                android:text="*"
+                android:textColor="@color/red"
+                android:textSize="13sp" />
+
+            <TextView
                 android:layout_width="80dp"
                 android:layout_height="match_parent"
-                android:gravity="center"
+                android:gravity="center_vertical"
                 android:text="支付方式:"
                 android:textSize="13sp" />
 
@@ -234,8 +316,8 @@
                     android:id="@+id/input_bill2_check1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="是否进仓"
                     android:checked="true"
+                    android:text="是否进仓"
                     android:textSize="13sp" />
             </LinearLayout>
 
@@ -258,7 +340,10 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:background="@drawable/edit_text_grey"
+                    android:focusable="false"
                     android:gravity="center|left"
+                    android:inputType="number"
+                    android:maxLength="10"
                     android:paddingLeft="12dp"
                     android:text=""
                     android:textSize="13sp" />
@@ -279,7 +364,7 @@
                 android:textSize="13sp" />
 
             <EditText
-                android:id="@+id/input_bill2_baojia_fee"
+                android:id="@+id/input_bill2_fee3"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -307,6 +392,7 @@
                 android:background="@drawable/selector_btn_button"
                 android:onClick="prePage"
                 android:text="上一页"
+                android:textColor="@color/text_black"
                 android:textSize="13sp" />
 
             <Button
@@ -318,6 +404,7 @@
                 android:background="@drawable/selector_btn_button"
                 android:onClick="nextPage"
                 android:text="下一页"
+                android:textColor="@color/text_black"
                 android:textSize="13sp" />
 
             <Button
@@ -327,6 +414,7 @@
                 android:background="@drawable/selector_btn_button"
                 android:onClick="submit"
                 android:text="提交"
+                android:textColor="@color/text_gray"
                 android:textSize="13sp" />
         </LinearLayout>
     </LinearLayout>

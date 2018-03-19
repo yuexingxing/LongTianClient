@@ -21,9 +21,19 @@
                 android:orientation="horizontal" >
 
                 <TextView
-                    android:layout_width="80dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="2dp"
                     android:gravity="center"
+                    android:text="*"
+                    android:textColor="@color/red"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:layout_width="60dp"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
                     android:text="运单编号:"
                     android:textSize="12sp" />
 
@@ -31,7 +41,6 @@
                     android:id="@+id/sign_scan_billcode"
                     android:layout_width="0dp"
                     android:layout_height="35dp"
-                    android:layout_marginRight="8dp"
                     android:layout_weight="1"
                     android:background="@drawable/edit_text_grey"
                     android:gravity="center|left"
@@ -40,6 +49,20 @@
                     android:paddingLeft="12dp"
                     android:text=""
                     android:textSize="12sp" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:onClick="scan" >
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="3dp"
+                        android:layout_marginRight="3dp"
+                        android:src="@drawable/scan_camear" />
+                </LinearLayout>
             </LinearLayout>
 
             <LinearLayout
@@ -49,9 +72,20 @@
                 android:orientation="horizontal" >
 
                 <TextView
-                    android:layout_width="80dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="2dp"
                     android:gravity="center"
+                    android:text="*"
+                    android:textColor="@color/red"
+                    android:textSize="13sp"
+                    android:visibility="invisible" />
+
+                <TextView
+                    android:layout_width="60dp"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
                     android:text="派件员:"
                     android:textSize="12sp" />
 
@@ -62,6 +96,7 @@
                     android:layout_marginRight="8dp"
                     android:layout_weight="1"
                     android:background="@drawable/edit_text_grey"
+                    android:focusable="false"
                     android:gravity="center|left"
                     android:paddingLeft="12dp"
                     android:text=""
@@ -75,9 +110,19 @@
                 android:orientation="horizontal" >
 
                 <TextView
-                    android:layout_width="80dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="2dp"
                     android:gravity="center"
+                    android:text="*"
+                    android:textColor="@color/red"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:layout_width="60dp"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
                     android:text="签收人:"
                     android:textSize="12sp" />
 
@@ -101,9 +146,20 @@
                 android:orientation="horizontal" >
 
                 <TextView
-                    android:layout_width="80dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="2dp"
                     android:gravity="center"
+                    android:text="*"
+                    android:textColor="@color/red"
+                    android:textSize="13sp"
+                    android:visibility="invisible" />
+
+                <TextView
+                    android:layout_width="60dp"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
                     android:text="备注:"
                     android:textSize="12sp" />
 
@@ -188,19 +244,9 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="30dp"
                 android:gravity="center_vertical"
                 android:orientation="vertical" >
-
-                <Button
-                    android:layout_width="match_parent"
-                    android:layout_height="35dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    android:background="@drawable/selector_btn_button"
-                    android:onClick="uploadImg"
-                    android:text="上传图片"
-                    android:textSize="12sp" />
 
                 <Button
                     android:layout_width="match_parent"

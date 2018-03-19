@@ -22,13 +22,28 @@
             android:id="@+id/child_bill_billcode"
             android:layout_width="0dp"
             android:layout_height="35dp"
-            android:layout_marginRight="8dp"
             android:layout_weight="1"
             android:background="@drawable/edit_text_grey"
             android:gravity="center|left"
-            android:hint="请输入14位单号"
+            android:hint="请输入单号"
+            android:inputType="number"
+            android:maxLength="18"
             android:paddingLeft="12dp"
-            android:textSize="13sp" />
+            android:textSize="12sp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:onClick="scan" >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="3dp"
+                android:layout_marginRight="3dp"
+                android:src="@drawable/scan_camear" />
+        </LinearLayout>
 
         <CheckBox
             android:id="@+id/child_bill_checkbox"
@@ -59,12 +74,12 @@
             android:layout_height="35dp"
             android:layout_marginLeft="12dp"
             android:layout_marginRight="8dp"
-            android:layout_weight="0"
+            android:layout_weight="1"
             android:background="@drawable/shape_order_sort_gray"
             android:focusable="false"
             android:gravity="center"
             android:paddingLeft="12dp"
-            android:text="1"
+            android:text="0"
             android:textSize="13sp" />
 
         <TextView
@@ -80,12 +95,12 @@
             android:layout_height="35dp"
             android:layout_marginLeft="12dp"
             android:layout_marginRight="8dp"
-            android:layout_weight="0"
+            android:layout_weight="1"
             android:background="@drawable/shape_order_sort_gray"
             android:focusable="false"
             android:gravity="center"
             android:paddingLeft="12dp"
-            android:text="1"
+            android:text="0"
             android:textSize="13sp" />
     </LinearLayout>
 

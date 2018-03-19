@@ -2,10 +2,13 @@ package com.exam.longtian.activity.query;
 
 import com.exam.longtian.R;
 import com.exam.longtian.activity.BaseActivity;
+import com.exam.longtian.camera.CaptureActivity;
 import com.exam.longtian.entity.BillInfo;
 import com.exam.longtian.presenter.PresenterQuery;
 import com.exam.longtian.util.CommandTools;
+import com.exam.longtian.util.Constant;
 import com.exam.longtian.util.OkHttpUtil.ObjectCallback;
+import com.exam.longtian.util.RegularUtil;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 
@@ -27,8 +30,8 @@ import android.widget.TextView;
 public class OrderDetailActivity extends BaseActivity {
 
 	@ViewInject(R.id.order_detail_billcode) EditText edtBillcode;
-
 	@ViewInject(R.id.order_detail_tv_billcode) TextView tvBillcode;
+	private String waybillCode;
 
 	@Override
 	protected void onBaseCreate(Bundle savedInstanceState) {
@@ -41,6 +44,8 @@ public class OrderDetailActivity extends BaseActivity {
 	public void initView() {
 		// TODO Auto-generated method stub
 		setTitle("运单详情");
+		setRightTitle("打印");
+
 	}
 
 	@Override
@@ -49,19 +54,55 @@ public class OrderDetailActivity extends BaseActivity {
 
 	}
 
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+		if (requestCode == Constant.CAPTURE_BILLCODE && resultCode == RESULT_OK) {
+
+			Bundle bundle = data.getExtras();
+			String strBillcode = bundle.getString("result");
+			edtBillcode.setText(strBillcode);
+		}
+	}
+
+	public void scan(View v){
+
+		Intent openCameraIntent = new Intent(this, CaptureActivity.class);
+		startActivityForResult(openCameraIntent, Constant.CAPTURE_BILLCODE);
+	}
+
+	/* 
+	 * 打印
+	 * (non-Javadoc)
+	 * @see com.exam.longtian.activity.BaseActivity#clickRight(android.view.View)
+	 */
+	public void clickRight(View v){
+
+		
+	}
+
 	public void submit(View v){
 
-		String billcode = edtBillcode.getText().toString();
-		if(TextUtils.isEmpty(billcode)){
+		waybillCode = edtBillcode.getText().toString();
+		if(TextUtils.isEmpty(waybillCode)){
 			CommandTools.showToast("请输入运单号");
 			return;
 		}
 
-		PresenterQuery.waybill_detail(this, billcode, new ObjectCallback() {
+		if(!RegularUtil.checkBill(waybillCode)){
+			CommandTools.showToast("运单号不符合规则");
+			return;
+		}
+
+		clearData();
+		PresenterQuery.waybill_detail(this, waybillCode, new ObjectCallback() {
 
 			@Override
 			public void callback(boolean success, String message, String code, Object data) {
 				// TODO Auto-generated method stub
+
+				if(data == null){
+					return;
+				}
 
 				BillInfo billInfo = (BillInfo) data;
 				((TextView)findViewById(R.id.order_detail_tv_billcode)).setText(billInfo.getBillCode());
@@ -72,6 +113,7 @@ public class OrderDetailActivity extends BaseActivity {
 				((TextView)findViewById(R.id.order_detail_send_customer)).setText(billInfo.getSenderCustName());
 				((TextView)findViewById(R.id.order_detail_send_company)).setText(billInfo.getSenderCompanyName());
 				((TextView)findViewById(R.id.order_detail_send_addr)).setText(billInfo.getSenderAddress());
+				((TextView)findViewById(R.id.order_detail_send_phone)).setText(billInfo.getSenderPhone());
 
 				((TextView)findViewById(R.id.order_detail_service_type)).setText(billInfo.getServicePatternName());
 				((TextView)findViewById(R.id.order_detail_goods_type)).setText(billInfo.getPackageKindName());
@@ -100,7 +142,46 @@ public class OrderDetailActivity extends BaseActivity {
 	 */
 	public void scanDetail(View v){
 
-		startActivity((new Intent(this, ScanRecordActivity.class)));
+		waybillCode = edtBillcode.getText().toString();
+		if(TextUtils.isEmpty(waybillCode)){
+			CommandTools.showToast("请输入运单号");
+			return;
+		}
+
+		Intent intent = new Intent(this, ScanRecordActivity.class);
+		intent.putExtra("waybillCode", waybillCode);
+		startActivity(intent);
+	}
+
+	public void clearData(){
+
+		((TextView)findViewById(R.id.order_detail_tv_billcode)).setText("");
+		((TextView)findViewById(R.id.order_detail_send_site)).setText("");
+		((TextView)findViewById(R.id.order_detail_deli_site)).setText("");
+		((TextView)findViewById(R.id.order_detail_send_man)).setText("");
+		((TextView)findViewById(R.id.order_detail_send_time)).setText("");
+		((TextView)findViewById(R.id.order_detail_send_customer)).setText("");
+		((TextView)findViewById(R.id.order_detail_send_company)).setText("");
+		((TextView)findViewById(R.id.order_detail_send_addr)).setText("");
+		((TextView)findViewById(R.id.order_detail_send_phone)).setText("");
+
+		((TextView)findViewById(R.id.order_detail_service_type)).setText("");
+		((TextView)findViewById(R.id.order_detail_goods_type)).setText("");
+		((TextView)findViewById(R.id.order_detail_piece_num)).setText("");
+		((TextView)findViewById(R.id.order_detail_fee1)).setText("");
+
+		((TextView)findViewById(R.id.order_detail_total_weight)).setText("");
+		((TextView)findViewById(R.id.order_detail_total_v3)).setText("");
+		((TextView)findViewById(R.id.order_detail_pay_type)).setText("");
+		((TextView)findViewById(R.id.order_detail_fee2)).setText("");
+
+		((TextView)findViewById(R.id.order_detail_rec_man)).setText("");
+		((TextView)findViewById(R.id.order_detail_rec_phone)).setText("");
+		((TextView)findViewById(R.id.order_detail_rec_customer)).setText("");
+		((TextView)findViewById(R.id.order_detail_rec_company)).setText("");
+		((TextView)findViewById(R.id.order_detail_rec_addr)).setText("");
+
+		((TextView)findViewById(R.id.order_detail_child_billcode)).setText("");
 	}
 
 }

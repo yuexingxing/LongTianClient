@@ -4,7 +4,7 @@ public class JoinBillInfo {
 
 	 private String handoverId;// "2017102801720001",
 	 private String siteGcode;// "S172",
-	 private String listType;// 0,
+	 private String listType;// 发件=1 到件=2
 	 private String oppositeSiteGcode;// "S101",
 	 private String handoverTime;// "2017-10-28 11:14:56",
 	 private String driverId;// null,

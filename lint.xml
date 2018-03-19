@@ -4,6 +4,8 @@
         <ignore path="src/com/exam/longtian/activity/inputbill/SiteListActivity.java" />
     </issue>
     <issue id="HandlerLeak">
+        <ignore path="src/com/exam/longtian/MyApplication.java" />
+        <ignore path="src/com/exam/longtian/activity/LoginActivity.java" />
         <ignore path="src/com/exam/longtian/activity/inputbill/SiteListActivity.java" />
     </issue>
     <issue id="NewApi">

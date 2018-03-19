@@ -8,17 +8,22 @@ import com.exam.longtian.activity.BaseActivity;
 import com.exam.longtian.activity.inputbill.SiteListActivity;
 import com.exam.longtian.adapter.CommonAdapter;
 import com.exam.longtian.adapter.ViewHolder;
+import com.exam.longtian.camera.CaptureActivity;
 import com.exam.longtian.entity.BillInfo;
-import com.exam.longtian.entity.JoinBillInfo;
-import com.exam.longtian.entity.SiteInfo;
+import com.exam.longtian.entity.ChildBillInfo;
 import com.exam.longtian.presenter.PresenterUtil;
 import com.exam.longtian.util.CommandTools;
+import com.exam.longtian.util.CommandTools.CommandToolsCallback;
+import com.exam.longtian.util.Constant;
+import com.exam.longtian.util.RegularUtil;
 import com.exam.longtian.util.OkHttpUtil.ObjectCallback;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -75,6 +80,35 @@ public class SendScanActivity extends BaseActivity {
 
 			}
 		});
+
+		
+		edtBillcode.addTextChangedListener(new TextWatcher() {
+			
+			@Override
+			public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
+				// TODO Auto-generated method stub
+				
+				String billcode = arg0.toString();
+				if(RegularUtil.checkAllBill(billcode)){
+					save(null);
+				}else{
+					edtBillcode.requestFocus();
+				}
+			}
+			
+			@Override
+			public void beforeTextChanged(CharSequence arg0, int arg1, int arg2,
+					int arg3) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void afterTextChanged(Editable arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 	}
 
 	@Override
@@ -82,32 +116,53 @@ public class SendScanActivity extends BaseActivity {
 
 		edtMan.setText(MyApplication.mUser.getEmpName());
 
-		PresenterUtil.waybillSub_unscanedSendWaybillSubList(this, new ObjectCallback() {
-
-			@Override
-			public void callback(boolean success, String message, String code, Object data) {
-				// TODO Auto-generated method stub
-
-				commonAdapter.notifyDataSetChanged();
-			}
-		});
 	}
 
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onActivityResult(int, int, android.content.Intent)
+	 */
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
 		if(requestCode == 0x0001 && resultCode == RESULT_OK) {
+
 			edtNextStop.setText(data.getStringExtra("name"));
 			siteGCode = data.getStringExtra("code");
+		}else if(requestCode == 0x1001 && resultCode == RESULT_OK){
+
+			String continu = data.getStringExtra("continu");
+			if(continu.equals("1")){
+
+			}else{
+
+				edtBillcode.setText("");
+				edtNextStop.setText("");
+				dataList.clear();
+				commonAdapter.notifyDataSetChanged();
+			}
+		}else if (requestCode == Constant.CAPTURE_BILLCODE && resultCode == RESULT_OK) {
+
+			Bundle bundle = data.getExtras();
+			String strBillcode = bundle.getString("result");
+			edtBillcode.setText(strBillcode);
+
+			save(null);
 		}
+	}
+
+	public void scan(View v){
+
+		Intent openCameraIntent = new Intent(SendScanActivity.this, CaptureActivity.class);
+		startActivityForResult(openCameraIntent, Constant.CAPTURE_BILLCODE);
 	}
 
 	/**
 	 * 下一站
-	 * @param v
+	 * @param v张三
 	 */
 	public void nextStop(View v){
 
 		Intent intent = new Intent(this, SiteListActivity.class);
+		intent.putExtra("order_type", PresenterUtil.ORDER_TYPE_SEND);
 		startActivityForResult(intent, 0x0001);
 	}
 
@@ -145,7 +200,7 @@ public class SendScanActivity extends BaseActivity {
 		intent.putExtra("siteGCode", siteGCode);
 		intent.putExtra("order_type", PresenterUtil.ORDER_TYPE_SEND);
 		intent.putExtra("siteName", edtNextStop.getText().toString());
-		startActivity(intent);
+		startActivityForResult(intent, 0x1001);
 	}
 
 	/**
@@ -154,33 +209,60 @@ public class SendScanActivity extends BaseActivity {
 	 */
 	public void query(View v){
 
-		startActivity((new Intent(this, SendQueryActivity.class)));
+		Intent intent = new Intent(this, SendQueryActivity.class);
+		intent.putExtra("order_type", PresenterUtil.ORDER_TYPE_SEND);
+		startActivity(intent);
 	}
 
+	public void checkSubBillData(String billcode){
+
+		PresenterUtil.waybillSub_unscanedSendWaybillSubList(this, PresenterUtil.ORDER_TYPE_SEND, MyApplication.mUser.getOwnSiteGcode(), billcode, new ObjectCallback() {
+
+			@Override
+			public void callback(boolean success, String message, String code, Object data) {
+				// TODO Auto-generated method stub
+
+				List<ChildBillInfo> list = (List<ChildBillInfo>) data;
+
+				int len = list.size();
+				for(int i=0; i<len ;i++){
+
+					ChildBillInfo childBillInfo = list.get(i);
+
+					BillInfo billInfo = new BillInfo();
+					billInfo.setBillCode(childBillInfo.getSubBillCode());
+					billInfo.setDestSiteGcode(siteGCode);
+
+					dataList.add(billInfo);
+				}
+
+				commonAdapter.notifyDataSetChanged();
+			}
+		});
+	}
+
+	/**
+	 * 保存
+	 * @param v
+	 */
 	public void save(View v){
 
 		String billcode = edtBillcode.getText().toString();
 		String nextStop = edtNextStop.getText().toString();
 
-		if(TextUtils.isEmpty(billcode) || billcode.length() != 14){
-			CommandTools.showToast("请输入14位运单号");
+		if(TextUtils.isEmpty(billcode)){
+			CommandTools.showToast("请输入单号");
+			return;
+		}
+
+		if(!RegularUtil.checkAllBill(billcode)){
+			CommandTools.showToast("单号不符合规则");
 			return;
 		}
 
 		if(checkBox.isChecked()){
 
-			int len = dataList.size();
-			for(int i=0; i<len; i++){
-
-				BillInfo billInfo2 = dataList.get(i);
-				if(billInfo2.getBillCode().equals(billcode)){
-
-					dataList.remove(i);
-					commonAdapter.notifyDataSetChanged();
-					edtBillcode.setText("");
-					break;
-				}
-			}
+			deleteData(billcode);
 		}else{
 
 			if(TextUtils.isEmpty(nextStop)){
@@ -190,14 +272,71 @@ public class SendScanActivity extends BaseActivity {
 
 			BillInfo billInfo = new BillInfo();
 			billInfo.setBillCode(billcode);
-			billInfo.setDestSiteGcode(nextStop);
+			billInfo.setDestSiteGcode(siteGCode);
 
-			dataList.add(billInfo);
-			commonAdapter.notifyDataSetChanged();
+			if(!checkExist(billcode)){
 
+				dataList.add(billInfo);
+				commonAdapter.notifyDataSetChanged();
+				CommandTools.showToast("保存成功");
+
+				//如果是主单，则需要调用接口查子单
+				if(RegularUtil.checkBill(billcode)){
+					checkSubBillData(billcode);
+				}
+
+			}else{
+				CommandTools.showToast("单号已存在");
+				return;
+			}
+
+			edtBillcode.requestFocus();
 			edtBillcode.setText("");
 		}
 
+	}
+
+	/**
+	 * 判断单号是否存在
+	 * @param billcode
+	 * @return
+	 */
+	public boolean checkExist(String billcode){
+
+		boolean flag = false;
+
+		int len = dataList.size();
+		for(int i=0; i<len; i++){
+
+			BillInfo billInfo2 = dataList.get(i);
+			if(billInfo2.getBillCode().equals(billcode)){
+				flag = true;
+				break;
+			}
+		}
+
+		return flag;
+	}
+
+	/**
+	 * 删除列表数据
+	 * @param billcode
+	 */
+	public void deleteData(String billcode){
+
+		int len = dataList.size();
+		for(int i=0; i<len; i++){
+
+			BillInfo billInfo2 = dataList.get(i);
+			if(billInfo2.getBillCode().equals(billcode)){
+
+				dataList.remove(i);
+				commonAdapter.notifyDataSetChanged();
+				edtBillcode.setText("");
+				CommandTools.showToast("删除成功");
+				break;
+			}
+		}
 	}
 
 	/**
@@ -206,7 +345,24 @@ public class SendScanActivity extends BaseActivity {
 	 */
 	public void clear(View v){
 
-		dataList.clear();
-		commonAdapter.notifyDataSetChanged();
+		if(dataList.size() == 0){
+			return;
+		}
+
+		CommandTools.showChooseDialog(this, "确定清除当前列表数据？", new CommandToolsCallback() {
+
+			@Override
+			public void callback(int position) {
+				// TODO Auto-generated method stub
+				if(position == 0){
+
+					dataList.clear();
+					commonAdapter.notifyDataSetChanged();
+					CommandTools.showToast("清除成功");
+				}
+			}
+		});
+
 	}
+
 }

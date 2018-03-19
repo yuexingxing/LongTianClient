@@ -3,6 +3,7 @@ package com.exam.longtian.util;
 public class API {
 
 	public static String URL = "http://218.94.60.50:8088/api/";
+	public static String URL_APP_UPDATE = "http://122.225.117.166:8085/LT_AppUpdate/checkNew?os=android&type=app&ver=1.0&tag=normal";
 	public static String site = "";
 
 	public static String page = "1";
@@ -18,11 +19,15 @@ public class API {
 
 	public static final String route_getRouteByParam = "route/getRouteByParam?";//获取routeId
 
-	public static final String waybill_getReWaybillList = "waybill/getReWaybillList";//收件列表查询
+	public static final String waybill_getDispWaybillCountBySelf = "waybill/getDispWaybillCountBySelf";//派件统计
 	public static final String waybill_getDispWaybillList = "waybill/getDispWaybillList";//派件列表查询
+	
+	public static final String waybill_getWaybillCountBySelf = "waybill/getWaybillCountBySelf";//收件统计
+	public static final String waybill_getReWaybillList = "waybill/getReWaybillList";//收件列表查询
 
 	public static final String waybill_detail = "waybill/";//获取运单明细 {billcode}
 	public static final String scan_getDispWaybillList = "scan/getDispWaybillList";//扫描记录
+	public static final String scan_getScanRecordByWaybill = "scan/getScanRecordByWaybill/";//扫描记录
 
 	public static final String waybillSub_scanedSendWaybillSubList = "waybillSub/scanedSendWaybillSubList";//发件扫描-已扫描子单
 	public static final String waybillSub_unscanedSendWaybillSubList = "waybillSub/unscanedSendWaybillSubList";//发件扫描-未扫描子单
@@ -38,6 +43,8 @@ public class API {
 
 	public static final String handover_comeScanBindHandover = "handover/comeScanBindHandover";//绑定交接单--到件
 	public static final String handover_sendScanBindHandover = "handover/sendScanBindHandover";//绑定交接单--发件
+	
+	public static final String handover_handoverListId = "/handover/";//根据handoverId获取交接单明细数据GET /handover/{handoverListId}
 
 	public static final String driver_list = "driver/list";//司机列表
 

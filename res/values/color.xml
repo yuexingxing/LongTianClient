@@ -42,5 +42,9 @@
     <color name="template_state_color">#ff0000</color>
     <color name="template_state_color2">#00cc00</color>
     <color name="update_btn">#28630d</color>
+    <color name="black90">#383431</color>
+    <color name="whitesmoke">#F5F5F5</color>
+    <color name="dimgray">#696969</color>
+ <!-- 暗灰色 -->
 
 </resources>
