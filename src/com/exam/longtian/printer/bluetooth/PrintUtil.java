@@ -4,7 +4,6 @@ import java.util.Vector;
 import android.os.RemoteException;
 import android.text.TextUtils;
 import android.util.Base64;
-import com.exam.longtian.activity.LoginActivity;
 import com.exam.longtian.activity.MainMenuActivity;
 import com.exam.longtian.entity.BillInfo;
 import com.exam.longtian.util.CommandTools;
@@ -28,7 +27,11 @@ import com.gprinter.command.LabelCommand.ROTATION;
  */
 public class PrintUtil {
 
-	public static void printLabel(BillInfo billInfo){
+	public static abstract class CallBack {
+		public abstract void callback(int pos);
+	}
+
+	public static void printLabel(BillInfo billInfo, final CallBack callBack){
 
 		if(billInfo == null){
 			return;
@@ -57,7 +60,7 @@ public class PrintUtil {
 		if(!TextUtils.isEmpty(billInfo.getSendDate())){
 			arrDate = billInfo.getSendDate().split(" ");
 		}
-		
+
 		tsc.addText(300, 100, LabelCommand.FONTTYPE.SIMPLIFIED_CHINESE, LabelCommand.ROTATION.ROTATION_0, LabelCommand.FONTMUL.MUL_1, LabelCommand.FONTMUL.MUL_1,
 				"发货日期  " + arrDate[0]);//发货日期
 
@@ -83,7 +86,7 @@ public class PrintUtil {
 		tsc.addText(110, 430, LabelCommand.FONTTYPE.SIMPLIFIED_CHINESE, LabelCommand.ROTATION.ROTATION_0, LabelCommand.FONTMUL.MUL_1, LabelCommand.FONTMUL.MUL_1,
 				billInfo.getTotalWeight() + " " + billInfo.getTotalVolume());
 		tsc.addText(280, 430, LabelCommand.FONTTYPE.SIMPLIFIED_CHINESE, LabelCommand.ROTATION.ROTATION_0, LabelCommand.FONTMUL.MUL_1, LabelCommand.FONTMUL.MUL_1,
-				billInfo.getSenderName());
+				billInfo.getRecipientsName());//收件人名称
 		tsc.addText(350, 440, LabelCommand.FONTTYPE.SIMPLIFIED_CHINESE, LabelCommand.ROTATION.ROTATION_0, LabelCommand.FONTMUL.MUL_2, LabelCommand.FONTMUL.MUL_2,
 				"1/10");
 
@@ -124,6 +127,13 @@ public class PrintUtil {
 			GpCom.ERROR_CODE r = GpCom.ERROR_CODE.values()[rel];
 			if (r != GpCom.ERROR_CODE.SUCCESS) {
 				CommandTools.showToast(GpCom.getErrorText(r));
+				if(callBack != null){
+					callBack.callback(-1);
+				}
+			}else{
+				if(callBack != null){
+					callBack.callback(0);
+				}
 			}
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block

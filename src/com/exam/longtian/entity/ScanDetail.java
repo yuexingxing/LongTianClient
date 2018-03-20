@@ -67,6 +67,7 @@ public class ScanDetail {
 	
 	private String signer  = "";//0签收人
 	private String signSiteName  = "";//签收网点
+	private boolean flag = false;//是否选择标记
 	
 	public String getBillCode() {
 		return billCode;
@@ -451,6 +452,12 @@ public class ScanDetail {
 	}
 	public void setSignSiteName(String signSiteName) {
 		this.signSiteName = signSiteName;
+	}
+	public boolean isFlag() {
+		return flag;
+	}
+	public void setFlag(boolean flag) {
+		this.flag = flag;
 	}
 
 }

@@ -37,11 +37,14 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 public class PrinterConnectDialog extends Activity {
+	
+	public final int MAX_PRINTER_CNT = 1;
+	
 	private final static String DEBUG_TAG = "SamleApp";
 	private static final int INTENT_PORT_SETTINGS = 0;
 	private ListViewAdapter mListViewAdapter = null;
 	private List<Map<String, Object>> mList = null;
-	private PortParameters mPortParam[] = new PortParameters[GpPrintService.MAX_PRINTER_CNT];
+	private PortParameters mPortParam[] = new PortParameters[MAX_PRINTER_CNT];
 	public static  int mPrinterId = 0;
 	private GpService mGpService;
 	private PrinterServiceConnection conn = null;
@@ -99,7 +102,7 @@ public class PrinterConnectDialog extends Activity {
 	private void initPortParam() {
 		Intent intent = getIntent();
 		boolean[] state = intent.getBooleanArrayExtra(MainMenuActivity.CONNECT_STATUS);
-		for (int i = 0; i < GpPrintService.MAX_PRINTER_CNT; i++) {
+		for (int i = 0; i < MAX_PRINTER_CNT; i++) {
 			PortParamDataBase database = new PortParamDataBase(this);
 			mPortParam[i] = new PortParameters();
 			mPortParam[i] = database.queryPortParamDataBase("" + i);
@@ -237,7 +240,7 @@ public class PrinterConnectDialog extends Activity {
 
 	void SetLinkButtonEnable(String s) {
 		Map<String, Object> map;
-		for (int i = 0; i < GpPrintService.MAX_PRINTER_CNT; i++) {
+		for (int i = 0; i < MAX_PRINTER_CNT; i++) {
 			map = mList.get(i);
 			map.put(ListViewAdapter.BT_ENABLE, s);
 			mList.set(i, map);
@@ -260,7 +263,7 @@ public class PrinterConnectDialog extends Activity {
 				R.drawable.ic_printer };
 		Map<String, Object> map;
 		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
-		for (int i = 0; i < GpPrintService.MAX_PRINTER_CNT; i++) {
+		for (int i = 0; i < MAX_PRINTER_CNT; i++) {
 			map = new HashMap<String, Object>();
 			map.put(ListViewAdapter.IMG, PrinterImage[i]);
 			map.put(ListViewAdapter.TITEL, getString(PrinterID[i]));

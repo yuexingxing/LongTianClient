@@ -8,6 +8,7 @@ import com.exam.longtian.activity.BaseActivity;
 import com.exam.longtian.activity.MainMenuActivity;
 import com.exam.longtian.entity.BillInfo;
 import com.exam.longtian.printer.bluetooth.PrintUtil;
+import com.exam.longtian.printer.bluetooth.PrintUtil.CallBack;
 import com.exam.longtian.util.API;
 import com.exam.longtian.util.CommandTools;
 import com.exam.longtian.util.CommandTools.CommandToolsCallback;
@@ -26,7 +27,9 @@ import android.view.View;
 import android.widget.EditText;
 
 /** 
- * 录单3
+ * 录单3-
+ * 
+ * 支持标签打印
  * 
  * @author yxx
  *
@@ -181,22 +184,27 @@ public class InputBill3Activity extends BaseActivity {
 
 				if(success){
 					
-					CommandTools.showChooseDialog(InputBill3Activity.this, "确定打印标签吗？", new CommandToolsCallback() {
+					CommandTools.showChooseDialog(InputBill3Activity.this, "是否打印标签吗？", new CommandToolsCallback() {
 						
 						@Override
 						public void callback(int position) {
 							
 							if(position == 0){
 								
-								PrintUtil.printLabel(mBillInfo);
+								PrintUtil.printLabel(mBillInfo, new CallBack() {
+									
+									@Override
+									public void callback(int pos) {
+									
+									}
+								});
+								
+								Intent intent = new Intent();
+								setResult(RESULT_OK, intent);
+								finish();
 							}
-							
-							Intent intent = new Intent();
-							setResult(RESULT_OK, intent);
-							finish();
 						}
 					});
-				
 				}
 			}
 		});
@@ -235,7 +243,7 @@ public class InputBill3Activity extends BaseActivity {
 				// TODO Auto-generated method stub
 				if(position == 0){
 
-					PrintUtil.printLabel(mBillInfo);
+					PrintUtil.printLabel(mBillInfo, null);
 				}
 			}
 		});

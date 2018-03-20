@@ -89,7 +89,7 @@ public class PrinterSettingMenuActivity extends BaseActivity {
 		info.setDestSiteName("上海");
 		info.setRecipientsAddress("上海市杨浦区创智科技");
 
-		PrintUtil.printLabel(info);
+		PrintUtil.printLabel(info, null);
 	}
 
 	void sendReceipt() {

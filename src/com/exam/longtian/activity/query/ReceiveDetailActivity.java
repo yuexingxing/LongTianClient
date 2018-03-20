@@ -4,15 +4,25 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.AdapterView.OnItemClickListener;
+
 import com.exam.longtian.R;
 import com.exam.longtian.activity.BaseActivity;
 import com.exam.longtian.adapter.CommonAdapter;
 import com.exam.longtian.adapter.ViewHolder;
+import com.exam.longtian.entity.BillInfo;
 import com.exam.longtian.entity.ScanDetail;
+import com.exam.longtian.entity.SiteInfo;
 import com.exam.longtian.presenter.PresenterQuery;
 import com.exam.longtian.presenter.PresenterUtil;
+import com.exam.longtian.printer.bluetooth.PrintUtil;
+import com.exam.longtian.printer.bluetooth.PrintUtil.CallBack;
 import com.exam.longtian.util.CommandTools;
+import com.exam.longtian.util.CommandTools.CommandToolsCallback;
+import com.exam.longtian.util.Res;
 import com.exam.longtian.util.OkHttpUtil.ObjectCallback;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -35,6 +45,8 @@ public class ReceiveDetailActivity extends BaseActivity {
 	private String endTime;
 	private String orderType;
 
+	private int currPos = -1;
+
 	@Override
 	protected void onBaseCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -55,10 +67,18 @@ public class ReceiveDetailActivity extends BaseActivity {
 			setTitle("收件明细");
 		}
 
+		setRightTitle("打印");
+
 		commonAdapter = new CommonAdapter<ScanDetail>(this, dataList, R.layout.item_layout_receivedetail) {
 
 			@Override
 			public void convert(ViewHolder helper, ScanDetail item) {
+
+				if(item.isFlag()){
+					helper.setLayoutResource(R.id.item_layout_receivedetail_top, Res.getColor(R.color.blue));
+				}else{
+					helper.setLayoutResource(R.id.item_layout_receivedetail_top, Res.getColor(R.color.transparent));
+				}
 
 				helper.setText(R.id.item_layout_receivedetail_1, item.getBillCode());
 				helper.setText(R.id.item_layout_receivedetail_2, item.getSendSiteName());
@@ -80,6 +100,26 @@ public class ReceiveDetailActivity extends BaseActivity {
 			}
 		};
 
+		listView.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+				// TODO Auto-generated method stub
+				ScanDetail info = dataList.get(arg2);
+
+				int len = dataList.size();
+				for(int i=0; i<len; i++){
+					dataList.get(i).setFlag(false);
+				}
+
+				info.setFlag(!info.isFlag());
+
+				currPos = arg2;
+				commonAdapter.notifyDataSetChanged();
+			}
+		});
+
+
 		listView.setAdapter(commonAdapter);
 	}
 
@@ -95,11 +135,11 @@ public class ReceiveDetailActivity extends BaseActivity {
 				if(data == null){
 					return;
 				}
-				
+
 				dataList.clear();
 				dataList.addAll((Collection<? extends ScanDetail>) data);
 				commonAdapter.notifyDataSetChanged();
-				
+
 				if(dataList.size() == 0){
 					CommandTools.showToast("未查到有效数据");
 				}
@@ -107,4 +147,56 @@ public class ReceiveDetailActivity extends BaseActivity {
 		});
 	}
 
+	/* 
+	 * 打印(non-Javadoc)
+	 * @see com.exam.longtian.activity.BaseActivity#clickRight(android.view.View)
+	 */
+	public void clickRight(View v){
+
+		if(currPos < 0){
+			CommandTools.showToast("请选择一条数据打印");
+			return;
+		}
+
+		CommandTools.showChooseDialog(ReceiveDetailActivity.this, "确认打印该条数据？", new CommandToolsCallback() {
+
+			@Override
+			public void callback(int position) {
+
+				if(position == 0){
+					startPrint();
+				}
+			}
+		});
+	}
+
+	public void startPrint(){
+
+		ScanDetail scanDetail = dataList.get(currPos);
+		BillInfo info = new BillInfo();
+
+		info.setBillCode(scanDetail.getBillCode());
+		info.setPackageKindName(scanDetail.getPackageKindName());
+		info.setSendDate(scanDetail.getSendDate());
+		info.setDestSiteName(scanDetail.getSendSiteName());
+		info.setSenderAddress(scanDetail.getSenderAddress());
+		info.setTotalVolume(scanDetail.getTotalVolume());
+		info.setTotalWeight(scanDetail.getTotalWeight());
+		info.setRecipientsAddress(scanDetail.getRecipientsAddress());
+		info.setRecipientsName(scanDetail.getRecipientsName());
+		info.setSendSiteName(scanDetail.getSendSiteName());
+		info.setRemark(scanDetail.getRemark());
+
+		PrintUtil.printLabel(info, new CallBack() {
+
+			@Override
+			public void callback(int pos) {
+				// TODO Auto-generated method stub
+				if(pos == 0){
+					CommandTools.showToast("打印成功");
+				}
+			}
+		});
+
+	}
 }
