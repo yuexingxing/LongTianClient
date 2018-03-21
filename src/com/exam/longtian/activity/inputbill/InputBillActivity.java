@@ -123,7 +123,7 @@ public class InputBillActivity extends BaseActivity {
 			edtDeliSiteName.setText("");
 			onResume();
 		}else if (requestCode == Constant.CAPTURE_BILLCODE && resultCode == RESULT_OK) {
-			
+
 			if(data == null){
 				return;
 			}
@@ -241,11 +241,7 @@ public class InputBillActivity extends BaseActivity {
 		mBillInfo.setOpEmpGcode(MyApplication.mUser.getOpEmpGcode());
 		mBillInfo.setOpEmpName(MyApplication.mUser.getOpEmpName());
 
-		mBillInfo.setRecipientsAddress(edtRecAddress.getText().toString());
-		mBillInfo.setRecipientsPhone(edtRecPhone.getText().toString());
-
 		mBillInfo.setRecipientsName(edtRecName.getText().toString());
-		mBillInfo.setRecipientsCompanyName(edtRecCompany.getText().toString());
 
 		mBillInfo.setRecipientsCustName(edtRecCustomer.getText().toString());
 		mBillInfo.setRecipientsPhone(edtRecPhone.getText().toString());
@@ -258,4 +254,5 @@ public class InputBillActivity extends BaseActivity {
 
 		mBillInfo.setSendSiteGcode(MyApplication.mUser.getOwnSiteGcode());
 	}
+
 }
