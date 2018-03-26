@@ -37,9 +37,9 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 public class PrinterConnectDialog extends Activity {
-	
+
 	public final int MAX_PRINTER_CNT = 1;
-	
+
 	private final static String DEBUG_TAG = "SamleApp";
 	private static final int INTENT_PORT_SETTINGS = 0;
 	private ListViewAdapter mListViewAdapter = null;
@@ -167,6 +167,7 @@ public class PrinterConnectDialog extends Activity {
 				int id = intent.getIntExtra(GpPrintService.PRINTER_ID, 0);
 				Log.d(DEBUG_TAG, "connect status " + type);
 				if (type == GpDevice.STATE_CONNECTING) {
+					MainMenuActivity.printer_status = GpDevice.STATE_CONNECTING;
 					setProgressBarIndeterminateVisibility(true);
 					SetLinkButtonEnable(ListViewAdapter.DISABLE);
 					mPortParam[id].setPortOpenState(false);
@@ -175,7 +176,7 @@ public class PrinterConnectDialog extends Activity {
 					map.put(ListViewAdapter.STATUS, getString(R.string.connecting));
 					mList.set(id, map);
 					mListViewAdapter.notifyDataSetChanged();
-
+					CommandTools.showToast("打印机连接成功");
 				} else if (type == GpDevice.STATE_NONE) {
 					setProgressBarIndeterminateVisibility(false);
 					SetLinkButtonEnable(ListViewAdapter.ENABLE);

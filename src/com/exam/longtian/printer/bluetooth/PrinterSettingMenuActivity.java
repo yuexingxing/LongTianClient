@@ -58,14 +58,15 @@ public class PrinterSettingMenuActivity extends BaseActivity {
 		// TODO Auto-generated method stub
 
 	}
-	
+
 	public void connectPrinter(View v){
-		
+
 		if (MainMenuActivity.mGpService == null) {
-			Toast.makeText(this, "Print Service is not start, please check it", Toast.LENGTH_SHORT).show();
+			//			Toast.makeText(this, "Print Service is not start, please check it", Toast.LENGTH_SHORT).show();
+			CommandTools.showToast("请先连接打印机！");
 			return;
 		}
-		
+
 		Intent intent = new Intent(this, PrinterConnectDialog.class);
 		boolean[] state = MainMenuActivity.getConnectState();
 		intent.putExtra(MainMenuActivity.CONNECT_STATUS, state);
@@ -77,7 +78,7 @@ public class PrinterSettingMenuActivity extends BaseActivity {
 		//				Intent intent = new Intent(GpPrintService.ACTION_PRINT_TESTPAGE);
 		//				intent.putExtra(GpPrintService.PRINTER_ID, PrinterConnectDialog.mPrinterId);
 		//				sendBroadcast(intent);
-		
+
 		BillInfo info = new BillInfo();
 		info.setBillCode("1234567890");
 		info.setSendDate(CommandTools.getTime());
@@ -93,7 +94,7 @@ public class PrinterSettingMenuActivity extends BaseActivity {
 	}
 
 	void sendReceipt() {
-		
+
 		EscCommand esc = new EscCommand();
 		esc.addInitializePrinter();
 		esc.addPrintAndFeedLines((byte) 3);

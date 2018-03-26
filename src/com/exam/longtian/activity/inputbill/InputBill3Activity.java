@@ -9,6 +9,7 @@ import com.exam.longtian.activity.MainMenuActivity;
 import com.exam.longtian.entity.BillInfo;
 import com.exam.longtian.printer.bluetooth.PrintUtil;
 import com.exam.longtian.printer.bluetooth.PrintUtil.CallBack;
+import com.exam.longtian.printer.bluetooth.PrinterSettingMenuActivity;
 import com.exam.longtian.util.API;
 import com.exam.longtian.util.CommandTools;
 import com.exam.longtian.util.CommandTools.CommandToolsCallback;
@@ -17,6 +18,7 @@ import com.exam.longtian.util.RegularUtil;
 import com.exam.longtian.util.OkHttpUtil.ObjectCallback;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.gprinter.io.GpDevice;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import android.content.Intent;
@@ -183,22 +185,22 @@ public class InputBill3Activity extends BaseActivity {
 				MyApplication.getEventBus().post(msg);
 
 				if(success){
-					
+
 					CommandTools.showChooseDialog(InputBill3Activity.this, "是否打印标签吗？", new CommandToolsCallback() {
-						
+
 						@Override
 						public void callback(int position) {
-							
+
 							if(position == 0){
-								
+
 								PrintUtil.printLabel(mBillInfo, new CallBack() {
-									
+
 									@Override
 									public void callback(int pos) {
-									
+
 									}
 								});
-								
+
 								Intent intent = new Intent();
 								setResult(RESULT_OK, intent);
 								finish();
@@ -234,6 +236,20 @@ public class InputBill3Activity extends BaseActivity {
 
 		if(!checkData()){
 			return;
+		}
+
+		if (MainMenuActivity.mGpService == null) {
+			CommandTools.showToast("打印机服务启动失败，请检查打印机");
+			return;
+		}
+
+		if(MainMenuActivity.printer_status != GpDevice.STATE_CONNECTING){
+			
+			Intent intent = new Intent(this, PrinterSettingMenuActivity.class);
+			boolean[] state = MainMenuActivity.getConnectState();
+			intent.putExtra(MainMenuActivity.CONNECT_STATUS, state);
+			startActivity(intent);
+			finish();
 		}
 
 		CommandTools.showChooseDialog(InputBill3Activity.this, "确定打印该数据吗？", new CommandToolsCallback() {

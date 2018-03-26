@@ -2,13 +2,17 @@ package com.exam.longtian.activity.query;
 
 import com.exam.longtian.R;
 import com.exam.longtian.activity.BaseActivity;
+import com.exam.longtian.activity.MainMenuActivity;
+import com.exam.longtian.activity.inputbill.InputBill3Activity;
 import com.exam.longtian.camera.CaptureActivity;
 import com.exam.longtian.entity.BillInfo;
 import com.exam.longtian.presenter.PresenterQuery;
+import com.exam.longtian.printer.bluetooth.PrinterSettingMenuActivity;
 import com.exam.longtian.util.CommandTools;
 import com.exam.longtian.util.Constant;
 import com.exam.longtian.util.OkHttpUtil.ObjectCallback;
 import com.exam.longtian.util.RegularUtil;
+import com.gprinter.io.GpDevice;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 
@@ -77,6 +81,20 @@ public class OrderDetailActivity extends BaseActivity {
 	 */
 	public void clickRight(View v){
 
+		if (MainMenuActivity.mGpService == null) {
+			CommandTools.showToast("打印机服务启动失败，请检查打印机");
+			return;
+		}
+
+		if(MainMenuActivity.printer_status != GpDevice.STATE_CONNECTING){
+			
+			Intent intent = new Intent(this, PrinterSettingMenuActivity.class);
+			boolean[] state = MainMenuActivity.getConnectState();
+			intent.putExtra(MainMenuActivity.CONNECT_STATUS, state);
+			startActivity(intent);
+			finish();
+		}
+		
 		
 	}
 

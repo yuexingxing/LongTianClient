@@ -45,6 +45,7 @@ public class MainMenuActivity extends BaseActivity {
 	private PrinterServiceConnection conn = null;
 	private int mPrinterIndex = 0;
 	public static final String CONNECT_STATUS = "connect.status";
+	public static int printer_status = GpDevice.STATE_NONE;//打印机当前状态0-未连接 1-已连接
 	private static final int MAIN_QUERY_PRINTER_STATUS = 0xfe;
 	private static final int REQUEST_PRINT_LABEL = 0xfd;
 	private static final int REQUEST_PRINT_RECEIPT = 0xfc;

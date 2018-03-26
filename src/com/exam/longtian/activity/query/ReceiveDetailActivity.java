@@ -3,6 +3,8 @@ package com.exam.longtian.activity.query;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -11,6 +13,8 @@ import android.widget.AdapterView.OnItemClickListener;
 
 import com.exam.longtian.R;
 import com.exam.longtian.activity.BaseActivity;
+import com.exam.longtian.activity.MainMenuActivity;
+import com.exam.longtian.activity.inputbill.InputBill3Activity;
 import com.exam.longtian.adapter.CommonAdapter;
 import com.exam.longtian.adapter.ViewHolder;
 import com.exam.longtian.entity.BillInfo;
@@ -19,11 +23,13 @@ import com.exam.longtian.entity.SiteInfo;
 import com.exam.longtian.presenter.PresenterQuery;
 import com.exam.longtian.presenter.PresenterUtil;
 import com.exam.longtian.printer.bluetooth.PrintUtil;
+import com.exam.longtian.printer.bluetooth.PrinterSettingMenuActivity;
 import com.exam.longtian.printer.bluetooth.PrintUtil.CallBack;
 import com.exam.longtian.util.CommandTools;
 import com.exam.longtian.util.CommandTools.CommandToolsCallback;
 import com.exam.longtian.util.Res;
 import com.exam.longtian.util.OkHttpUtil.ObjectCallback;
+import com.gprinter.io.GpDevice;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 
@@ -152,6 +158,20 @@ public class ReceiveDetailActivity extends BaseActivity {
 	 * @see com.exam.longtian.activity.BaseActivity#clickRight(android.view.View)
 	 */
 	public void clickRight(View v){
+
+		if (MainMenuActivity.mGpService == null) {
+			CommandTools.showToast("打印机服务启动失败，请检查打印机");
+			return;
+		}
+
+		if(MainMenuActivity.printer_status != GpDevice.STATE_CONNECTING){
+			
+			Intent intent = new Intent(this, PrinterSettingMenuActivity.class);
+			boolean[] state = MainMenuActivity.getConnectState();
+			intent.putExtra(MainMenuActivity.CONNECT_STATUS, state);
+			startActivity(intent);
+			finish();
+		}
 
 		if(currPos < 0){
 			CommandTools.showToast("请选择一条数据打印");
