@@ -167,7 +167,6 @@ public class PrinterConnectDialog extends Activity {
 				int id = intent.getIntExtra(GpPrintService.PRINTER_ID, 0);
 				Log.d(DEBUG_TAG, "connect status " + type);
 				if (type == GpDevice.STATE_CONNECTING) {
-					MainMenuActivity.printer_status = GpDevice.STATE_CONNECTING;
 					setProgressBarIndeterminateVisibility(true);
 					SetLinkButtonEnable(ListViewAdapter.DISABLE);
 					mPortParam[id].setPortOpenState(false);
@@ -176,7 +175,6 @@ public class PrinterConnectDialog extends Activity {
 					map.put(ListViewAdapter.STATUS, getString(R.string.connecting));
 					mList.set(id, map);
 					mListViewAdapter.notifyDataSetChanged();
-					CommandTools.showToast("打印机连接成功");
 				} else if (type == GpDevice.STATE_NONE) {
 					setProgressBarIndeterminateVisibility(false);
 					SetLinkButtonEnable(ListViewAdapter.ENABLE);
@@ -195,6 +193,9 @@ public class PrinterConnectDialog extends Activity {
 					map.put(ListViewAdapter.STATUS, getString(R.string.cut));
 					mList.set(id, map);
 					mListViewAdapter.notifyDataSetChanged();
+
+					MainMenuActivity.printer_status = GpDevice.STATE_VALID_PRINTER;
+					CommandTools.showToast("打印机连接成功");
 				} else if (type == GpDevice.STATE_INVALID_PRINTER) {
 					setProgressBarIndeterminateVisibility(false);
 					SetLinkButtonEnable(ListViewAdapter.ENABLE);

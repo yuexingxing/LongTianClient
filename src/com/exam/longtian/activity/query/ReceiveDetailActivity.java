@@ -164,13 +164,25 @@ public class ReceiveDetailActivity extends BaseActivity {
 			return;
 		}
 
-		if(MainMenuActivity.printer_status != GpDevice.STATE_CONNECTING){
-			
-			Intent intent = new Intent(this, PrinterSettingMenuActivity.class);
-			boolean[] state = MainMenuActivity.getConnectState();
-			intent.putExtra(MainMenuActivity.CONNECT_STATUS, state);
-			startActivity(intent);
-			finish();
+		if(MainMenuActivity.printer_status != GpDevice.STATE_VALID_PRINTER){
+
+			CommandTools.showChooseDialog(this, "请先连接打印机", new CommandToolsCallback() {
+
+				@Override
+				public void callback(int position) {
+					// TODO Auto-generated method stub
+					if(position == 0){
+
+						Intent intent = new Intent(ReceiveDetailActivity.this, PrinterSettingMenuActivity.class);
+						boolean[] state = MainMenuActivity.getConnectState();
+						intent.putExtra(MainMenuActivity.CONNECT_STATUS, state);
+						startActivity(intent);
+						finish();
+					}
+				}
+			});
+
+			return;
 		}
 
 		if(currPos < 0){

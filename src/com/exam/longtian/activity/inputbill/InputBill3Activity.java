@@ -243,13 +243,25 @@ public class InputBill3Activity extends BaseActivity {
 			return;
 		}
 
-		if(MainMenuActivity.printer_status != GpDevice.STATE_CONNECTING){
+		if(MainMenuActivity.printer_status != GpDevice.STATE_VALID_PRINTER){
 			
-			Intent intent = new Intent(this, PrinterSettingMenuActivity.class);
-			boolean[] state = MainMenuActivity.getConnectState();
-			intent.putExtra(MainMenuActivity.CONNECT_STATUS, state);
-			startActivity(intent);
-			finish();
+			CommandTools.showChooseDialog(this, "请先连接打印机", new CommandToolsCallback() {
+				
+				@Override
+				public void callback(int position) {
+					// TODO Auto-generated method stub
+					if(position == 0){
+						
+						Intent intent = new Intent(InputBill3Activity.this, PrinterSettingMenuActivity.class);
+						boolean[] state = MainMenuActivity.getConnectState();
+						intent.putExtra(MainMenuActivity.CONNECT_STATUS, state);
+						startActivity(intent);
+						finish();
+					}
+				}
+			});
+			
+			return;
 		}
 
 		CommandTools.showChooseDialog(InputBill3Activity.this, "确定打印该数据吗？", new CommandToolsCallback() {

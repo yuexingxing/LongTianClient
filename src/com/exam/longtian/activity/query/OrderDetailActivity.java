@@ -10,6 +10,7 @@ import com.exam.longtian.presenter.PresenterQuery;
 import com.exam.longtian.printer.bluetooth.PrinterSettingMenuActivity;
 import com.exam.longtian.util.CommandTools;
 import com.exam.longtian.util.Constant;
+import com.exam.longtian.util.CommandTools.CommandToolsCallback;
 import com.exam.longtian.util.OkHttpUtil.ObjectCallback;
 import com.exam.longtian.util.RegularUtil;
 import com.gprinter.io.GpDevice;
@@ -86,16 +87,28 @@ public class OrderDetailActivity extends BaseActivity {
 			return;
 		}
 
-		if(MainMenuActivity.printer_status != GpDevice.STATE_CONNECTING){
-			
-			Intent intent = new Intent(this, PrinterSettingMenuActivity.class);
-			boolean[] state = MainMenuActivity.getConnectState();
-			intent.putExtra(MainMenuActivity.CONNECT_STATUS, state);
-			startActivity(intent);
-			finish();
+		if(MainMenuActivity.printer_status != GpDevice.STATE_VALID_PRINTER){
+
+			CommandTools.showChooseDialog(this, "请先连接打印机", new CommandToolsCallback() {
+
+				@Override
+				public void callback(int position) {
+					// TODO Auto-generated method stub
+					if(position == 0){
+
+						Intent intent = new Intent(OrderDetailActivity.this, PrinterSettingMenuActivity.class);
+						boolean[] state = MainMenuActivity.getConnectState();
+						intent.putExtra(MainMenuActivity.CONNECT_STATUS, state);
+						startActivity(intent);
+						finish();
+					}
+				}
+			});
+
+			return;
 		}
-		
-		
+
+
 	}
 
 	public void submit(View v){

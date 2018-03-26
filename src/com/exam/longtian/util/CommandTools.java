@@ -10,7 +10,6 @@ import java.lang.reflect.Field;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
-import com.exam.longtian.MyApplication;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
@@ -22,9 +21,8 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Matrix;
 import android.graphics.Bitmap.CompressFormat;
+import android.graphics.Matrix;
 import android.os.Environment;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
@@ -32,6 +30,7 @@ import android.util.Base64;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
+import com.exam.longtian.MyApplication;
 
 
 /** 
@@ -343,13 +342,14 @@ public class CommandTools {
 
 		dialog.setTitle("提示");
 		dialog.setMessage(strMsg + "");
-		dialog.setPositiveButton("确认", new DialogInterface.OnClickListener(){  
+		dialog.setPositiveButton("确认", new DialogInterface.OnClickListener(){
 
-			public void onClick(DialogInterface dialoginterface, int i){   
+			public void onClick(DialogInterface dialoginterface, int i){
 
 				callback.callback(0);
-			}   
+			}
 		});
+		
 		dialog.setNegativeButton("取消", new OnClickListener() {
 
 			@Override
@@ -358,6 +358,8 @@ public class CommandTools {
 				callback.callback(-1);
 			}
 		});
+		
+		dialog.setCancelable(false);//对话框外部不可点击
 
 		dialog.show();
 	}
