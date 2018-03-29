@@ -255,4 +255,11 @@ public class InputBillActivity extends BaseActivity {
 		mBillInfo.setSendSiteGcode(MyApplication.mUser.getOwnSiteGcode());
 	}
 
+	/* (non-Javadoc)
+	 * @see com.exam.longtian.activity.BaseActivity#onScanSuccess(java.lang.String)
+	 */
+	public void onScanSuccess(String barcode) {
+		// TODO Auto-generated method stub
+		edtBillcode.setText(barcode);
+	}
 }

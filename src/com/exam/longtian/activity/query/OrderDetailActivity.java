@@ -7,6 +7,7 @@ import com.exam.longtian.activity.inputbill.InputBill3Activity;
 import com.exam.longtian.camera.CaptureActivity;
 import com.exam.longtian.entity.BillInfo;
 import com.exam.longtian.presenter.PresenterQuery;
+import com.exam.longtian.printer.bluetooth.PrinterConnectDialog;
 import com.exam.longtian.printer.bluetooth.PrinterSettingMenuActivity;
 import com.exam.longtian.util.CommandTools;
 import com.exam.longtian.util.Constant;
@@ -66,6 +67,7 @@ public class OrderDetailActivity extends BaseActivity {
 			Bundle bundle = data.getExtras();
 			String strBillcode = bundle.getString("result");
 			edtBillcode.setText(strBillcode);
+			submit(null);
 		}
 	}
 
@@ -96,11 +98,11 @@ public class OrderDetailActivity extends BaseActivity {
 					// TODO Auto-generated method stub
 					if(position == 0){
 
-						Intent intent = new Intent(OrderDetailActivity.this, PrinterSettingMenuActivity.class);
+						Intent intent = new Intent(OrderDetailActivity.this, PrinterConnectDialog.class);
 						boolean[] state = MainMenuActivity.getConnectState();
 						intent.putExtra(MainMenuActivity.CONNECT_STATUS, state);
 						startActivity(intent);
-						finish();
+						//						finish();
 					}
 				}
 			});
@@ -215,4 +217,12 @@ public class OrderDetailActivity extends BaseActivity {
 		((TextView)findViewById(R.id.order_detail_child_billcode)).setText("");
 	}
 
+	/* (non-Javadoc)
+	 * @see com.exam.longtian.activity.BaseActivity#onScanSuccess(java.lang.String)
+	 */
+	public void onScanSuccess(String barcode) {
+		// TODO Auto-generated method stub
+		edtBillcode.setText(barcode);
+		submit(null);
+	}
 }

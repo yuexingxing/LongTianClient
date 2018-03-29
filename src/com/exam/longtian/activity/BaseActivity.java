@@ -2,12 +2,19 @@ package com.exam.longtian.activity;
 
 import com.exam.longtian.MyApplication;
 import com.exam.longtian.R;
+import com.exam.longtian.scanner.ScanGunKeyEventHelper;
+import com.exam.longtian.util.Constant;
+
 import android.os.Bundle;
+import android.os.Message;
 import android.app.Activity;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.LinearLayout.LayoutParams;
 
 /** 
@@ -18,7 +25,7 @@ import android.widget.LinearLayout.LayoutParams;
  * @date 2017-11-27 下午5:09:41
  * 
  */
-public abstract class BaseActivity extends Activity {
+public abstract class BaseActivity extends Activity implements ScanGunKeyEventHelper.OnScanSuccessListener{
 
 	private LinearLayout layoutTopBar;
 	private LinearLayout layoutBody;
@@ -27,6 +34,8 @@ public abstract class BaseActivity extends Activity {
 	private TextView tvLeft;
 	private TextView tvTitle;
 	private TextView tvRight;
+	
+	private ScanGunKeyEventHelper mScanGunKeyEventHelper;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -42,12 +51,17 @@ public abstract class BaseActivity extends Activity {
 		findViewById();
 		initView();
 		initData();
+
+		mScanGunKeyEventHelper = new ScanGunKeyEventHelper(this);
+		if (!mScanGunKeyEventHelper.hasScanGun()) {
+//			Toast.makeText(this, "未检测到扫码枪设备", Toast.LENGTH_SHORT).show();
+		}
 	}
-	
+
 	@Override
 	protected void onResume(){
 		super.onResume();
-		
+
 	}
 
 	private void findViewById() {
@@ -134,5 +148,41 @@ public abstract class BaseActivity extends Activity {
 	 */
 	public void clickRight(View v){
 
+	}
+
+	/**
+	 * @param msg
+	 */
+	public void onEventMainThread(Message msg) {
+
+	}
+
+	/**
+	 * 截获按键事件.发给ScanGunKeyEventHelper
+	 * @param event
+	 * @return
+	 */
+	@SuppressWarnings("deprecation")
+	@Override
+	public boolean dispatchKeyEvent(KeyEvent event) {
+
+		if (mScanGunKeyEventHelper.isScanGunEvent(event)) {
+			mScanGunKeyEventHelper.analysisKeyEvent(event);
+			return true;
+		}
+
+		return super.dispatchKeyEvent(event);
+	}
+
+	@Override
+	public void onScanSuccess(String barcode) {
+		// TODO Auto-generated method stub
+
+		Log.v("zd", barcode);
+
+		Message message = new Message();
+		message.what = Constant.SCANNER_BILLCODE;
+		message.obj = barcode;
+		MyApplication.getEventBus().post(message);
 	}
 }

@@ -1,13 +1,19 @@
 package com.exam.longtian.activity.inputbill;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 import com.exam.longtian.MyApplication;
 import com.exam.longtian.R;
 import com.exam.longtian.activity.BaseActivity;
 import com.exam.longtian.activity.MainMenuActivity;
+import com.exam.longtian.activity.query.ReceiveDetailActivity;
 import com.exam.longtian.entity.BillInfo;
+import com.exam.longtian.entity.SubBillInfo;
 import com.exam.longtian.printer.bluetooth.PrintUtil;
+import com.exam.longtian.printer.bluetooth.PrinterConnectDialog;
 import com.exam.longtian.printer.bluetooth.PrintUtil.CallBack;
 import com.exam.longtian.printer.bluetooth.PrinterSettingMenuActivity;
 import com.exam.longtian.util.API;
@@ -25,6 +31,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Message;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
@@ -146,11 +153,6 @@ public class InputBill3Activity extends BaseActivity {
 			return false;
 		}
 
-		if(TextUtils.isEmpty(mBillInfo.getSenderAddress())){
-			CommandTools.showToast("请输入寄件地址");
-			return false;
-		}
-
 		return true;
 	}
 
@@ -178,12 +180,13 @@ public class InputBill3Activity extends BaseActivity {
 			@Override
 			public void callback(boolean success, String message, String code, Object data) {
 				// TODO Auto-generated method stub
-
+				CommandTools.showToast(message);
+				
 				Message msg = new Message();
 				msg.what = 0x0011;
 				msg.obj = message;
 				MyApplication.getEventBus().post(msg);
-
+			
 				if(success){
 
 					CommandTools.showChooseDialog(InputBill3Activity.this, "是否打印标签吗？", new CommandToolsCallback() {
@@ -193,13 +196,7 @@ public class InputBill3Activity extends BaseActivity {
 
 							if(position == 0){
 
-								PrintUtil.printLabel(mBillInfo, new CallBack() {
-
-									@Override
-									public void callback(int pos) {
-
-									}
-								});
+								startPrint();
 
 								Intent intent = new Intent();
 								setResult(RESULT_OK, intent);
@@ -244,23 +241,22 @@ public class InputBill3Activity extends BaseActivity {
 		}
 
 		if(MainMenuActivity.printer_status != GpDevice.STATE_VALID_PRINTER){
-			
+
 			CommandTools.showChooseDialog(this, "请先连接打印机", new CommandToolsCallback() {
-				
+
 				@Override
 				public void callback(int position) {
 					// TODO Auto-generated method stub
 					if(position == 0){
-						
-						Intent intent = new Intent(InputBill3Activity.this, PrinterSettingMenuActivity.class);
+
+						Intent intent = new Intent(InputBill3Activity.this, PrinterConnectDialog.class);
 						boolean[] state = MainMenuActivity.getConnectState();
 						intent.putExtra(MainMenuActivity.CONNECT_STATUS, state);
 						startActivity(intent);
-						finish();
 					}
 				}
 			});
-			
+
 			return;
 		}
 
@@ -271,10 +267,28 @@ public class InputBill3Activity extends BaseActivity {
 				// TODO Auto-generated method stub
 				if(position == 0){
 
-					PrintUtil.printLabel(mBillInfo, null);
+					startPrint();
 				}
 			}
 		});
+	}
 
+	public void startPrint(){
+
+		String[] arrBill = new String[0];
+		if(!TextUtils.isEmpty(MainMenuActivity.mBillInfo.getSubBillcode())){
+			arrBill = MainMenuActivity.mBillInfo.getSubBillcode().split(",");
+		}
+
+		List<BillInfo> list = new ArrayList<BillInfo>();
+		for(int i=0; i<arrBill.length; i++){
+
+			BillInfo billInfo = (BillInfo) MainMenuActivity.mBillInfo.clone();//克隆一个新的对象
+			billInfo.setBillCode(arrBill[i]);
+
+			list.add(billInfo);
+		}
+
+		PrintUtil.printLabelList(list, null);
 	}
 }

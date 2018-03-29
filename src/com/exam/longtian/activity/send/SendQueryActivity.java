@@ -311,4 +311,16 @@ public class SendQueryActivity extends BaseActivity {
 		});
 	}
 
+	/* (non-Javadoc)
+	 * @see com.exam.longtian.activity.BaseActivity#onScanSuccess(java.lang.String)
+	 */
+	public void onScanSuccess(String barcode) {
+		// TODO Auto-generated method stub
+		
+		if(edtBillcode.isFocused()){
+			edtBillcode.setText(barcode);
+		}else if(edtJoinBillcode.isFocused()){
+			edtJoinBillcode.setText(barcode);
+		}
+	}
 }

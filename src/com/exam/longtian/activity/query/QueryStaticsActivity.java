@@ -86,8 +86,8 @@ public class QueryStaticsActivity extends BaseActivity {
 
 		String strDate = startYear + "-" + startMonth + "-" + startDay;
 
-		edtStartTime.setText(strDate + " 00:00:00");
-		edtEndTime.setText(strDate + " 23:59:59");
+		edtStartTime.setText(strDate);
+		edtEndTime.setText(strDate);
 	}
 
 	/**
@@ -105,7 +105,7 @@ public class QueryStaticsActivity extends BaseActivity {
 				startMonth = (i1 + 1);
 				startDay = i2;
 
-				edtStartTime.setText(String.format("%d-%d-%d 00:00:00",startYear,startMonth,startDay));  
+				edtStartTime.setText(String.format("%d-%d-%d",startYear,startMonth,startDay));  
 			}  
 
 		}, startYear, startMonth - 1, startDay).show(); 
@@ -126,7 +126,7 @@ public class QueryStaticsActivity extends BaseActivity {
 				endMonth = (i1 + 1);
 				endDay = i2;
 
-				edtEndTime.setText(String.format("%d-%d-%d 00:00:00",endYear,endMonth,endDay));  
+				edtEndTime.setText(String.format("%d-%d-%d",endYear,endMonth,endDay));  
 			}  
 
 		}, endYear, endMonth - 1, endDay).show(); 
@@ -143,8 +143,8 @@ public class QueryStaticsActivity extends BaseActivity {
 			return;
 		}
 		
-		String startTime = edtStartTime.getText().toString();
-		String endTime = edtEndTime.getText().toString();
+		String startTime = edtStartTime.getText().toString() + " 00:00:00";
+		String endTime = edtEndTime.getText().toString() + " 23:59:59";
 
 		clearData();
 		PresenterQuery.waybill_getWaybillCountBySelf(this, PresenterUtil.ORDER_TYPE_RECEIVE, startTime, endTime, new ObjectCallback() {

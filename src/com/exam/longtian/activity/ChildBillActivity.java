@@ -142,6 +142,7 @@ public class ChildBillActivity extends BaseActivity {
 			Bundle bundle = data.getExtras();
 			String strBillcode = bundle.getString("result");
 			edtBillcode.setText(strBillcode);
+			add(null);
 		}
 	}
 
@@ -319,4 +320,12 @@ public class ChildBillActivity extends BaseActivity {
 		finish();
 	}
 
+	/* (non-Javadoc)
+	 * @see com.exam.longtian.activity.BaseActivity#onScanSuccess(java.lang.String)
+	 */
+	public void onScanSuccess(String barcode) {
+		// TODO Auto-generated method stub
+		edtBillcode.setText(barcode);
+		add(null);
+	}
 }

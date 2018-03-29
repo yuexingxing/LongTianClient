@@ -117,9 +117,9 @@
             android:background="@drawable/edit_text_grey"
             android:gravity="center|left"
             android:inputType="number"
-            android:maxLength="20"
             android:paddingLeft="12dp"
             android:text=""
+            android:focusable="false"
             android:textSize="12sp" />
 
         <LinearLayout

@@ -7,9 +7,11 @@
         <ignore path="src/com/exam/longtian/MyApplication.java" />
         <ignore path="src/com/exam/longtian/activity/LoginActivity.java" />
         <ignore path="src/com/exam/longtian/activity/inputbill/SiteListActivity.java" />
+        <ignore path="src/com/exam/longtian/activity/send/SendScanActivity.java" />
     </issue>
     <issue id="NewApi">
         <ignore path="src/com/exam/longtian/adapter/ViewHolder.java" />
+        <ignore path="src/com/exam/longtian/scanner/ScanGunKeyEventHelper.java" />
     </issue>
     <issue id="SimpleDateFormat" severity="ignore" />
 </lint>

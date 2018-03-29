@@ -23,6 +23,7 @@ import com.exam.longtian.entity.SiteInfo;
 import com.exam.longtian.presenter.PresenterQuery;
 import com.exam.longtian.presenter.PresenterUtil;
 import com.exam.longtian.printer.bluetooth.PrintUtil;
+import com.exam.longtian.printer.bluetooth.PrinterConnectDialog;
 import com.exam.longtian.printer.bluetooth.PrinterSettingMenuActivity;
 import com.exam.longtian.printer.bluetooth.PrintUtil.CallBack;
 import com.exam.longtian.util.CommandTools;
@@ -173,11 +174,11 @@ public class ReceiveDetailActivity extends BaseActivity {
 					// TODO Auto-generated method stub
 					if(position == 0){
 
-						Intent intent = new Intent(ReceiveDetailActivity.this, PrinterSettingMenuActivity.class);
+						Intent intent = new Intent(ReceiveDetailActivity.this, PrinterConnectDialog.class);
 						boolean[] state = MainMenuActivity.getConnectState();
 						intent.putExtra(MainMenuActivity.CONNECT_STATUS, state);
 						startActivity(intent);
-						finish();
+						//						finish();
 					}
 				}
 			});
@@ -219,12 +220,13 @@ public class ReceiveDetailActivity extends BaseActivity {
 		info.setSendSiteName(scanDetail.getSendSiteName());
 		info.setRemark(scanDetail.getRemark());
 
-		PrintUtil.printLabel(info, new CallBack() {
+		PrintUtil.printLabel(info, 1, 1, new CallBack() {
 
 			@Override
 			public void callback(int pos) {
 				// TODO Auto-generated method stub
 				if(pos == 0){
+					
 					CommandTools.showToast("¥Ú”°≥…π¶");
 				}
 			}

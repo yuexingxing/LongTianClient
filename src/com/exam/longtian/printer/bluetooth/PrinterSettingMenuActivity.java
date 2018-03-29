@@ -90,7 +90,8 @@ public class PrinterSettingMenuActivity extends BaseActivity {
 		info.setDestSiteName("上海");
 		info.setRecipientsAddress("上海市杨浦区创智科技");
 
-		PrintUtil.printLabel(info, null);
+		//		PrintUtil.printLabel(info, null);
+		testLabel();
 	}
 
 	void sendReceipt() {
@@ -229,6 +230,47 @@ public class PrinterSettingMenuActivity extends BaseActivity {
 				Toast.makeText(getApplicationContext(),GpCom.getErrorText(r),
 						Toast.LENGTH_SHORT).show();    
 			}            
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	public void testLabel() {
+
+		LabelCommand tsc = new LabelCommand();
+		tsc.addSize(120, 60); // 设置标签尺寸，按照实际尺寸设置
+		tsc.addGap(0); // 设置标签间隙，按照实际尺寸设置，如果为无间隙纸则设置为0
+		tsc.addDirection(DIRECTION.FORWARD, MIRROR.NORMAL);// 设置打印方向
+		tsc.addReference(0, 0);// 设置原点坐标
+		tsc.addTear(ENABLE.ON); // 撕纸模式开启
+		tsc.addCls();// 清除打印缓冲区
+
+		tsc.addText(20, 20, FONTTYPE.SIMPLIFIED_CHINESE, ROTATION.ROTATION_0, FONTMUL.MUL_1, FONTMUL.MUL_1,
+				"———————￣￣￣￣————");//|
+		tsc.addText(20, 20, FONTTYPE.SIMPLIFIED_CHINESE, ROTATION.ROTATION_0, FONTMUL.MUL_1, FONTMUL.MUL_1,
+				"|");//|
+		tsc.addText(20, 50, FONTTYPE.SIMPLIFIED_CHINESE, ROTATION.ROTATION_0, FONTMUL.MUL_1, FONTMUL.MUL_1,
+				"|");//|
+		tsc.addText(20, 80, FONTTYPE.SIMPLIFIED_CHINESE, ROTATION.ROTATION_0, FONTMUL.MUL_1, FONTMUL.MUL_1,
+				"|");//|
+
+		// 绘制一维条码
+		tsc.add1DBarcode(20, 250, BARCODETYPE.CODE128M, 100, READABEL.DISABLE, ROTATION.ROTATION_0, "123456798");
+
+		tsc.addPrint(1, 1); // 打印标签
+		tsc.addSound(2, 100); // 打印标签后 蜂鸣器响
+		tsc.addCashdrwer(LabelCommand.FOOT.F5, 255, 255);
+		Vector<Byte> datas = tsc.getCommand(); // 发送数据
+		byte[] bytes = GpUtils.ByteTo_byte(datas);
+		String str = Base64.encodeToString(bytes, Base64.DEFAULT);
+		int rel;
+		try {
+			rel = MainMenuActivity.mGpService.sendLabelCommand(PrinterConnectDialog.mPrinterId, str);
+			GpCom.ERROR_CODE r = GpCom.ERROR_CODE.values()[rel];
+			if (r != GpCom.ERROR_CODE.SUCCESS) {
+				Toast.makeText(getApplicationContext(), GpCom.getErrorText(r), Toast.LENGTH_SHORT).show();
+			}
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

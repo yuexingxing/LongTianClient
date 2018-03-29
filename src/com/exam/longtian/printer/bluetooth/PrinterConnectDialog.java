@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import com.exam.longtian.R;
+import com.exam.longtian.activity.BaseActivity;
 import com.exam.longtian.activity.LoginActivity;
 import com.exam.longtian.activity.MainMenuActivity;
 import com.exam.longtian.util.CommandTools;
@@ -36,7 +37,7 @@ import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ListView;
 import android.widget.Toast;
 
-public class PrinterConnectDialog extends Activity {
+public class PrinterConnectDialog extends BaseActivity {
 
 	public final int MAX_PRINTER_CNT = 1;
 
@@ -88,15 +89,31 @@ public class PrinterConnectDialog extends Activity {
 	}
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
-		setContentView(R.layout.dialog_port);
-		Log.e(DEBUG_TAG, "onCreate ");
+	protected void onBaseCreate(Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		setContentViewId(R.layout.dialog_port);
 		initPortParam();
-		initView();
 		registerBroadcast();
 		connection();
+	}
+
+	@Override
+	public void initView() {
+	
+		setTitle("连接打印机");
+		
+		ListView list = (ListView) findViewById(R.id.lvOperateList);
+		mList = getOperateItemData();
+		mListViewAdapter = new ListViewAdapter(this, mList, mHandler);
+		list.setAdapter(mListViewAdapter);
+		list.setOnItemClickListener(new TitelItemOnClickLisener());
+		list.setOnItemLongClickListener(new TitelItemOnLongClickLisener());
+	}
+
+	@Override
+	public void initData() {
+		// TODO Auto-generated method stub
+
 	}
 
 	private void initPortParam() {
@@ -119,15 +136,6 @@ public class PrinterConnectDialog extends Activity {
 		if (conn != null) {
 			unbindService(conn); // unBindService
 		}
-	}
-
-	private void initView() {
-		ListView list = (ListView) findViewById(R.id.lvOperateList);
-		mList = getOperateItemData();
-		mListViewAdapter = new ListViewAdapter(this, mList, mHandler);
-		list.setAdapter(mListViewAdapter);
-		list.setOnItemClickListener(new TitelItemOnClickLisener());
-		list.setOnItemLongClickListener(new TitelItemOnLongClickLisener());
 	}
 
 	class TitelItemOnLongClickLisener implements OnItemLongClickListener {
@@ -196,6 +204,7 @@ public class PrinterConnectDialog extends Activity {
 
 					MainMenuActivity.printer_status = GpDevice.STATE_VALID_PRINTER;
 					CommandTools.showToast("打印机连接成功");
+					finish();
 				} else if (type == GpDevice.STATE_INVALID_PRINTER) {
 					setProgressBarIndeterminateVisibility(false);
 					SetLinkButtonEnable(ListViewAdapter.ENABLE);
@@ -420,6 +429,5 @@ public class PrinterConnectDialog extends Activity {
 	private void messageBox(String err) {
 		Toast.makeText(getApplicationContext(), err, Toast.LENGTH_SHORT).show();
 	}
-
 
 }

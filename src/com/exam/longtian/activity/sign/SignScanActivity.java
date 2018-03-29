@@ -259,4 +259,13 @@ public class SignScanActivity extends BaseActivity {
 			}
 		});
 	}
+	
+	/* (non-Javadoc)
+	 * @see com.exam.longtian.activity.BaseActivity#onScanSuccess(java.lang.String)
+	 */
+	public void onScanSuccess(String barcode) {
+		// TODO Auto-generated method stub
+		edtBillcode.setText(barcode);
+		commit(null);
+	}
 }

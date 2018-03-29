@@ -181,7 +181,8 @@
                 android:gravity="center"
                 android:text="*"
                 android:textColor="@color/red"
-                android:textSize="13sp" />
+                android:textSize="13sp"
+                android:visibility="invisible" />
 
             <TextView
                 android:layout_width="80dp"

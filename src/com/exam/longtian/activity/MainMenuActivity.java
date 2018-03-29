@@ -10,6 +10,7 @@ import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.os.Message;
 import android.os.RemoteException;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -24,7 +25,9 @@ import com.exam.longtian.activity.send.SendScanActivity;
 import com.exam.longtian.activity.sign.SignScanActivity;
 import com.exam.longtian.entity.BillInfo;
 import com.exam.longtian.printer.bluetooth.PrinterSettingMenuActivity;
+import com.exam.longtian.scanner.ScanGunKeyEventHelper;
 import com.exam.longtian.util.CommandTools;
+import com.exam.longtian.util.Constant;
 import com.gprinter.aidl.GpService;
 import com.gprinter.command.GpCom;
 import com.gprinter.io.GpDevice;
@@ -39,7 +42,7 @@ import com.lidroid.xutils.ViewUtils;
  * @date 2017-11-27 ÏÂÎç6:15:40
  * 
  */
-public class MainMenuActivity extends BaseActivity {
+public class MainMenuActivity extends BaseActivity{
 
 	public static GpService mGpService = null;
 	private PrinterServiceConnection conn = null;
@@ -72,6 +75,11 @@ public class MainMenuActivity extends BaseActivity {
 
 		connection();
 		registerReceiver(mBroadcastReceiver, new IntentFilter(GpCom.ACTION_DEVICE_REAL_STATUS));
+	}
+	
+	public void onResume(){
+		super.onResume();
+		
 	}
 
 	/**
@@ -271,4 +279,5 @@ public class MainMenuActivity extends BaseActivity {
 			mGpService = GpService.Stub.asInterface(service);
 		}
 	}
+	
 }

@@ -1,6 +1,6 @@
 package com.exam.longtian.entity;
 
-public class BillInfo {
+public class BillInfo implements Cloneable{
 
 	private String agencyFund = "";// 0,
 	private String beIntoWarehouse = "0";// 0,
@@ -445,4 +445,17 @@ public class BillInfo {
 	public void setSignSiteName(String signSiteName) {
 		this.signSiteName = signSiteName;
 	}
+
+	@Override  
+	public Object clone() {  
+
+		BillInfo billInfo = null;  
+		try{  
+			billInfo = (BillInfo)super.clone();  
+		}catch(CloneNotSupportedException e) {  
+			e.printStackTrace();  
+		}  
+
+		return billInfo;  
+	}  
 }

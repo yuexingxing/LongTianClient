@@ -12,6 +12,7 @@ import com.exam.longtian.camera.CaptureActivity;
 import com.exam.longtian.entity.BillInfo;
 import com.exam.longtian.entity.ChildBillInfo;
 import com.exam.longtian.presenter.PresenterUtil;
+import com.exam.longtian.scanner.ScanGunKeyEventHelper;
 import com.exam.longtian.util.CommandTools;
 import com.exam.longtian.util.CommandTools.CommandToolsCallback;
 import com.exam.longtian.util.Constant;
@@ -21,10 +22,15 @@ import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.View.OnFocusChangeListener;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
@@ -39,7 +45,7 @@ import android.widget.ListView;
  * @date 2017-11-29 ÏÂÎç3:39:18
  * 
  */
-public class SendScanActivity extends BaseActivity {
+public class SendScanActivity extends BaseActivity{
 
 	@ViewInject(R.id.send_scan_nextstop) EditText edtNextStop;
 	@ViewInject(R.id.send_scan_man) EditText edtMan;
@@ -51,11 +57,12 @@ public class SendScanActivity extends BaseActivity {
 	CommonAdapter<BillInfo> commonAdapter;
 
 	private String siteGCode;
-
+	
 	@Override
 	protected void onBaseCreate(Bundle savedInstanceState) {
 		setContentViewId(R.layout.activity_send_scan);
 		ViewUtils.inject(this);
+
 	}
 
 	@Override
@@ -80,35 +87,6 @@ public class SendScanActivity extends BaseActivity {
 
 			}
 		});
-
-		
-		edtBillcode.addTextChangedListener(new TextWatcher() {
-			
-			@Override
-			public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
-				// TODO Auto-generated method stub
-				
-				String billcode = arg0.toString();
-				if(RegularUtil.checkAllBill(billcode)){
-					save(null);
-				}else{
-					edtBillcode.requestFocus();
-				}
-			}
-			
-			@Override
-			public void beforeTextChanged(CharSequence arg0, int arg1, int arg2,
-					int arg3) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void afterTextChanged(Editable arg0) {
-				// TODO Auto-generated method stub
-				
-			}
-		});
 	}
 
 	@Override
@@ -129,15 +107,14 @@ public class SendScanActivity extends BaseActivity {
 			siteGCode = data.getStringExtra("code");
 		}else if(requestCode == 0x1001 && resultCode == RESULT_OK){
 
+			dataList.clear();
+			commonAdapter.notifyDataSetChanged();
+
 			String continu = data.getStringExtra("continu");
 			if(continu.equals("1")){
 
 			}else{
-
-				edtBillcode.setText("");
-				edtNextStop.setText("");
-				dataList.clear();
-				commonAdapter.notifyDataSetChanged();
+				finish();
 			}
 		}else if (requestCode == Constant.CAPTURE_BILLCODE && resultCode == RESULT_OK) {
 
@@ -290,8 +267,8 @@ public class SendScanActivity extends BaseActivity {
 				return;
 			}
 
-			edtBillcode.requestFocus();
 			edtBillcode.setText("");
+			CommandTools.requestFolcus(edtBillcode);
 		}
 
 	}
@@ -363,6 +340,15 @@ public class SendScanActivity extends BaseActivity {
 			}
 		});
 
+	}
+
+	/* (non-Javadoc)
+	 * @see com.exam.longtian.activity.BaseActivity#onScanSuccess(java.lang.String)
+	 */
+	public void onScanSuccess(String barcode) {
+		// TODO Auto-generated method stub
+		edtBillcode.setText(barcode);
+		save(null);
 	}
 
 }
