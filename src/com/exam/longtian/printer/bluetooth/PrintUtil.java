@@ -97,7 +97,7 @@ public class PrintUtil {
 				"发货日期  " + arrDate[0]);//发货日期
 
 		//打印条形码
-		tsc.add1DBarcode(200, 160, BARCODETYPE.CODE128, 100, READABEL.EANBEL, ROTATION.ROTATION_0, billInfo.getBillCode());
+		tsc.add1DBarcode(200, 160, BARCODETYPE.CODE128M, 100, READABEL.EANBEL, ROTATION.ROTATION_0, billInfo.getBillCode());
 
 		tsc.addText(20, 340, LabelCommand.FONTTYPE.SIMPLIFIED_CHINESE, LabelCommand.ROTATION.ROTATION_0, LabelCommand.FONTMUL.MUL_1, LabelCommand.FONTMUL.MUL_1,
 				"目的地信息");
@@ -169,7 +169,6 @@ public class PrintUtil {
 				}
 			}
 		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

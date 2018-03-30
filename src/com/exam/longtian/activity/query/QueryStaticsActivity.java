@@ -185,11 +185,14 @@ public class QueryStaticsActivity extends BaseActivity {
 	 * @param v
 	 */
 	public void detail(View v){
+		
+		String startTime = edtStartTime.getText().toString() + " 00:00:00";
+		String endTime = edtEndTime.getText().toString() + " 23:59:59";
 
 		Intent intent = new Intent(this, ReceiveDetailActivity.class);
 		intent.putExtra("order_type", PresenterUtil.ORDER_TYPE_RECEIVE);
-		intent.putExtra("startTime", edtStartTime.getText().toString());
-		intent.putExtra("endTime", edtEndTime.getText().toString());
+		intent.putExtra("startTime", startTime);
+		intent.putExtra("endTime", endTime);
 		startActivity(intent);
 	}
 }
