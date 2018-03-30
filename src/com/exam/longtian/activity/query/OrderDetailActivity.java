@@ -1,5 +1,6 @@
 package com.exam.longtian.activity.query;
 
+import com.exam.longtian.MyApplication;
 import com.exam.longtian.R;
 import com.exam.longtian.activity.BaseActivity;
 import com.exam.longtian.activity.MainMenuActivity;
@@ -20,6 +21,7 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Message;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
@@ -44,6 +46,8 @@ public class OrderDetailActivity extends BaseActivity {
 		// TODO Auto-generated method stub
 		setContentViewId(R.layout.activity_order_detail);
 		ViewUtils.inject(this);
+		
+		MyApplication.getEventBus().register(this);
 	}
 
 	@Override
@@ -218,11 +222,15 @@ public class OrderDetailActivity extends BaseActivity {
 	}
 
 	/* (non-Javadoc)
-	 * @see com.exam.longtian.activity.BaseActivity#onScanSuccess(java.lang.String)
+	 * @see com.exam.longtian.activity.BaseActivity#onEventMainThread(android.os.Message)
 	 */
-	public void onScanSuccess(String barcode) {
-		// TODO Auto-generated method stub
-		edtBillcode.setText(barcode);
-		submit(null);
+	public void onEventMainThread(Message msg) {
+
+		if(msg.what == Constant.SCANNER_BILLCODE){
+
+			String billcode = (String) msg.obj;
+			edtBillcode.setText(billcode);
+			submit(null);
+		}
 	}
 }

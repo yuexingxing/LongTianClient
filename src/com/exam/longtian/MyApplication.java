@@ -4,24 +4,12 @@ import java.util.LinkedList;
 import java.util.List;
 import okhttp3.OkHttpClient;
 import com.exam.longtian.entity.User;
-import com.exam.longtian.scanner.ScanGunKeyEventHelper;
-import com.exam.longtian.util.CommandTools;
-import com.exam.longtian.util.CommandTools.CommandToolsCallback;
-import com.exam.longtian.util.Constant;
-import com.taobao.sophix.PatchStatus;
-import com.taobao.sophix.SophixManager;
-import com.taobao.sophix.listener.PatchLoadStatusListener;
+import com.exam.longtian.scanner.ScannerConnectActivity;
+
 import de.greenrobot.event.EventBus;
 import android.app.Activity;
-import android.app.AlarmManager;
 import android.app.Application;
-import android.app.PendingIntent;
-import android.content.Context;
-import android.content.Intent;
-import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
-import android.view.KeyEvent;
 
 public class MyApplication extends Application{
 
@@ -71,6 +59,11 @@ public class MyApplication extends Application{
 	 * 释放所有的Activity
 	 */
 	public static void finishAllActivities() {
+
+		if(ScannerConnectActivity.bleWrapper != null){
+			ScannerConnectActivity.bleWrapper.disconnect();
+			ScannerConnectActivity.bleWrapper = null;
+		}
 
 		for (Activity activity : MyApplication.getInstance().activityList) {
 			if (activity != null) {

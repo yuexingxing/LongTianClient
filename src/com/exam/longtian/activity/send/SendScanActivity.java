@@ -12,7 +12,6 @@ import com.exam.longtian.camera.CaptureActivity;
 import com.exam.longtian.entity.BillInfo;
 import com.exam.longtian.entity.ChildBillInfo;
 import com.exam.longtian.presenter.PresenterUtil;
-import com.exam.longtian.scanner.ScanGunKeyEventHelper;
 import com.exam.longtian.util.CommandTools;
 import com.exam.longtian.util.CommandTools.CommandToolsCallback;
 import com.exam.longtian.util.Constant;
@@ -22,15 +21,9 @@ import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.Message;
-import android.text.Editable;
 import android.text.TextUtils;
-import android.text.TextWatcher;
-import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
-import android.view.View.OnFocusChangeListener;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
@@ -57,12 +50,13 @@ public class SendScanActivity extends BaseActivity{
 	CommonAdapter<BillInfo> commonAdapter;
 
 	private String siteGCode;
-	
+
 	@Override
 	protected void onBaseCreate(Bundle savedInstanceState) {
 		setContentViewId(R.layout.activity_send_scan);
 		ViewUtils.inject(this);
 
+		MyApplication.getEventBus().register(this);
 	}
 
 	@Override
@@ -343,12 +337,16 @@ public class SendScanActivity extends BaseActivity{
 	}
 
 	/* (non-Javadoc)
-	 * @see com.exam.longtian.activity.BaseActivity#onScanSuccess(java.lang.String)
+	 * @see com.exam.longtian.activity.BaseActivity#onEventMainThread(android.os.Message)
 	 */
-	public void onScanSuccess(String barcode) {
-		// TODO Auto-generated method stub
-		edtBillcode.setText(barcode);
-		save(null);
+	public void onEventMainThread(Message msg) {
+
+		if(msg.what == Constant.SCANNER_BILLCODE){
+
+			String billcode = (String) msg.obj;
+			edtBillcode.setText(billcode);
+			save(null);
+		}
 	}
 
 }

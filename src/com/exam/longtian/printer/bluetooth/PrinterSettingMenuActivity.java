@@ -5,6 +5,7 @@ import com.exam.longtian.R;
 import com.exam.longtian.activity.BaseActivity;
 import com.exam.longtian.activity.MainMenuActivity;
 import com.exam.longtian.entity.BillInfo;
+import com.exam.longtian.scanner.ScannerConnectActivity;
 import com.exam.longtian.util.CommandTools;
 import com.gprinter.command.EscCommand;
 import com.gprinter.command.EscCommand.FONT;
@@ -33,7 +34,7 @@ import android.view.View;
 import android.widget.Toast;
 
 /** 
- * 打印机设置主界面
+ * 打印机、蓝牙扫描枪设置主界面
  * 
  * @author yxx
  *
@@ -50,7 +51,7 @@ public class PrinterSettingMenuActivity extends BaseActivity {
 	@Override
 	public void initView() {
 		// TODO Auto-generated method stub
-		setTitle("打印机设置");
+		setTitle("蓝牙设备设置");
 	}
 
 	@Override
@@ -58,11 +59,18 @@ public class PrinterSettingMenuActivity extends BaseActivity {
 		// TODO Auto-generated method stub
 
 	}
+	
+	public void connectScanner(View v){
+		
+		Intent intent = new Intent(this, ScannerConnectActivity.class);
+		boolean[] state = MainMenuActivity.getConnectState();
+		intent.putExtra(MainMenuActivity.CONNECT_STATUS, state);
+		startActivity(intent);
+	}
 
 	public void connectPrinter(View v){
 
 		if (MainMenuActivity.mGpService == null) {
-			//			Toast.makeText(this, "Print Service is not start, please check it", Toast.LENGTH_SHORT).show();
 			CommandTools.showToast("请先连接打印机！");
 			return;
 		}

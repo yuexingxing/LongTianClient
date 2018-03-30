@@ -14,6 +14,7 @@ import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Message;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -48,6 +49,7 @@ public class InputBillActivity extends BaseActivity {
 		ViewUtils.inject(this);
 
 		mBillInfo = MainMenuActivity.mBillInfo;
+		MyApplication.getEventBus().register(this);
 	}
 
 	@Override
@@ -256,10 +258,14 @@ public class InputBillActivity extends BaseActivity {
 	}
 
 	/* (non-Javadoc)
-	 * @see com.exam.longtian.activity.BaseActivity#onScanSuccess(java.lang.String)
+	 * @see com.exam.longtian.activity.BaseActivity#onEventMainThread(android.os.Message)
 	 */
-	public void onScanSuccess(String barcode) {
-		// TODO Auto-generated method stub
-		edtBillcode.setText(barcode);
+	public void onEventMainThread(Message msg) {
+
+		if(msg.what == Constant.SCANNER_BILLCODE){
+
+			String billcode = (String) msg.obj;
+			edtBillcode.setText(billcode);
+		}
 	}
 }

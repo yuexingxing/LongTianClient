@@ -214,6 +214,10 @@
             android:theme="@android:style/Theme.Dialog"
             android:windowSoftInputMode="adjustPan" >
         </activity>
+        <activity
+            android:name="com.exam.longtian.scanner.ScannerConnectActivity"
+            android:label="@string/title_activity_scanner_connect" >
+        </activity>
     </application>
 
 </manifest>

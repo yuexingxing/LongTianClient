@@ -25,7 +25,6 @@ import com.exam.longtian.activity.send.SendScanActivity;
 import com.exam.longtian.activity.sign.SignScanActivity;
 import com.exam.longtian.entity.BillInfo;
 import com.exam.longtian.printer.bluetooth.PrinterSettingMenuActivity;
-import com.exam.longtian.scanner.ScanGunKeyEventHelper;
 import com.exam.longtian.util.CommandTools;
 import com.exam.longtian.util.Constant;
 import com.gprinter.aidl.GpService;
@@ -167,7 +166,7 @@ public class MainMenuActivity extends BaseActivity{
 	}
 
 	/**
-	 * 连接打印机
+	 * 蓝牙设备设置
 	 * @param view
 	 */
 	public void bluetoothSetting(View view) {

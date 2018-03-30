@@ -5,7 +5,6 @@ import com.exam.longtian.MyApplication;
 import com.exam.longtian.R;
 import com.exam.longtian.interfac.ILogin;
 import com.exam.longtian.presenter.PLogin;
-import com.exam.longtian.scanner.ScanGunKeyEventHelper;
 import com.exam.longtian.util.API;
 import com.exam.longtian.util.CommandTools;
 import com.exam.longtian.util.Constant;
@@ -33,7 +32,6 @@ import android.view.Window;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 /** 
  * 登录
@@ -43,7 +41,7 @@ import android.widget.Toast;
  * @date 2017-11-28 上午10:52:23
  * 
  */
-public class LoginActivity extends Activity implements ScanGunKeyEventHelper.OnScanSuccessListener{
+public class LoginActivity extends Activity{
 
 	@ViewInject(R.id.login_edt_name) EditText edtName;
 	@ViewInject(R.id.login_edt_psd) EditText edtPsd;
@@ -52,8 +50,6 @@ public class LoginActivity extends Activity implements ScanGunKeyEventHelper.OnS
 	@ViewInject(R.id.login_checkBox_psd) CheckBox checkPsd;
 
 	@ViewInject(R.id.login_tv_version) TextView tvVersion;
-	
-	private ScanGunKeyEventHelper mScanGunKeyEventHelper;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -64,11 +60,6 @@ public class LoginActivity extends Activity implements ScanGunKeyEventHelper.OnS
 
 		initData();
 		checkAppUpdate();
-		
-		mScanGunKeyEventHelper = new ScanGunKeyEventHelper(this);
-		if (!mScanGunKeyEventHelper.hasScanGun()) {
-			Toast.makeText(LoginActivity.this, "未检测到扫码枪设备", Toast.LENGTH_SHORT).show();
-		}
 	}
 	
 	public void initData(){
@@ -240,25 +231,4 @@ public class LoginActivity extends Activity implements ScanGunKeyEventHelper.OnS
 		}
 	};
 	
-	/**
-	 * 截获按键事件.发给ScanGunKeyEventHelper
-	 * @param event
-	 * @return
-	 */
-	@Override
-	public boolean dispatchKeyEvent(KeyEvent event) {
-
-		if (mScanGunKeyEventHelper.isScanGunEvent(event)) {
-			mScanGunKeyEventHelper.analysisKeyEvent(event);
-			return true;
-		}
-
-		return super.dispatchKeyEvent(event);
-	}
-
-	@Override
-	public void onScanSuccess(String barcode) {
-		// TODO Auto-generated method stub
-		CommandTools.showToast(barcode);
-	}
 }

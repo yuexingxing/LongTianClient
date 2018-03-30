@@ -18,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 public class ListViewAdapter extends BaseAdapter{
+	
 	public final static String DEBUG_TAG="MyAdapter";
 	public static final String IMG = "img";
 	public static final String TITEL = "titel";
@@ -75,7 +76,8 @@ public class ListViewAdapter extends BaseAdapter{
 			listItemView = (ListItemView)arg1.getTag();   
 		}  
 		final int arg = arg0;   
-		listItemView.image.setBackgroundResource((Integer) listItems.get(arg0).get(IMG));   
+//		listItemView.image.setBackgroundResource((Integer) listItems.get(arg0).get(IMG));   
+		listItemView.image.setImageResource((Integer) listItems.get(arg0).get(IMG));
 		listItemView.title.setText((String) listItems.get(arg0).get(TITEL));   
 		listItemView.info.setText((String) listItems.get(arg0).get(INFO));   
 		listItemView.button.setText((String) listItems.get(arg0).get(STATUS)); 

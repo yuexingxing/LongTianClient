@@ -7,6 +7,7 @@ import org.json.JSONObject;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Message;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnFocusChangeListener;
@@ -62,6 +63,8 @@ public class ArriveScanActivity extends BaseActivity {
 		// TODO Auto-generated method stub
 		setContentViewId(R.layout.activity_arrive_scan);
 		ViewUtils.inject(this);
+		
+		MyApplication.getEventBus().register(this);
 	}
 
 	@Override
@@ -366,5 +369,18 @@ public class ArriveScanActivity extends BaseActivity {
 				edtPreStop.setText(jsonObject.optString("oppositeSiteName"));
 			}
 		});
+	}
+	
+	/* (non-Javadoc)
+	 * @see com.exam.longtian.activity.BaseActivity#onEventMainThread(android.os.Message)
+	 */
+	public void onEventMainThread(Message msg) {
+
+		if(msg.what == Constant.SCANNER_BILLCODE){
+
+			String billcode = (String) msg.obj;
+			edtBillcode.setText(billcode);
+			save(null);
+		}
 	}
 }

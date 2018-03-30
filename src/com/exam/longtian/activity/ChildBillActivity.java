@@ -2,16 +2,11 @@ package com.exam.longtian.activity;
 
 import java.util.ArrayList;
 import java.util.List;
-
+import com.exam.longtian.MyApplication;
 import com.exam.longtian.R;
-import com.exam.longtian.R.color;
-import com.exam.longtian.R.id;
-import com.exam.longtian.R.layout;
-import com.exam.longtian.activity.inputbill.InputBillActivity;
 import com.exam.longtian.adapter.CommonAdapter;
 import com.exam.longtian.adapter.ViewHolder;
 import com.exam.longtian.camera.CaptureActivity;
-import com.exam.longtian.entity.SiteInfo;
 import com.exam.longtian.entity.SubBillInfo;
 import com.exam.longtian.util.CommandTools;
 import com.exam.longtian.util.Constant;
@@ -19,21 +14,15 @@ import com.exam.longtian.util.RegularUtil;
 import com.exam.longtian.util.Res;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
-
 import android.content.Intent;
-import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
+import android.os.Message;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 
 /** 
@@ -63,6 +52,8 @@ public class ChildBillActivity extends BaseActivity {
 		// TODO Auto-generated method stub
 		setContentViewId(R.layout.activity_child_bill);
 		ViewUtils.inject(this);
+		
+		MyApplication.getEventBus().register(this);
 	}
 
 	@Override
@@ -321,11 +312,15 @@ public class ChildBillActivity extends BaseActivity {
 	}
 
 	/* (non-Javadoc)
-	 * @see com.exam.longtian.activity.BaseActivity#onScanSuccess(java.lang.String)
+	 * @see com.exam.longtian.activity.BaseActivity#onEventMainThread(android.os.Message)
 	 */
-	public void onScanSuccess(String barcode) {
-		// TODO Auto-generated method stub
-		edtBillcode.setText(barcode);
-		add(null);
+	public void onEventMainThread(Message msg) {
+
+		if(msg.what == Constant.SCANNER_BILLCODE){
+
+			String billcode = (String) msg.obj;
+			edtBillcode.setText(billcode);
+			add(null);
+		}
 	}
 }

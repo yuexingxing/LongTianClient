@@ -115,7 +115,7 @@
             android:layout_weight="1"
             android:background="@drawable/selector_btn_button"
             android:onClick="bluetoothSetting"
-            android:text="打印机设置"
+            android:text="蓝牙设备设置"
             android:textSize="13sp" />
 
         <Button

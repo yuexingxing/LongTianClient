@@ -53,6 +53,7 @@
     <string name="gprinter018">Printer 018</string>
     <string name="gprinter019">Printer 019</string>
     <string name="gprinter020">Printer 020</string>
+    <string name="scanner001">扫描枪 001</string>
     <string name="disconnect">未连接</string>
     <string name="cut">断开</string>
     <string name="cutting">断开中</string>
@@ -97,5 +98,6 @@
     <string name="copy_right_cn">佳博集团 版权所有</string>
     <string name="port_parameters_wrong">端口参数错误！</string>
     <string name="port_parameters_is_not_save">端口参数未保存！</string>
+    <string name="title_activity_scanner_connect">ScannerConnectActivity</string>
 
 </resources>
