@@ -148,4 +148,8 @@ public abstract class BaseActivity extends Activity{
 
 	}
 
+	public void onDestory(){
+		super.onDestroy();
+		
+	}
 }

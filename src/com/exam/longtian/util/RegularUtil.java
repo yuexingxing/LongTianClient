@@ -103,7 +103,12 @@ public class RegularUtil {
 	 */
 	public static boolean checkAllBill(String billcode){
 
-		return (billcode.matches(billRegular) || billcode.matches(childBillRegular) || billcode.matches(backBillRegular) || billcode.matches(joinBillRegular));
+		return (
+				billcode.matches(billRegular) 
+				|| billcode.matches(childBillRegular) 
+				|| billcode.matches(backBillRegular) 
+				|| billcode.matches(joinBillRegular)
+				);
 	}
 
 	/**

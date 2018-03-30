@@ -372,6 +372,16 @@ public class ArriveScanActivity extends BaseActivity {
 	}
 	
 	/* (non-Javadoc)
+	 * @see com.exam.longtian.activity.BaseActivity#onDestory()
+	 */
+	public void onDestory(){
+		super.onDestroy();
+		
+		MyApplication.getEventBus().unregister(this);
+	}
+
+	
+	/* (non-Javadoc)
 	 * @see com.exam.longtian.activity.BaseActivity#onEventMainThread(android.os.Message)
 	 */
 	public void onEventMainThread(Message msg) {

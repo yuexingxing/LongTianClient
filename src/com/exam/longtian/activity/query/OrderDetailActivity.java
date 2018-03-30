@@ -220,6 +220,16 @@ public class OrderDetailActivity extends BaseActivity {
 
 		((TextView)findViewById(R.id.order_detail_child_billcode)).setText("");
 	}
+	
+	/* (non-Javadoc)
+	 * @see com.exam.longtian.activity.BaseActivity#onDestory()
+	 */
+	public void onDestory(){
+		super.onDestroy();
+		
+		MyApplication.getEventBus().unregister(this);
+	}
+
 
 	/* (non-Javadoc)
 	 * @see com.exam.longtian.activity.BaseActivity#onEventMainThread(android.os.Message)

@@ -26,6 +26,7 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Message;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.DatePicker;
@@ -75,6 +76,7 @@ public class SendQueryActivity extends BaseActivity {
 		setContentViewId(R.layout.activity_send_query);
 		ViewUtils.inject(this);
 
+		MyApplication.getEventBus().register(this);
 	}
 
 	@Override
@@ -102,13 +104,13 @@ public class SendQueryActivity extends BaseActivity {
 
 				String chayi = "";
 				if(PresenterUtil.ORDER_TYPE_ARRIVE.equals(orderType)){
-					
+
 					chayi = (item.getUNSAN_SUB_COUNT() - item.getSCAN_SUB_COUNT()) + "," + (item.getCOME_NO_SEND());
 					helper.hideView(R.id.item_layout_sendquery_num3, false);
 				}else{
 					helper.hideView(R.id.item_layout_sendquery_num3, true);
 				}
-				
+
 				helper.setText(R.id.item_layout_sendquery_num3, chayi);
 
 				if(item.getBE_SCAN() == 1){
@@ -147,7 +149,7 @@ public class SendQueryActivity extends BaseActivity {
 			edtSiteName.setText(data.getStringExtra("name"));
 			siteGcode = data.getStringExtra("code");
 		}else if (requestCode == Constant.CAPTURE_BILLCODE && resultCode == RESULT_OK) {
-			
+
 			if(data == null){
 				return;
 			}
@@ -157,7 +159,7 @@ public class SendQueryActivity extends BaseActivity {
 			edtBillcode.setText(strBillcode);
 		}
 	}
-	
+
 	public void scan(View v){
 
 		Intent openCameraIntent = new Intent(this, CaptureActivity.class);
@@ -310,17 +312,30 @@ public class SendQueryActivity extends BaseActivity {
 			}
 		});
 	}
+	
+	/* (non-Javadoc)
+	 * @see com.exam.longtian.activity.BaseActivity#onDestory()
+	 */
+	public void onDestory(){
+		super.onDestroy();
+		
+		MyApplication.getEventBus().unregister(this);
+	}
 
 	/* (non-Javadoc)
-	 * @see com.exam.longtian.activity.BaseActivity#onScanSuccess(java.lang.String)
+	 * @see com.exam.longtian.activity.BaseActivity#onEventMainThread(android.os.Message)
 	 */
-	public void onScanSuccess(String barcode) {
-		// TODO Auto-generated method stub
-		
-		if(edtBillcode.isFocused()){
-			edtBillcode.setText(barcode);
-		}else if(edtJoinBillcode.isFocused()){
-			edtJoinBillcode.setText(barcode);
+	public void onEventMainThread(Message msg) {
+
+		if(msg.what == Constant.SCANNER_BILLCODE){
+
+			String billcode = (String) msg.obj;
+
+			if(edtBillcode.isFocused()){
+				edtBillcode.setText(billcode);
+			}else if(edtJoinBillcode.isFocused()){
+				edtJoinBillcode.setText(billcode);
+			}
 		}
 	}
 }

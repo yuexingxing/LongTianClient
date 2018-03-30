@@ -59,13 +59,14 @@ public class PrinterSettingMenuActivity extends BaseActivity {
 		// TODO Auto-generated method stub
 
 	}
-	
+
 	public void connectScanner(View v){
-		
+
 		Intent intent = new Intent(this, ScannerConnectActivity.class);
 		boolean[] state = MainMenuActivity.getConnectState();
 		intent.putExtra(MainMenuActivity.CONNECT_STATUS, state);
 		startActivity(intent);
+		finish();
 	}
 
 	public void connectPrinter(View v){

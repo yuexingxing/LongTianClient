@@ -256,6 +256,16 @@ public class InputBillActivity extends BaseActivity {
 
 		mBillInfo.setSendSiteGcode(MyApplication.mUser.getOwnSiteGcode());
 	}
+	
+	/* (non-Javadoc)
+	 * @see com.exam.longtian.activity.BaseActivity#onDestory()
+	 */
+	public void onDestory(){
+		super.onDestroy();
+		
+		MyApplication.getEventBus().unregister(this);
+	}
+
 
 	/* (non-Javadoc)
 	 * @see com.exam.longtian.activity.BaseActivity#onEventMainThread(android.os.Message)

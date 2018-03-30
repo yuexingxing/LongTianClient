@@ -436,13 +436,12 @@ public class BleWrapper {
 
         @Override
         public void onReadRemoteRssi(BluetoothGatt gatt, int rssi, int status) {
+        	
             if (status == BluetoothGatt.GATT_SUCCESS) {
                 // we got new value of RSSI of the connection, pass it to the UI
                 mUiCallback.uiNewRssiAvailable(mBluetoothGatt, mBluetoothDevice, rssi);
             }
         }
-
-        ;
     };
 
     private Activity mParent = null;

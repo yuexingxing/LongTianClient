@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import com.exam.longtian.MyApplication;
 import com.exam.longtian.R;
@@ -44,7 +46,7 @@ public class ScannerConnectActivity extends BaseActivity {
 
 	public static BleWrapper bleWrapper;
 	private BluItem blueItem = new BluItem();
-	
+
 	private List<Map<String, Object>> mList = null;
 	private ListViewAdapter mListViewAdapter = null;
 	public static  int mPrinterId = 0;
@@ -52,7 +54,7 @@ public class ScannerConnectActivity extends BaseActivity {
 	public final int MAX_PRINTER_CNT = 1;
 	private PortParameters mPortParam[] = new PortParameters[MAX_PRINTER_CNT];
 	private static final int INTENT_PORT_SETTINGS = 0;
-	
+
 	private static String SerUUID = "0000feea-0000-1000-8000-00805f9b34fb";
 	private static String ChUUID = "00002aa1-0000-1000-8000-00805f9b34fb";
 
@@ -176,7 +178,7 @@ public class ScannerConnectActivity extends BaseActivity {
 	}
 
 	private void initPortParam() {
-		
+
 		Intent intent = getIntent();
 		boolean[] state = intent.getBooleanArrayExtra(MainMenuActivity.CONNECT_STATUS);
 		for (int i = 0; i < MAX_PRINTER_CNT; i++) {
@@ -184,7 +186,7 @@ public class ScannerConnectActivity extends BaseActivity {
 			mPortParam[i] = new PortParameters();
 			mPortParam[i] = database.queryPortParamDataBase("" + i);
 			mPortParam[i].setPortOpenState(state[i]);
-			
+
 			blueItem.setAddress(mPortParam[i].getBluetoothAddr());
 		}
 	}
@@ -242,7 +244,7 @@ public class ScannerConnectActivity extends BaseActivity {
 		}
 		return rel;
 	}
-	
+
 	class BleCallBack extends BleWrapperUiCallbacks.Null {
 
 		@Override
@@ -267,9 +269,16 @@ public class ScannerConnectActivity extends BaseActivity {
 			String billcode = new String(value);
 			Log.d("zd", "uiGotNotification: " + billcode);
 			
+			//过滤特殊字符
+			String regEx="[`~!@#$%^&*()+=|{}':;',\\[\\].<>/?~！@#￥%……&*（）——+|{}【】‘；：”“’。，、？]"; 
+			Pattern p = Pattern.compile(regEx); 
+			Matcher m = p.matcher(billcode);
+			billcode = m.replaceAll("").trim();
+
 			Message msg = new Message();
 			msg.what = Constant.SCANNER_BILLCODE;
 			msg.obj = billcode;
+			
 			MyApplication.getEventBus().post(msg);
 		}
 
@@ -289,7 +298,7 @@ public class ScannerConnectActivity extends BaseActivity {
 								runOnUiThread(new Runnable() {
 									@Override
 									public void run() {
-										
+
 										blueItem.setConn(true);
 										mListViewAdapter.notifyDataSetChanged();
 										CommandTools.showToast("扫描枪连接成功");
