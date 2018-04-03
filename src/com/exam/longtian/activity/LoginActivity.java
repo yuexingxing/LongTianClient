@@ -60,6 +60,10 @@ public class LoginActivity extends Activity{
 
 		initData();
 		checkAppUpdate();
+		
+		Intent intent = new Intent(LoginActivity.this, MainMenuActivity.class);
+		startActivity(intent);
+		finish();
 	}
 	
 	public void initData(){

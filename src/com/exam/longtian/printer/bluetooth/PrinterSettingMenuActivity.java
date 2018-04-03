@@ -4,8 +4,13 @@ import java.util.Vector;
 import com.exam.longtian.R;
 import com.exam.longtian.activity.BaseActivity;
 import com.exam.longtian.activity.MainMenuActivity;
+import com.exam.longtian.entity.BillInfo;
 import com.exam.longtian.scanner.ScannerConnectActivity;
 import com.exam.longtian.util.CommandTools;
+import com.gprinter.command.EscCommand;
+import com.gprinter.command.EscCommand.FONT;
+import com.gprinter.command.EscCommand.HRI_POSITION;
+import com.gprinter.command.EscCommand.JUSTIFICATION;
 import com.gprinter.command.GpCom;
 import com.gprinter.command.GpUtils;
 import com.gprinter.command.LabelCommand;
@@ -83,25 +88,26 @@ public class PrinterSettingMenuActivity extends BaseActivity {
 		//				intent.putExtra(GpPrintService.PRINTER_ID, PrinterConnectDialog.mPrinterId);
 		//				sendBroadcast(intent);
 
-		//		BillInfo info = new BillInfo();
-		//		info.setBillCode("1234567890");
-		//		info.setSendDate(CommandTools.getTime());
-		//		info.setSenderName("张三");
-		//		info.setPackageKindName("托盘");
-		//		info.setServicePatternName("门对门");
-		//		info.setTotalWeight("220");
-		//		info.setTotalVolume("120");
-		//		info.setDestSiteName("上海");
-		//		info.setRecipientsAddress("上海市杨浦区创智科技");
+		BillInfo info = new BillInfo();
+		info.setBillCode("1234567890");
+		info.setSendDate(CommandTools.getTime());
+		info.setSenderName("张三");
+		info.setPackageKindName("托盘");
+		info.setServicePatternName("门对门");
+		info.setTotalWeight("220");
+		info.setTotalVolume("120");
+		info.setDestSiteName("上海");
+		info.setRecipientsAddress("上海市杨浦区创智科技");
 
-		//		PrintUtil.printLabel(info, null);
-		testLabel();
+		PrintUtil.printLabel(info, 1, 10, null);
+//						testLabel();
+//		sendLabel();
 	}
 
 	public void testLabel() {
 
 		LabelCommand tsc = new LabelCommand();
-		tsc.addSize(800, 900); // 设置标签尺寸，按照实际尺寸设置
+		tsc.addSize(80, 90); // 设置标签尺寸，按照实际尺寸设置
 		tsc.addGap(0); // 设置标签间隙，按照实际尺寸设置，如果为无间隙纸则设置为0
 		tsc.addDirection(DIRECTION.BACKWARD, MIRROR.NORMAL);// 设置打印方向
 		tsc.addReference(0, 0);// 设置原点坐标
@@ -113,17 +119,18 @@ public class PrinterSettingMenuActivity extends BaseActivity {
 		//		tsc.addText(20, 20, FONTTYPE.SIMPLIFIED_CHINESE, ROTATION.ROTATION_0, FONTMUL.MUL_1, FONTMUL.MUL_1,
 		//				"|");//|
 
-		drawableLine(tsc);
+		tsc.addText(20, 40, FONTTYPE.SIMPLIFIED_CHINESE, ROTATION.ROTATION_0, FONTMUL.MUL_1, FONTMUL.MUL_1,
+				"123465");//|
 		
-		tsc.addText(20, 400, FONTTYPE.SIMPLIFIED_CHINESE, ROTATION.ROTATION_0, FONTMUL.MUL_1, FONTMUL.MUL_1,
-						"123465");//|
+		tsc.addBar(20, 20, 100, 1);
+		
+		tsc.addFeed(2);
 
 		// 绘制一维条码
-//		tsc.add1DBarcode(20, 250, BARCODETYPE.CODE128M, 100, READABEL.DISABLE, ROTATION.ROTATION_0, "123456798");
+		//		tsc.add1DBarcode(20, 250, BARCODETYPE.CODE128M, 100, READABEL.DISABLE, ROTATION.ROTATION_0, "123456798");
 
 		tsc.addPrint(1, 1); // 打印标签
 		tsc.addSound(2, 100); // 打印标签后 蜂鸣器响
-		tsc.addCashdrwer(LabelCommand.FOOT.F5, 255, 255);
 		Vector<Byte> datas = tsc.getCommand(); // 发送数据
 		byte[] bytes = GpUtils.ByteTo_byte(datas);
 		String str = Base64.encodeToString(bytes, Base64.DEFAULT);
@@ -137,46 +144,6 @@ public class PrinterSettingMenuActivity extends BaseActivity {
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
-	}
-
-	/**
-	 * 画边框
-	 * @param tsc
-	 */
-	public void drawableLine(LabelCommand tsc){
-
-		drawRowLine(tsc, 0, 200, 50);//浙壹物流下面横线
-		drawColumnLine(tsc, 200, 0, 50);//浙壹物流右侧竖线
-	}
-
-	/**
-	 * 画横线
-	 * @param tsc
-	 * @param x1
-	 * @param x2
-	 * @param y
-	 */
-	public void drawRowLine(LabelCommand tsc, int x1, int x2, int y){
-
-		for(int i=x1; i<x2; i+=10){
-
-			tsc.addText(i, y, FONTTYPE.SIMPLIFIED_CHINESE, ROTATION.ROTATION_0, FONTMUL.MUL_1, FONTMUL.MUL_1, "￣");
-		}
-	}
-
-	/**
-	 * 画竖线
-	 * @param tsc
-	 * @param x
-	 * @param y1
-	 * @param y2
-	 */
-	public void drawColumnLine(LabelCommand tsc, int x, int y1, int y2){
-
-		for(int i=y1; i<y2; i+=10){
-
-			tsc.addText(x, i, FONTTYPE.SIMPLIFIED_CHINESE, ROTATION.ROTATION_0, FONTMUL.MUL_1, FONTMUL.MUL_1, "|");
 		}
 	}
 
@@ -202,7 +169,7 @@ public class PrinterSettingMenuActivity extends BaseActivity {
 		tsc.add1DBarcode(20, 250, BARCODETYPE.CODE128, 100, READABEL.DISABLE, ROTATION.ROTATION_0, "SMARNET");
 		tsc.addPrint(1, 1); // 打印标签
 		tsc.addSound(2, 100); // 打印标签后 蜂鸣器响
-		tsc.addCashdrwer(LabelCommand.FOOT.F5, 255, 255);
+//		tsc.addCashdrwer(LabelCommand.FOOT.F5, 255, 255);
 		Vector<Byte> datas = tsc.getCommand(); // 发送数据
 		byte[] bytes = GpUtils.ByteTo_byte(datas);
 		String str = Base64.encodeToString(bytes, Base64.DEFAULT);
