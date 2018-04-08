@@ -5,7 +5,6 @@ import java.util.List;
 import okhttp3.OkHttpClient;
 import com.exam.longtian.entity.User;
 import com.exam.longtian.scanner.ScannerConnectActivity;
-
 import de.greenrobot.event.EventBus;
 import android.app.Activity;
 import android.app.Application;
