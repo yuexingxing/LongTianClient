@@ -27,6 +27,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -122,6 +123,11 @@ public class ScannerConnectActivity extends BaseActivity {
 			switch (message.what) {
 
 			case ListViewAdapter.MESSAGE_CONNECT:
+				
+				if(TextUtils.isEmpty(blueItem.getAddress()) || blueItem.getAddress().contains("undefined")){
+					CommandTools.showToast("«Îœ»≈‰∂‘¿∂—¿…®√Ë«π");
+					return false;
+				}
 
 				bleWrapper = new BleWrapper(ScannerConnectActivity.this, new BleCallBack());
 				if (bleWrapper.initialize()) {

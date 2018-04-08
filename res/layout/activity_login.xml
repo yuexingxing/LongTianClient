@@ -163,6 +163,7 @@
             android:id="@+id/login_tv_version"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginRight="8dp"
             android:text="1.0.0"
             android:textColor="@color/background_title"
             android:textSize="17sp" />
