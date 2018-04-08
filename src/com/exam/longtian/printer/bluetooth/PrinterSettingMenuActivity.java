@@ -89,7 +89,7 @@ public class PrinterSettingMenuActivity extends BaseActivity {
 		//				sendBroadcast(intent);
 
 		BillInfo info = new BillInfo();
-		info.setBillCode("1234567890");
+		info.setBillCode("36560000025003");
 		info.setSendDate(CommandTools.getTime());
 		info.setSenderName("уехЩ");
 		info.setPackageKindName("мпел");

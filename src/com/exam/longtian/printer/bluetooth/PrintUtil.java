@@ -29,6 +29,8 @@ import com.gprinter.command.LabelCommand.ROTATION;
  * 
  */
 public class PrintUtil {
+	
+	
 
 	public static abstract class CallBack {
 		public abstract void callback(int pos);
@@ -78,16 +80,19 @@ public class PrintUtil {
 		tsc.addCls();// 清除打印缓冲区
 		//		tsc.addSelectJustification(JUSTIFICATION.CENTER);//设置打印居中
 		
+//		tsc.addHome();//校准标签纸
+//		tsc.addFormFeed();//走一张标签纸
+
 		drawLine(tsc, 220, 0, 1, 170);//浙壹物流右侧竖线
 		tsc.addText(240, 40, LabelCommand.FONTTYPE.SIMPLIFIED_CHINESE, LabelCommand.ROTATION.ROTATION_0, LabelCommand.FONTMUL.MUL_2, LabelCommand.FONTMUL.MUL_2,
 				billInfo.getBillCode());
-		
+
 		drawLine(tsc, 0, 90, 220, 1);//浙壹物流下面横线
 		tsc.addText(20, 110, LabelCommand.FONTTYPE.SIMPLIFIED_CHINESE, LabelCommand.ROTATION.ROTATION_0, LabelCommand.FONTMUL.MUL_1, LabelCommand.FONTMUL.MUL_1,
 				"包装");
 		tsc.addText(20, 140, LabelCommand.FONTTYPE.SIMPLIFIED_CHINESE, LabelCommand.ROTATION.ROTATION_0, LabelCommand.FONTMUL.MUL_1, LabelCommand.FONTMUL.MUL_1,
 				"类型");
-		
+
 		drawLine(tsc, 80, 90, 1, 80);//包装类型右侧小竖线
 		tsc.addText(100, 120, LabelCommand.FONTTYPE.SIMPLIFIED_CHINESE, LabelCommand.ROTATION.ROTATION_0, LabelCommand.FONTMUL.MUL_1, LabelCommand.FONTMUL.MUL_1,
 				billInfo.getPackageKindName());//包装方式
@@ -103,11 +108,11 @@ public class PrintUtil {
 				"发货日期 ");
 		tsc.addText(420, 120, LabelCommand.FONTTYPE.SIMPLIFIED_CHINESE, LabelCommand.ROTATION.ROTATION_0, LabelCommand.FONTMUL.MUL_1, LabelCommand.FONTMUL.MUL_1,
 				arrDate[0]);//发货日期
-		
+
 		drawLine(tsc, 0, 170, 800, 1);//条形码上面大横线
-		tsc.add1DBarcode(200, 180, BARCODETYPE.CODE128M, 100, READABEL.EANBEL, ROTATION.ROTATION_0, billInfo.getBillCode());
+		tsc.add1DBarcode(130, 190, BARCODETYPE.CODE128M, 100, READABEL.DISABLE, ROTATION.ROTATION_0, billInfo.getBillCode());
 		drawLine(tsc, 0, 310, 800, 1);//条形码下面大横线
-		
+
 		drawLine(tsc, 80, 310, 1, 600);//目的地信息右侧长竖线
 		tsc.addText(20, 340, LabelCommand.FONTTYPE.SIMPLIFIED_CHINESE, LabelCommand.ROTATION.ROTATION_0, LabelCommand.FONTMUL.MUL_1, LabelCommand.FONTMUL.MUL_1,
 				"目的");
@@ -116,7 +121,7 @@ public class PrintUtil {
 		tsc.addText(20, 400, LabelCommand.FONTTYPE.SIMPLIFIED_CHINESE, LabelCommand.ROTATION.ROTATION_0, LabelCommand.FONTMUL.MUL_1, LabelCommand.FONTMUL.MUL_1,
 				"息");
 
-		tsc.addText(170, 320, LabelCommand.FONTTYPE.SIMPLIFIED_CHINESE, LabelCommand.ROTATION.ROTATION_0, LabelCommand.FONTMUL.MUL_2, LabelCommand.FONTMUL.MUL_2,
+		tsc.addText(170, 325, LabelCommand.FONTTYPE.SIMPLIFIED_CHINESE, LabelCommand.ROTATION.ROTATION_0, LabelCommand.FONTMUL.MUL_2, LabelCommand.FONTMUL.MUL_2,
 				billInfo.getDestSiteName());//省市名称
 
 		drawLine(tsc, 415, 310, 1, 80);//服务方式左侧竖线
@@ -124,40 +129,40 @@ public class PrintUtil {
 				billInfo.getServicePatternName());//服务方式
 
 		drawLine(tsc, 80, 390, 700, 1);//收件地址上面横线
-		tsc.addText(170, 410, LabelCommand.FONTTYPE.SIMPLIFIED_CHINESE, LabelCommand.ROTATION.ROTATION_0, LabelCommand.FONTMUL.MUL_1, LabelCommand.FONTMUL.MUL_1,
+		tsc.addText(170, 415, LabelCommand.FONTTYPE.SIMPLIFIED_CHINESE, LabelCommand.ROTATION.ROTATION_0, LabelCommand.FONTMUL.MUL_1, LabelCommand.FONTMUL.MUL_1,
 				billInfo.getRecipientsAddress());//收件地址
 		drawLine(tsc, 0, 470, 800, 1);//收件地址下面横线
 
-		tsc.addText(20, 490, LabelCommand.FONTTYPE.SIMPLIFIED_CHINESE, LabelCommand.ROTATION.ROTATION_0, LabelCommand.FONTMUL.MUL_1, LabelCommand.FONTMUL.MUL_1,
-				"货物");
 		tsc.addText(20, 520, LabelCommand.FONTTYPE.SIMPLIFIED_CHINESE, LabelCommand.ROTATION.ROTATION_0, LabelCommand.FONTMUL.MUL_1, LabelCommand.FONTMUL.MUL_1,
+				"货物");
+		tsc.addText(20, 550, LabelCommand.FONTTYPE.SIMPLIFIED_CHINESE, LabelCommand.ROTATION.ROTATION_0, LabelCommand.FONTMUL.MUL_1, LabelCommand.FONTMUL.MUL_1,
 				"信息");
 
 		tsc.addText(110, 490, LabelCommand.FONTTYPE.SIMPLIFIED_CHINESE, LabelCommand.ROTATION.ROTATION_0, LabelCommand.FONTMUL.MUL_1, LabelCommand.FONTMUL.MUL_1,
 				billInfo.getTotalWeight() + " " + billInfo.getTotalVolume());//长宽高
-		
+
 		drawLine(tsc, 270, 470, 1, 80);//收件人左侧竖线
 		drawLine(tsc, 390, 470, 1, 80);//收件人右侧竖线
 		tsc.addText(280, 480, LabelCommand.FONTTYPE.SIMPLIFIED_CHINESE, LabelCommand.ROTATION.ROTATION_0, LabelCommand.FONTMUL.MUL_1, LabelCommand.FONTMUL.MUL_1,
 				billInfo.getRecipientsName());//收件人名称
-		
-		tsc.addText(400, 480, LabelCommand.FONTTYPE.SIMPLIFIED_CHINESE, LabelCommand.ROTATION.ROTATION_0, LabelCommand.FONTMUL.MUL_2, LabelCommand.FONTMUL.MUL_2,
+
+		tsc.addText(400, 490, LabelCommand.FONTTYPE.SIMPLIFIED_CHINESE, LabelCommand.ROTATION.ROTATION_0, LabelCommand.FONTMUL.MUL_2, LabelCommand.FONTMUL.MUL_2,
 				currPage + "/" + totalPage);//  1/10
 
 		tsc.addText(100, 565, LabelCommand.FONTTYPE.SIMPLIFIED_CHINESE, LabelCommand.ROTATION.ROTATION_0, LabelCommand.FONTMUL.MUL_1, LabelCommand.FONTMUL.MUL_1,
 				"发货");
 		tsc.addText(100, 595, LabelCommand.FONTTYPE.SIMPLIFIED_CHINESE, LabelCommand.ROTATION.ROTATION_0, LabelCommand.FONTMUL.MUL_1, LabelCommand.FONTMUL.MUL_1,
 				"网点");
-		
+
 		drawLine(tsc, 80, 550, 800, 1);//发货网点上面横线
 		drawLine(tsc, 160, 550, 1, 100);//发货网点右侧竖线
 		tsc.addText(210, 565, LabelCommand.FONTTYPE.SIMPLIFIED_CHINESE, LabelCommand.ROTATION.ROTATION_0, LabelCommand.FONTMUL.MUL_1, LabelCommand.FONTMUL.MUL_1,
 				billInfo.getSendSiteName());
-		
-		drawLine(tsc, 370, 550, 1, 100);//备注左侧竖线
-		tsc.addText(390, 575, LabelCommand.FONTTYPE.SIMPLIFIED_CHINESE, LabelCommand.ROTATION.ROTATION_0, LabelCommand.FONTMUL.MUL_1, LabelCommand.FONTMUL.MUL_1,
+
+		drawLine(tsc, 370, 550, 1, 120);//备注左侧竖线
+		tsc.addText(390, 585, LabelCommand.FONTTYPE.SIMPLIFIED_CHINESE, LabelCommand.ROTATION.ROTATION_0, LabelCommand.FONTMUL.MUL_1, LabelCommand.FONTMUL.MUL_1,
 				"备注");
-		drawLine(tsc, 460, 550, 1, 100);//备注右侧竖线
+		drawLine(tsc, 460, 550, 1, 120);//备注右侧竖线
 		tsc.addText(450, 575, LabelCommand.FONTTYPE.SIMPLIFIED_CHINESE, LabelCommand.ROTATION.ROTATION_0, LabelCommand.FONTMUL.MUL_1, LabelCommand.FONTMUL.MUL_1,
 				billInfo.getRemark());
 
@@ -187,9 +192,9 @@ public class PrintUtil {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public static void drawLine(LabelCommand tsc, int x, int y, int width, int height){
-		
+
 		tsc.addBar(x, y, width, height);
 	}
 }
