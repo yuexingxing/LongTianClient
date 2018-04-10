@@ -30,8 +30,6 @@ import com.gprinter.command.LabelCommand.ROTATION;
  */
 public class PrintUtil {
 	
-	
-
 	public static abstract class CallBack {
 		public abstract void callback(int pos);
 	}

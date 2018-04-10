@@ -31,7 +31,7 @@ public class RegularUtil {
 			return false;
 		}
 
-		if(phone.length() == 11){
+		if(phone.length() == 11 && !phone.contains("-")){
 			return phone.matches(phoneRegular);
 		}else{
 			return true;

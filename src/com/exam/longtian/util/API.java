@@ -2,7 +2,7 @@ package com.exam.longtian.util;
 
 public class API {
 
-	public static String URL = "http://218.94.60.50:8088/api/";
+	public static String URL = "http://122.225.117.175:8088/api/";//"http://218.94.60.50:8088/api/";
 	public static String URL_APP_UPDATE = "http://122.225.117.166:8085/LT_AppUpdate/checkNew?os=android&type=app&ver=1.0&tag=normal";
 	public static String site = "";
 

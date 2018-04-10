@@ -103,14 +103,14 @@ public class OkHttpUtil {
 
 			@Override
 			public void onFailure(Call call, IOException e) {
-				mHandler.sendEmptyMessage(0x0012);
+				mHandler.sendEmptyMessage(0x0013);
 				Log.e("zd", "testHttpPost ... onFailure() e=" + e);
 			}
 
 			@Override
 			public void onResponse(Call arg0, Response arg1) throws IOException {
 				// TODO Auto-generated method stub
-				mHandler.sendEmptyMessage(0x0012);
+				mHandler.sendEmptyMessage(0x0013);
 				String result = arg1.body().string();
 				Log.e("post-data", result);
 
@@ -165,7 +165,7 @@ public class OkHttpUtil {
 
 			@Override
 			public void onFailure(Call call, IOException e) {
-				mHandler.sendEmptyMessage(0x0012);
+				mHandler.sendEmptyMessage(0x0013);
 				Log.e("zd", "testHttpPost ... onFailure() e=" + e);
 			}
 
@@ -332,7 +332,8 @@ public class OkHttpUtil {
 			}else if(msg.what == 0x0012){
 				CustomProgress.dissDialog();
 			}else if(msg.what == 0x0013){
-
+				CustomProgress.dissDialog();
+				CommandTools.showToast("服务器连接失败");
 			}else if(msg.what == 0x10001){
 
 				CallBackData callBackData = (CallBackData) msg.obj;
