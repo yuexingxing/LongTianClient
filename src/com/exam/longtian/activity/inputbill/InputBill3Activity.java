@@ -2,25 +2,19 @@ package com.exam.longtian.activity.inputbill;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 import com.exam.longtian.MyApplication;
 import com.exam.longtian.R;
 import com.exam.longtian.activity.BaseActivity;
 import com.exam.longtian.activity.MainMenuActivity;
-import com.exam.longtian.activity.query.ReceiveDetailActivity;
 import com.exam.longtian.entity.BillInfo;
-import com.exam.longtian.entity.SubBillInfo;
 import com.exam.longtian.printer.bluetooth.PrintUtil;
 import com.exam.longtian.printer.bluetooth.PrinterConnectDialog;
-import com.exam.longtian.printer.bluetooth.PrintUtil.CallBack;
-import com.exam.longtian.printer.bluetooth.PrinterSettingMenuActivity;
 import com.exam.longtian.util.API;
 import com.exam.longtian.util.CommandTools;
 import com.exam.longtian.util.CommandTools.CommandToolsCallback;
 import com.exam.longtian.util.OkHttpUtil;
-import com.exam.longtian.util.RegularUtil;
 import com.exam.longtian.util.OkHttpUtil.ObjectCallback;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -31,12 +25,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Message;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
 /** 
- * 录单3-
+ * 录单3
  * 
  * 支持标签打印
  * 
@@ -143,10 +136,10 @@ public class InputBill3Activity extends BaseActivity {
 			return false;
 		}
 
-		if(!RegularUtil.checkPhone(mBillInfo.getSenderPhone())){
-			CommandTools.showToast("寄件电话格式不正确");
-			return false;
-		}
+		//		if(!RegularUtil.checkPhone(mBillInfo.getSenderPhone())){
+		//			CommandTools.showToast("寄件电话格式不正确");
+		//			return false;
+		//		}
 
 		if(TextUtils.isEmpty(mBillInfo.getSenderName())){
 			CommandTools.showToast("请输入寄件人");
@@ -181,12 +174,12 @@ public class InputBill3Activity extends BaseActivity {
 			public void callback(boolean success, String message, String code, Object data) {
 				// TODO Auto-generated method stub
 				CommandTools.showToast(message);
-				
+
 				Message msg = new Message();
 				msg.what = 0x0011;
 				msg.obj = message;
 				MyApplication.getEventBus().post(msg);
-			
+
 				if(success){
 
 					CommandTools.showChooseDialog(InputBill3Activity.this, "是否打印标签吗？", new CommandToolsCallback() {
@@ -197,11 +190,11 @@ public class InputBill3Activity extends BaseActivity {
 							if(position == 0){
 
 								startPrint();
-
-								Intent intent = new Intent();
-								setResult(RESULT_OK, intent);
-								finish();
 							}
+
+							Intent intent = new Intent();
+							setResult(RESULT_OK, intent);
+							finish();
 						}
 					});
 				}

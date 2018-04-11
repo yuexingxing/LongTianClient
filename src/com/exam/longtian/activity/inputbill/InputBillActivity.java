@@ -22,7 +22,7 @@ import android.view.View;
 import android.widget.EditText;
 
 /** 
- * 录单
+ * 录单-1
  * 
  * @author yxx
  *
@@ -205,10 +205,10 @@ public class InputBillActivity extends BaseActivity {
 			return;
 		}
 
-		if(!RegularUtil.checkPhone(mBillInfo.getRecipientsPhone())){
-			CommandTools.showToast("收件电话格式不正确");
-			return;
-		}
+		//		if(!RegularUtil.checkPhone(mBillInfo.getRecipientsPhone())){
+		//			CommandTools.showToast("收件电话格式不正确");
+		//			return;
+		//		}
 
 		if(TextUtils.isEmpty(mBillInfo.getRecipientsName())){
 			CommandTools.showToast("请输入收件人");
@@ -242,6 +242,7 @@ public class InputBillActivity extends BaseActivity {
 		mBillInfo.setBillCode(edtBillcode.getText().toString());
 		mBillInfo.setOpEmpGcode(MyApplication.mUser.getOpEmpGcode());
 		mBillInfo.setOpEmpName(MyApplication.mUser.getOpEmpName());
+		mBillInfo.setOpTime(CommandTools.getTime());
 
 		mBillInfo.setRecipientsName(edtRecName.getText().toString());
 
@@ -252,17 +253,18 @@ public class InputBillActivity extends BaseActivity {
 		mBillInfo.setRecipientsCompanyName(edtRecCompany.getText().toString());
 
 		mBillInfo.setSendDate(CommandTools.getTime());
-		mBillInfo.setRegisterGcode(MyApplication.mUser.getOpEmpGcode());
 
+		mBillInfo.setRegisterGcode(MyApplication.mUser.getOpEmpGcode());
 		mBillInfo.setSendSiteGcode(MyApplication.mUser.getOwnSiteGcode());
+		mBillInfo.setReceiverGcode(MyApplication.mUser.getEmpGcode());
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see com.exam.longtian.activity.BaseActivity#onDestory()
 	 */
 	public void onDestory(){
 		super.onDestroy();
-		
+
 		MyApplication.getEventBus().unregister(this);
 	}
 

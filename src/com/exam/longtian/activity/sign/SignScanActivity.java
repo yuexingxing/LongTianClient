@@ -173,7 +173,7 @@ public class SignScanActivity extends BaseActivity {
 					jsonObject.put("unlockEmpGcode", "");
 					jsonObject.put("uploadEmpGcode", "");
 					jsonObject.put("uploadPath", "");
-					jsonObject.put("uploadSiteGcode", "");
+					jsonObject.put("uploadSiteGcode", MyApplication.mUser.getOwnSiteGcode());
 					jsonObject.put("uploadTime", "");
 
 					PresenterUtil.waybillImage_add(SignScanActivity.this, jsonObject, new ObjectCallback() {

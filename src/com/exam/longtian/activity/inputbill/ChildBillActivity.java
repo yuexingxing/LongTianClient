@@ -1,9 +1,11 @@
-package com.exam.longtian.activity;
+package com.exam.longtian.activity.inputbill;
 
 import java.util.ArrayList;
 import java.util.List;
 import com.exam.longtian.MyApplication;
 import com.exam.longtian.R;
+import com.exam.longtian.activity.BaseActivity;
+import com.exam.longtian.activity.MainMenuActivity;
 import com.exam.longtian.adapter.CommonAdapter;
 import com.exam.longtian.adapter.ViewHolder;
 import com.exam.longtian.camera.CaptureActivity;

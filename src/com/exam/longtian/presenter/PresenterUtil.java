@@ -10,7 +10,7 @@ import org.json.JSONObject;
 import android.content.Context;
 import android.text.TextUtils;
 
-import com.exam.longtian.activity.ChildBillActivity;
+import com.exam.longtian.activity.inputbill.ChildBillActivity;
 import com.exam.longtian.entity.ChildBillInfo;
 import com.exam.longtian.entity.CompareResultInfo;
 import com.exam.longtian.entity.DictInfo;

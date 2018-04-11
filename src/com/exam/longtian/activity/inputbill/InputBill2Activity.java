@@ -5,7 +5,6 @@ import java.util.List;
 import com.exam.longtian.MyApplication;
 import com.exam.longtian.R;
 import com.exam.longtian.activity.BaseActivity;
-import com.exam.longtian.activity.ChildBillActivity;
 import com.exam.longtian.activity.MainMenuActivity;
 import com.exam.longtian.entity.BillInfo;
 import com.exam.longtian.entity.DictInfo;
@@ -28,7 +27,7 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 
 /** 
- * Â¼µ¥2
+ * Â¼µ¥-2
  * 
  * @author yxx
  *
