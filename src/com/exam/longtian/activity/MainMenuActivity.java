@@ -52,14 +52,11 @@ public class MainMenuActivity extends BaseActivity{
 	private static final int REQUEST_PRINT_LABEL = 0xfd;
 	private static final int REQUEST_PRINT_RECEIPT = 0xfc;
 	
-	public static BillInfo mBillInfo;
-
 	@Override
 	protected void onBaseCreate(Bundle savedInstanceState) {
 		setContentViewId(R.layout.activity_main);
 		ViewUtils.inject(this);
 		
-		mBillInfo = new BillInfo();
 	}
 
 	@Override

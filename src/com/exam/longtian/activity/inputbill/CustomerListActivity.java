@@ -149,14 +149,14 @@ public class CustomerListActivity extends BaseActivity {
 
 		CustomInfo info = sortList.get(currPos);
 
-		if(MainMenuActivity.mBillInfo != null){
+		if(InputBillActivity.mBillInfo != null){
 
 			if(type == 1){
-				MainMenuActivity.mBillInfo.setRecipientsCustName(info.getCustName());
-				MainMenuActivity.mBillInfo.setRecipientsCustGcode(info.getCustGcode());
+				InputBillActivity.mBillInfo.setRecipientsCustName(info.getCustName());
+				InputBillActivity.mBillInfo.setRecipientsCustGcode(info.getCustGcode());
 			}else {
-				MainMenuActivity.mBillInfo.setSenderCustName(info.getCustName());
-				MainMenuActivity.mBillInfo.setSenderCustGcode(info.getCustGcode());
+				InputBillActivity.mBillInfo.setSenderCustName(info.getCustName());
+				InputBillActivity.mBillInfo.setSenderCustGcode(info.getCustGcode());
 			}
 
 		}

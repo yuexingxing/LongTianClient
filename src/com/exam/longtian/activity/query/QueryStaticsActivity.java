@@ -147,7 +147,7 @@ public class QueryStaticsActivity extends BaseActivity {
 		String endTime = edtEndTime.getText().toString() + " 23:59:59";
 
 		clearData();
-		PresenterQuery.waybill_getWaybillCountBySelf(this, PresenterUtil.ORDER_TYPE_RECEIVE, startTime, endTime, new ObjectCallback() {
+		PresenterQuery.waybill_getWaybillCountBySelf(this, orderType, startTime, endTime, new ObjectCallback() {
 
 			@Override
 			public void callback(boolean success, String message, String code, Object data) {
@@ -190,7 +190,7 @@ public class QueryStaticsActivity extends BaseActivity {
 		String endTime = edtEndTime.getText().toString() + " 23:59:59";
 
 		Intent intent = new Intent(this, ReceiveDetailActivity.class);
-		intent.putExtra("order_type", PresenterUtil.ORDER_TYPE_RECEIVE);
+		intent.putExtra("order_type", orderType);
 		intent.putExtra("startTime", startTime);
 		intent.putExtra("endTime", endTime);
 		startActivity(intent);

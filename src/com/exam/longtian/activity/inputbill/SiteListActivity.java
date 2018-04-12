@@ -152,9 +152,9 @@ public class SiteListActivity extends BaseActivity {
 			return;
 		}
 
-		if(MainMenuActivity.mBillInfo != null){
-			MainMenuActivity.mBillInfo.setDestSiteGcode(sortList.get(currPos).getSiteGcode());
-			MainMenuActivity.mBillInfo.setDestSiteName(sortList.get(currPos).getSiteName());
+		if(InputBillActivity.mBillInfo != null){
+			InputBillActivity.mBillInfo.setDestSiteGcode(sortList.get(currPos).getSiteGcode());
+			InputBillActivity.mBillInfo.setDestSiteName(sortList.get(currPos).getSiteName());
 		}
 
 		Intent intent = new Intent();

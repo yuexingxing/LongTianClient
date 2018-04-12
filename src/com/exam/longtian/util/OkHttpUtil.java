@@ -110,7 +110,7 @@ public class OkHttpUtil {
 			@Override
 			public void onResponse(Call arg0, Response arg1) throws IOException {
 				// TODO Auto-generated method stub
-				mHandler.sendEmptyMessage(0x0013);
+				mHandler.sendEmptyMessage(0x0012);
 				String result = arg1.body().string();
 				Log.e("post-data", result);
 

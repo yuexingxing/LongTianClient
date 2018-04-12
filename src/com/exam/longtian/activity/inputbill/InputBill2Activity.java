@@ -61,7 +61,7 @@ public class InputBill2Activity extends BaseActivity {
 		setContentViewId(R.layout.activity_input_bill2);
 		ViewUtils.inject(this);
 
-		mBillInfo = MainMenuActivity.mBillInfo;
+		mBillInfo = InputBillActivity.mBillInfo;
 	}
 
 	@Override

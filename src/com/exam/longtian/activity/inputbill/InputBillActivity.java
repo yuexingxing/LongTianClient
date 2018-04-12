@@ -3,7 +3,6 @@ package com.exam.longtian.activity.inputbill;
 import com.exam.longtian.MyApplication;
 import com.exam.longtian.R;
 import com.exam.longtian.activity.BaseActivity;
-import com.exam.longtian.activity.MainMenuActivity;
 import com.exam.longtian.camera.CaptureActivity;
 import com.exam.longtian.entity.BillInfo;
 import com.exam.longtian.presenter.PresenterUtil;
@@ -41,14 +40,13 @@ public class InputBillActivity extends BaseActivity {
 	@ViewInject(R.id.input_bill_rec_company) EditText edtRecCompany;
 
 	private String recipientsCustGcode;
-	public BillInfo mBillInfo;
+	public static BillInfo mBillInfo = new BillInfo();
 
 	@Override
 	protected void onBaseCreate(Bundle savedInstanceState) {
 		setContentViewId(R.layout.activity_input_bill);
 		ViewUtils.inject(this);
 
-		mBillInfo = MainMenuActivity.mBillInfo;
 		MyApplication.getEventBus().register(this);
 	}
 
@@ -120,8 +118,7 @@ public class InputBillActivity extends BaseActivity {
 			recipientsCustGcode = data.getStringExtra("code");
 		}else if(requestCode == 0x1001 && resultCode == RESULT_OK){
 
-			mBillInfo = null;
-			mBillInfo = new BillInfo();
+			clearBillInfo();
 			edtDeliSiteName.setText("");
 			onResume();
 		}else if (requestCode == Constant.CAPTURE_BILLCODE && resultCode == RESULT_OK) {
@@ -279,5 +276,66 @@ public class InputBillActivity extends BaseActivity {
 			String billcode = (String) msg.obj;
 			edtBillcode.setText(billcode);
 		}
+	}
+	
+	/**
+	 * Çå¿ÕbillInfo²ÎÊý
+	 */
+	public void clearBillInfo(){
+		
+		mBillInfo.setAgencyFund("");
+		mBillInfo.setBeIntoWarehouse("");
+		mBillInfo.setBillCode("");
+		mBillInfo.setDaofreight("");
+		mBillInfo.setDataSource("");
+		mBillInfo.setDestSiteGcode("");
+		mBillInfo.setDestSiteName("");
+		mBillInfo.setDispDistance("");
+		mBillInfo.setDispEmpgcode("");
+		mBillInfo.setDispScanSiteGcode("");
+		mBillInfo.setDispScanSiteName("");
+		mBillInfo.setFreight("");
+		mBillInfo.setGisDispSiteGcode("");
+		mBillInfo.setGoodsFlowTypePcode("");
+		mBillInfo.setOpEmpGcode("");
+		mBillInfo.setOpEmpName("");
+		mBillInfo.setOpTime("");
+		mBillInfo.setPackageKindName("");
+		mBillInfo.setPackageKindPcode("");
+		mBillInfo.setPayModeName("");
+		mBillInfo.setPayModePcode("");
+		mBillInfo.setPieceNum("");
+		mBillInfo.setPremium("");
+		mBillInfo.setPremiumFee("");
+		mBillInfo.setRealRouteId("");
+		mBillInfo.setReceiptCode("");
+		mBillInfo.setRecipientsAddress("");
+		mBillInfo.setRecipientsCompanyName("");
+		mBillInfo.setRecipientsCoords("");
+		mBillInfo.setRecipientsCustGcode("");
+		mBillInfo.setRecipientsCustName("");
+		mBillInfo.setRecipientsName("");
+		mBillInfo.setRecipientsPhone("");
+		mBillInfo.setRecipientsSmsMandatory("");
+		mBillInfo.setRegisterGcode("");
+		mBillInfo.setRegTime("");
+		mBillInfo.setRemark("");
+		mBillInfo.setRouteId("");
+		mBillInfo.setSendDate("");
+		mBillInfo.setSenderAddress("");
+		mBillInfo.setSenderCompanyName("");
+		mBillInfo.setSenderCustGcode("");
+		mBillInfo.setSenderCustName("");
+		mBillInfo.setSenderName("");
+		mBillInfo.setSenderPhone("");
+		mBillInfo.setDestSiteName("");
+		mBillInfo.setDestSiteGcode("");
+		mBillInfo.setServicePatternName("");
+		mBillInfo.setServicePatternPcode("");
+		mBillInfo.setSubBillcode("");
+		mBillInfo.setTotalVolume("");
+		mBillInfo.setTotalWeight("");
+		mBillInfo.setTransportModePcode("");
+		
 	}
 }

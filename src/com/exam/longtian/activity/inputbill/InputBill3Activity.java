@@ -57,7 +57,7 @@ public class InputBill3Activity extends BaseActivity {
 		setContentViewId(R.layout.activity_input_bill3);
 		ViewUtils.inject(this);
 
-		mBillInfo = MainMenuActivity.mBillInfo;
+		mBillInfo = InputBillActivity.mBillInfo;
 	}
 
 	@Override
@@ -163,7 +163,7 @@ public class InputBill3Activity extends BaseActivity {
 
 		JSONObject jsonObject = null;
 		try {
-			jsonObject = new JSONObject(gson.toJson(MainMenuActivity.mBillInfo, BillInfo.class));
+			jsonObject = new JSONObject(gson.toJson(InputBillActivity.mBillInfo, BillInfo.class));
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
@@ -269,14 +269,14 @@ public class InputBill3Activity extends BaseActivity {
 	public void startPrint(){
 
 		String[] arrBill = new String[0];
-		if(!TextUtils.isEmpty(MainMenuActivity.mBillInfo.getSubBillcode())){
-			arrBill = MainMenuActivity.mBillInfo.getSubBillcode().split(",");
+		if(!TextUtils.isEmpty(InputBillActivity.mBillInfo.getSubBillcode())){
+			arrBill = InputBillActivity.mBillInfo.getSubBillcode().split(",");
 		}
 
 		List<BillInfo> list = new ArrayList<BillInfo>();
 		for(int i=0; i<arrBill.length; i++){
 
-			BillInfo billInfo = (BillInfo) MainMenuActivity.mBillInfo.clone();//克隆一个新的对象
+			BillInfo billInfo = (BillInfo) InputBillActivity.mBillInfo.clone();//克隆一个新的对象
 			billInfo.setBillCode(arrBill[i]);
 
 			list.add(billInfo);

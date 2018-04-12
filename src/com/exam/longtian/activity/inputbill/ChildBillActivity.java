@@ -64,8 +64,8 @@ public class ChildBillActivity extends BaseActivity {
 		setTitle("×Óµ¥");
 
 		String[] arrBill = new String[0];
-		if(!TextUtils.isEmpty(MainMenuActivity.mBillInfo.getSubBillcode())){
-			arrBill = MainMenuActivity.mBillInfo.getSubBillcode().split(",");
+		if(!TextUtils.isEmpty(InputBillActivity.mBillInfo.getSubBillcode())){
+			arrBill = InputBillActivity.mBillInfo.getSubBillcode().split(",");
 		}
 
 		for(int i=0; i<arrBill.length; i++){
@@ -77,7 +77,7 @@ public class ChildBillActivity extends BaseActivity {
 			dataList.add(info);
 		}
 
-		count = Integer.parseInt(MainMenuActivity.mBillInfo.getPieceNum());
+		count = Integer.parseInt(InputBillActivity.mBillInfo.getPieceNum());
 		edtCount1.setText(count + "");
 		edtCount2.setText(dataList.size() + "");
 
@@ -296,8 +296,8 @@ public class ChildBillActivity extends BaseActivity {
 			}
 		}
 
-		MainMenuActivity.mBillInfo.setPieceNum(dataList.size() + "");
-		MainMenuActivity.mBillInfo.setSubBillcode(sb.toString());
+		InputBillActivity.mBillInfo.setPieceNum(dataList.size() + "");
+		InputBillActivity.mBillInfo.setSubBillcode(sb.toString());
 
 		dataList.clear();
 		dataList = null;
