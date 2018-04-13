@@ -66,6 +66,7 @@ public class BillInfo implements Cloneable{
 	private String daofreight ;//0到付
 	private String signer ;//0签收人
 	private String signSiteName ;//签收网点
+	private String relaHandoverId;//
 
 	public String getAgencyFund() {
 		return agencyFund;
@@ -446,6 +447,12 @@ public class BillInfo implements Cloneable{
 		this.signSiteName = signSiteName;
 	}
 
+	public String getRelaHandoverId() {
+		return relaHandoverId;
+	}
+	public void setRelaHandoverId(String relaHandoverId) {
+		this.relaHandoverId = relaHandoverId;
+	}
 	@Override  
 	public Object clone() {  
 

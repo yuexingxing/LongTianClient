@@ -7,6 +7,7 @@ public class Constant {
 	
 	public static final int SCANNER_BILLCODE = 0x7008; //蓝牙扫描枪扫描条码
 	public static final int CAPTURE_BILLCODE = 0x8008; //手机摄像头扫描条码
+	public static final int CAPTURE_JOIN_BILLCODE = 0x8009; //手机摄像头扫描交接单号
 
 	public static final String SP_LOGIN_ID = "sp_login_id";
 	public static final String SP_LOGIN_PSD = "sp_login_psd";

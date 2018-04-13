@@ -63,7 +63,7 @@ public class ArriveScanActivity extends BaseActivity {
 		// TODO Auto-generated method stub
 		setContentViewId(R.layout.activity_arrive_scan);
 		ViewUtils.inject(this);
-		
+
 		MyApplication.getEventBus().register(this);
 	}
 
@@ -128,13 +128,25 @@ public class ArriveScanActivity extends BaseActivity {
 				edtPreStop.setText("");
 				commonAdapter.notifyDataSetChanged();
 			}
-		}else if (requestCode == Constant.CAPTURE_BILLCODE && resultCode == RESULT_OK) {
+		}else if (requestCode == Constant.CAPTURE_JOIN_BILLCODE && resultCode == RESULT_OK) {
+
+			Bundle bundle = data.getExtras();
+			String strBillcode = bundle.getString("result");
+			edtJoinBillcode.setText(strBillcode);
+		}
+		else if (requestCode == Constant.CAPTURE_BILLCODE && resultCode == RESULT_OK) {
 
 			Bundle bundle = data.getExtras();
 			String strBillcode = bundle.getString("result");
 			edtBillcode.setText(strBillcode);
 			save(null);
 		}
+	}
+
+	public void scanJoinBill(View v){
+
+		Intent openCameraIntent = new Intent(this, CaptureActivity.class);
+		startActivityForResult(openCameraIntent, Constant.CAPTURE_JOIN_BILLCODE);
 	}
 
 	public void scan(View v){
@@ -230,6 +242,7 @@ public class ArriveScanActivity extends BaseActivity {
 			BillInfo billInfo = new BillInfo();
 			billInfo.setBillCode(billcode);
 			billInfo.setDestSiteGcode(siteGCode);
+			billInfo.setRelaHandoverId(edtJoinBillcode.getText().toString());
 
 			if(!checkExist(billcode)){
 
@@ -370,17 +383,17 @@ public class ArriveScanActivity extends BaseActivity {
 			}
 		});
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see com.exam.longtian.activity.BaseActivity#onDestory()
 	 */
 	public void onDestory(){
 		super.onDestroy();
-		
+
 		MyApplication.getEventBus().unregister(this);
 	}
 
-	
+
 	/* (non-Javadoc)
 	 * @see com.exam.longtian.activity.BaseActivity#onEventMainThread(android.os.Message)
 	 */

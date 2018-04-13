@@ -8,8 +8,6 @@ import com.exam.longtian.activity.BaseActivity;
 import com.exam.longtian.adapter.CommonAdapter;
 import com.exam.longtian.adapter.ViewHolder;
 import com.exam.longtian.entity.BillInfo;
-import com.exam.longtian.entity.ScanDetail;
-import com.exam.longtian.entity.SiteInfo;
 import com.exam.longtian.presenter.PresenterQuery;
 import com.exam.longtian.util.OkHttpUtil.ObjectCallback;
 import com.lidroid.xutils.ViewUtils;

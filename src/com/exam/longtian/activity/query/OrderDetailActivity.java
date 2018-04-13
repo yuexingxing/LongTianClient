@@ -4,12 +4,10 @@ import com.exam.longtian.MyApplication;
 import com.exam.longtian.R;
 import com.exam.longtian.activity.BaseActivity;
 import com.exam.longtian.activity.MainMenuActivity;
-import com.exam.longtian.activity.inputbill.InputBill3Activity;
 import com.exam.longtian.camera.CaptureActivity;
 import com.exam.longtian.entity.BillInfo;
 import com.exam.longtian.presenter.PresenterQuery;
 import com.exam.longtian.printer.bluetooth.PrinterConnectDialog;
-import com.exam.longtian.printer.bluetooth.PrinterSettingMenuActivity;
 import com.exam.longtian.util.CommandTools;
 import com.exam.longtian.util.Constant;
 import com.exam.longtian.util.CommandTools.CommandToolsCallback;
@@ -18,7 +16,6 @@ import com.exam.longtian.util.RegularUtil;
 import com.gprinter.io.GpDevice;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Message;
@@ -46,7 +43,7 @@ public class OrderDetailActivity extends BaseActivity {
 		// TODO Auto-generated method stub
 		setContentViewId(R.layout.activity_order_detail);
 		ViewUtils.inject(this);
-		
+
 		MyApplication.getEventBus().register(this);
 	}
 
@@ -113,8 +110,6 @@ public class OrderDetailActivity extends BaseActivity {
 
 			return;
 		}
-
-
 	}
 
 	public void submit(View v){
@@ -162,7 +157,7 @@ public class OrderDetailActivity extends BaseActivity {
 				((TextView)findViewById(R.id.order_detail_pay_type)).setText(billInfo.getPayModeName());
 				((TextView)findViewById(R.id.order_detail_fee2)).setText(billInfo.getFreight());
 
-				((TextView)findViewById(R.id.order_detail_rec_man)).setText(billInfo.getRecipientsCustName());
+				((TextView)findViewById(R.id.order_detail_rec_man)).setText(billInfo.getRecipientsName());
 				((TextView)findViewById(R.id.order_detail_rec_phone)).setText(billInfo.getRecipientsPhone());
 				((TextView)findViewById(R.id.order_detail_rec_customer)).setText(billInfo.getRecipientsCustName());
 				((TextView)findViewById(R.id.order_detail_rec_company)).setText(billInfo.getRecipientsCompanyName());
@@ -220,13 +215,13 @@ public class OrderDetailActivity extends BaseActivity {
 
 		((TextView)findViewById(R.id.order_detail_child_billcode)).setText("");
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see com.exam.longtian.activity.BaseActivity#onDestory()
 	 */
 	public void onDestory(){
 		super.onDestroy();
-		
+
 		MyApplication.getEventBus().unregister(this);
 	}
 

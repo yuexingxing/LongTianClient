@@ -9,8 +9,6 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import android.content.Context;
 import android.text.TextUtils;
-
-import com.exam.longtian.activity.inputbill.ChildBillActivity;
 import com.exam.longtian.entity.ChildBillInfo;
 import com.exam.longtian.entity.CompareResultInfo;
 import com.exam.longtian.entity.DictInfo;
@@ -127,7 +125,7 @@ public class PresenterUtil {
 		if(!TextUtils.isEmpty(billcode)){
 			sb.append("&billCode=" + billcode);
 		}
-		
+
 		String url = API.waybillSub_unscanedSendWaybillSubList + sb.toString();
 		if(PresenterUtil.ORDER_TYPE_ARRIVE.equals(orderType)){
 			url = API.waybillSub_unscanedComeWaybillSubList + sb.toString();

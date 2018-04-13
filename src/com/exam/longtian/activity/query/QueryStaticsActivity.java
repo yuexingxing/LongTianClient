@@ -19,6 +19,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.TextView;
 
 /** 
  * 收件/派件--统计
@@ -32,6 +33,8 @@ public class QueryStaticsActivity extends BaseActivity {
 
 	@ViewInject(R.id.query_receive_starttime) EditText edtStartTime;
 	@ViewInject(R.id.query_receive_endtime) EditText edtEndTime;
+
+	@ViewInject(R.id.query_receive_title) TextView tvTitle;
 
 	@ViewInject(R.id.query_receive_bill_count) EditText edtBillCount;
 	@ViewInject(R.id.query_receive_count) EditText edtCount;
@@ -65,8 +68,10 @@ public class QueryStaticsActivity extends BaseActivity {
 		orderType = getIntent().getStringExtra("order_type");
 		if(PresenterUtil.ORDER_TYPE_RECEIVE.equals(orderType)){
 			setTitle("收件统计");
+			tvTitle.setText("我的收件合计");
 		}else{
 			setTitle("派件统计");
+			tvTitle.setText("我的派件合计");
 		}
 	}
 
@@ -75,7 +80,7 @@ public class QueryStaticsActivity extends BaseActivity {
 		// TODO Auto-generated method stub
 
 		Calendar c = Calendar.getInstance();
-		
+
 		startYear = c.get(Calendar.YEAR);
 		startMonth = c.get(Calendar.MONTH) + 1;
 		startDay = c.get(Calendar.DAY_OF_MONTH);
@@ -137,12 +142,12 @@ public class QueryStaticsActivity extends BaseActivity {
 	 * @param v
 	 */
 	public void query(View v){
-		
+
 		if(!DateUtil.compareDate(startYear, startMonth, startDay, endYear, endMonth, endDay)){
 			CommandTools.showToast("起始时间不能大于结束时间");
 			return;
 		}
-		
+
 		String startTime = edtStartTime.getText().toString() + " 00:00:00";
 		String endTime = edtEndTime.getText().toString() + " 23:59:59";
 
@@ -185,7 +190,7 @@ public class QueryStaticsActivity extends BaseActivity {
 	 * @param v
 	 */
 	public void detail(View v){
-		
+
 		String startTime = edtStartTime.getText().toString() + " 00:00:00";
 		String endTime = edtEndTime.getText().toString() + " 23:59:59";
 
