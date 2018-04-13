@@ -51,6 +51,7 @@ public class ChooseJoinBillActivity extends BaseActivity {
 	private String siteName;
 	private String siteGCode;
 	private int curPos = -2;
+	private String relaHandoverId;
 	private String orderType;
 
 	@Override
@@ -134,6 +135,7 @@ public class ChooseJoinBillActivity extends BaseActivity {
 		siteGCode = getIntent().getStringExtra("siteGCode");
 		siteName = getIntent().getStringExtra("siteName");
 		orderType = getIntent().getStringExtra("order_type");
+		relaHandoverId = getIntent().getStringExtra("relaHandoverId");
 
 		Calendar c = Calendar.getInstance();
 		String strDate = c.get(Calendar.YEAR) + "-" + (c.get(Calendar.MONTH) + 1) + "-" + c.get(Calendar.DAY_OF_MONTH);
@@ -213,6 +215,7 @@ public class ChooseJoinBillActivity extends BaseActivity {
 			jsonObject.put("nearbySiteGcode", siteGCode);
 			jsonObject.put("plateNumber", joinBillInfo.getPlateNumber());
 			jsonObject.put("scanTime", CommandTools.getTime());
+			jsonObject.put("relaHandoverId", relaHandoverId);
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}

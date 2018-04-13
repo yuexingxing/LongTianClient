@@ -194,12 +194,13 @@ public class ArriveScanActivity extends BaseActivity {
 				sb.append(",").append(billInfo.getBillCode());
 			}
 		}
-
+		
 		Intent intent = new Intent(this, ChooseJoinBillActivity.class);
 		intent.putExtra("billcodes", sb.toString());
 		intent.putExtra("siteGCode", siteGCode);
 		intent.putExtra("order_type", PresenterUtil.ORDER_TYPE_ARRIVE);
 		intent.putExtra("siteName", edtPreStop.getText().toString());
+		intent.putExtra("relaHandoverId", edtJoinBillcode.getText().toString());
 		startActivityForResult(intent, 0x1001);
 	}
 
