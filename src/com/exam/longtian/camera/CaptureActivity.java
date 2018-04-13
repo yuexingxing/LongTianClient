@@ -2,6 +2,9 @@
 
 import java.io.IOException;
 import java.lang.reflect.Field;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -178,9 +181,17 @@ public final class CaptureActivity extends BaseActivity implements SurfaceHolder
 	public void handleDecode(Result rawResult, Bundle bundle) {
 		inactivityTimer.onActivity();
 		beepManager.playBeepSoundAndVibrate();
+		
+		String billcode = rawResult.getText();
+		
+		//过滤特殊字符
+		String regEx="[`~!@#$%^&*()+=|{}':;',\\[\\].<>/?~！@#￥%……&*（）——+|{}【】‘；：”“’。，、？]"; 
+		Pattern p = Pattern.compile(regEx); 
+		Matcher m = p.matcher(billcode);
+		billcode = m.replaceAll("").trim();
 
 		Intent resultIntent = new Intent();
-		bundle.putString("result", rawResult.getText());
+		bundle.putString("result", billcode);
 		resultIntent.putExtras(bundle);
 		this.setResult(RESULT_OK, resultIntent);
 		
