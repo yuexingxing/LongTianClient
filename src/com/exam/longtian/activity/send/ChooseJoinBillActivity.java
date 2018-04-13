@@ -215,7 +215,6 @@ public class ChooseJoinBillActivity extends BaseActivity {
 			jsonObject.put("nearbySiteGcode", siteGCode);
 			jsonObject.put("plateNumber", joinBillInfo.getPlateNumber());
 			jsonObject.put("scanTime", CommandTools.getTime());
-			jsonObject.put("relaHandoverId", relaHandoverId);
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
@@ -263,7 +262,7 @@ public class ChooseJoinBillActivity extends BaseActivity {
 			jsonObject.put("opTime", CommandTools.getTime());
 			jsonObject.put("oppositeSiteGcode", MyApplication.mUser.getOwnSiteGcode());
 			jsonObject.put("plateNumber", "");
-			jsonObject.put("relaHandoverId", "");
+			jsonObject.put("relaHandoverId", relaHandoverId + "");
 			jsonObject.put("siteGcode", MyApplication.mUser.getOwnSiteGcode());
 		} catch (JSONException e) {
 			e.printStackTrace();
