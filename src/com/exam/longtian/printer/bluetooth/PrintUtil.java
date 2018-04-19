@@ -21,15 +21,15 @@ import com.gprinter.command.LabelCommand.READABEL;
 import com.gprinter.command.LabelCommand.ROTATION;
 
 /** 
- * ´òÓ¡²Ù×÷Àà
+ * æ‰“å°æ“ä½œç±»
  * 
  * @author yxx
  *
- * @date 2018-3-9 ÉÏÎç10:15:08
+ * @date 2018-3-9 ä¸Šåˆ10:15:08
  * 
  */
 public class PrintUtil {
-	
+
 	public static abstract class CallBack {
 		public abstract void callback(int pos);
 	}
@@ -50,7 +50,7 @@ public class PrintUtil {
 			Message msg = new Message();
 			msg.obj = printInfoData;
 
-			mHandler.sendMessageDelayed(msg, 1000);//ÑÓ³ÙÒ»Ãë·¢ËÍ£¬´òÓ¡
+			mHandler.sendMessageDelayed(msg, 1000);//å»¶è¿Ÿä¸€ç§’å‘é€ï¼Œæ‰“å°
 		}
 	}
 
@@ -70,106 +70,106 @@ public class PrintUtil {
 		}
 
 		LabelCommand tsc = new LabelCommand();
-		tsc.addSize(80, 80); // ÉèÖÃ±êÇ©³ß´ç£¬°´ÕÕÊµ¼Ê³ß´çÉèÖÃ
-		tsc.addGap(0); // ÉèÖÃ±êÇ©¼äÏ¶£¬°´ÕÕÊµ¼Ê³ß´çÉèÖÃ£¬Èç¹ûÎªÎŞ¼äÏ¶Ö½ÔòÉèÖÃÎª0
-		tsc.addDirection(DIRECTION.BACKWARD, MIRROR.NORMAL);// ÉèÖÃ´òÓ¡·½Ïò
-		tsc.addReference(0, 0);// ÉèÖÃÔ­µã×ø±ê
-		tsc.addTear(ENABLE.OFF); // ËºÖ½Ä£Ê½¿ªÆô
-		tsc.addCls();// Çå³ı´òÓ¡»º³åÇø
-		//		tsc.addSelectJustification(JUSTIFICATION.CENTER);//ÉèÖÃ´òÓ¡¾ÓÖĞ
-		
-//		tsc.addHome();//Ğ£×¼±êÇ©Ö½
-//		tsc.addFormFeed();//×ßÒ»ÕÅ±êÇ©Ö½
+		tsc.addSize(80, 80); // è®¾ç½®æ ‡ç­¾å°ºå¯¸ï¼ŒæŒ‰ç…§å®é™…å°ºå¯¸è®¾ç½®
+		tsc.addGap(0); // è®¾ç½®æ ‡ç­¾é—´éš™ï¼ŒæŒ‰ç…§å®é™…å°ºå¯¸è®¾ç½®ï¼Œå¦‚æœä¸ºæ— é—´éš™çº¸åˆ™è®¾ç½®ä¸º0
+		tsc.addDirection(DIRECTION.BACKWARD, MIRROR.NORMAL);// è®¾ç½®æ‰“å°æ–¹å‘
+		tsc.addReference(0, 0);// è®¾ç½®åŸç‚¹åæ ‡
+		tsc.addTear(ENABLE.OFF); // æ’•çº¸æ¨¡å¼å¼€å¯
+		tsc.addCls();// æ¸…é™¤æ‰“å°ç¼“å†²åŒº
+		//		tsc.addSelectJustification(JUSTIFICATION.CENTER);//è®¾ç½®æ‰“å°å±…ä¸­
 
-		drawLine(tsc, 220, 0, 1, 170);//ÕãÒ¼ÎïÁ÷ÓÒ²àÊúÏß
+		//		tsc.addHome();//æ ¡å‡†æ ‡ç­¾çº¸
+		//		tsc.addFormFeed();//èµ°ä¸€å¼ æ ‡ç­¾çº¸
+
+		drawLine(tsc, 220, 0, 1, 170);//æµ™å£¹ç‰©æµå³ä¾§ç«–çº¿
 		tsc.addText(240, 40, LabelCommand.FONTTYPE.SIMPLIFIED_CHINESE, LabelCommand.ROTATION.ROTATION_0, LabelCommand.FONTMUL.MUL_2, LabelCommand.FONTMUL.MUL_2,
-				billInfo.getBillCode());
+				billInfo.getSubBillcode());
 
-		drawLine(tsc, 0, 90, 220, 1);//ÕãÒ¼ÎïÁ÷ÏÂÃæºáÏß
+		drawLine(tsc, 0, 90, 220, 1);//æµ™å£¹ç‰©æµä¸‹é¢æ¨ªçº¿
 		tsc.addText(20, 110, LabelCommand.FONTTYPE.SIMPLIFIED_CHINESE, LabelCommand.ROTATION.ROTATION_0, LabelCommand.FONTMUL.MUL_1, LabelCommand.FONTMUL.MUL_1,
-				"°ü×°");
+				"åŒ…è£…");
 		tsc.addText(20, 140, LabelCommand.FONTTYPE.SIMPLIFIED_CHINESE, LabelCommand.ROTATION.ROTATION_0, LabelCommand.FONTMUL.MUL_1, LabelCommand.FONTMUL.MUL_1,
-				"ÀàĞÍ");
+				"ç±»å‹");
 
-		drawLine(tsc, 80, 90, 1, 80);//°ü×°ÀàĞÍÓÒ²àĞ¡ÊúÏß
+		drawLine(tsc, 80, 90, 1, 80);//åŒ…è£…ç±»å‹å³ä¾§å°ç«–çº¿
 		tsc.addText(100, 120, LabelCommand.FONTTYPE.SIMPLIFIED_CHINESE, LabelCommand.ROTATION.ROTATION_0, LabelCommand.FONTMUL.MUL_1, LabelCommand.FONTMUL.MUL_1,
-				billInfo.getPackageKindName());//°ü×°·½Ê½
+				billInfo.getPackageKindName());//åŒ…è£…æ–¹å¼
 
 		String[] arrDate = {"", ""};
 		if(!TextUtils.isEmpty(billInfo.getSendDate())){
 			arrDate = billInfo.getSendDate().split(" ");
 		}
 
-		drawLine(tsc, 220, 100, 400, 1);//·¢»õÈÕÆÚÉÏÃæºáÏß
-		drawLine(tsc, 410, 100, 1, 70);//·¢»õÈÕÆÚÓÒ²àĞ¡ÊúÏß
+		drawLine(tsc, 220, 100, 400, 1);//å‘è´§æ—¥æœŸä¸Šé¢æ¨ªçº¿
+		drawLine(tsc, 410, 100, 1, 70);//å‘è´§æ—¥æœŸå³ä¾§å°ç«–çº¿
 		tsc.addText(270, 120, LabelCommand.FONTTYPE.SIMPLIFIED_CHINESE, LabelCommand.ROTATION.ROTATION_0, LabelCommand.FONTMUL.MUL_1, LabelCommand.FONTMUL.MUL_1,
-				"·¢»õÈÕÆÚ ");
+				"å‘è´§æ—¥æœŸ ");
 		tsc.addText(420, 120, LabelCommand.FONTTYPE.SIMPLIFIED_CHINESE, LabelCommand.ROTATION.ROTATION_0, LabelCommand.FONTMUL.MUL_1, LabelCommand.FONTMUL.MUL_1,
-				arrDate[0]);//·¢»õÈÕÆÚ
+				arrDate[0]);//å‘è´§æ—¥æœŸ
 
-		drawLine(tsc, 0, 170, 800, 1);//ÌõĞÎÂëÉÏÃæ´óºáÏß
+		drawLine(tsc, 0, 170, 800, 1);//æ¡å½¢ç ä¸Šé¢å¤§æ¨ªçº¿
 		tsc.add1DBarcode(130, 190, BARCODETYPE.CODE128M, 100, READABEL.DISABLE, ROTATION.ROTATION_0, billInfo.getBillCode());
-		drawLine(tsc, 0, 310, 800, 1);//ÌõĞÎÂëÏÂÃæ´óºáÏß
+		drawLine(tsc, 0, 310, 800, 1);//æ¡å½¢ç ä¸‹é¢å¤§æ¨ªçº¿
 
-		drawLine(tsc, 80, 310, 1, 600);//Ä¿µÄµØĞÅÏ¢ÓÒ²à³¤ÊúÏß
+		drawLine(tsc, 80, 310, 1, 600);//ç›®çš„åœ°ä¿¡æ¯å³ä¾§é•¿ç«–çº¿
 		tsc.addText(20, 340, LabelCommand.FONTTYPE.SIMPLIFIED_CHINESE, LabelCommand.ROTATION.ROTATION_0, LabelCommand.FONTMUL.MUL_1, LabelCommand.FONTMUL.MUL_1,
-				"Ä¿µÄ");
+				"ç›®çš„");
 		tsc.addText(20, 370, LabelCommand.FONTTYPE.SIMPLIFIED_CHINESE, LabelCommand.ROTATION.ROTATION_0, LabelCommand.FONTMUL.MUL_1, LabelCommand.FONTMUL.MUL_1,
-				"µØĞÅ");
+				"åœ°ä¿¡");
 		tsc.addText(20, 400, LabelCommand.FONTTYPE.SIMPLIFIED_CHINESE, LabelCommand.ROTATION.ROTATION_0, LabelCommand.FONTMUL.MUL_1, LabelCommand.FONTMUL.MUL_1,
-				"Ï¢");
+				"æ¯");
 
 		tsc.addText(170, 325, LabelCommand.FONTTYPE.SIMPLIFIED_CHINESE, LabelCommand.ROTATION.ROTATION_0, LabelCommand.FONTMUL.MUL_2, LabelCommand.FONTMUL.MUL_2,
-				billInfo.getDestSiteName());//Ê¡ÊĞÃû³Æ
+				billInfo.getDestSiteName());//çœå¸‚åç§°
 
-		drawLine(tsc, 415, 310, 1, 80);//·şÎñ·½Ê½×ó²àÊúÏß
+		drawLine(tsc, 415, 310, 1, 80);//æœåŠ¡æ–¹å¼å·¦ä¾§ç«–çº¿
 		tsc.addText(420, 330, LabelCommand.FONTTYPE.SIMPLIFIED_CHINESE, LabelCommand.ROTATION.ROTATION_0, LabelCommand.FONTMUL.MUL_1, LabelCommand.FONTMUL.MUL_1,
-				billInfo.getServicePatternName());//·şÎñ·½Ê½
+				billInfo.getServicePatternName());//æœåŠ¡æ–¹å¼
 
-		drawLine(tsc, 80, 390, 700, 1);//ÊÕ¼şµØÖ·ÉÏÃæºáÏß
+		drawLine(tsc, 80, 390, 700, 1);//æ”¶ä»¶åœ°å€ä¸Šé¢æ¨ªçº¿
 		tsc.addText(170, 415, LabelCommand.FONTTYPE.SIMPLIFIED_CHINESE, LabelCommand.ROTATION.ROTATION_0, LabelCommand.FONTMUL.MUL_1, LabelCommand.FONTMUL.MUL_1,
-				billInfo.getRecipientsAddress());//ÊÕ¼şµØÖ·
-		drawLine(tsc, 0, 470, 800, 1);//ÊÕ¼şµØÖ·ÏÂÃæºáÏß
+				billInfo.getRecipientsAddress());//æ”¶ä»¶åœ°å€
+		drawLine(tsc, 0, 470, 800, 1);//æ”¶ä»¶åœ°å€ä¸‹é¢æ¨ªçº¿
 
 		tsc.addText(20, 520, LabelCommand.FONTTYPE.SIMPLIFIED_CHINESE, LabelCommand.ROTATION.ROTATION_0, LabelCommand.FONTMUL.MUL_1, LabelCommand.FONTMUL.MUL_1,
-				"»õÎï");
+				"è´§ç‰©");
 		tsc.addText(20, 550, LabelCommand.FONTTYPE.SIMPLIFIED_CHINESE, LabelCommand.ROTATION.ROTATION_0, LabelCommand.FONTMUL.MUL_1, LabelCommand.FONTMUL.MUL_1,
-				"ĞÅÏ¢");
+				"ä¿¡æ¯");
 
 		tsc.addText(110, 490, LabelCommand.FONTTYPE.SIMPLIFIED_CHINESE, LabelCommand.ROTATION.ROTATION_0, LabelCommand.FONTMUL.MUL_1, LabelCommand.FONTMUL.MUL_1,
-				billInfo.getTotalWeight() + " " + billInfo.getTotalVolume());//³¤¿í¸ß
+				billInfo.getTotalWeight() + "kg" + " " + billInfo.getTotalVolume() + "m3");//é•¿å®½é«˜ mÂ³
 
-		drawLine(tsc, 270, 470, 1, 80);//ÊÕ¼şÈË×ó²àÊúÏß
-		drawLine(tsc, 390, 470, 1, 80);//ÊÕ¼şÈËÓÒ²àÊúÏß
+		drawLine(tsc, 270, 470, 1, 80);//æ”¶ä»¶äººå·¦ä¾§ç«–çº¿
+		drawLine(tsc, 390, 470, 1, 80);//æ”¶ä»¶äººå³ä¾§ç«–çº¿
 		tsc.addText(280, 480, LabelCommand.FONTTYPE.SIMPLIFIED_CHINESE, LabelCommand.ROTATION.ROTATION_0, LabelCommand.FONTMUL.MUL_1, LabelCommand.FONTMUL.MUL_1,
-				billInfo.getRecipientsName());//ÊÕ¼şÈËÃû³Æ
+				billInfo.getRecipientsName());//æ”¶ä»¶äººåç§°
 
 		tsc.addText(400, 490, LabelCommand.FONTTYPE.SIMPLIFIED_CHINESE, LabelCommand.ROTATION.ROTATION_0, LabelCommand.FONTMUL.MUL_2, LabelCommand.FONTMUL.MUL_2,
 				currPage + "/" + totalPage);//  1/10
 
 		tsc.addText(100, 565, LabelCommand.FONTTYPE.SIMPLIFIED_CHINESE, LabelCommand.ROTATION.ROTATION_0, LabelCommand.FONTMUL.MUL_1, LabelCommand.FONTMUL.MUL_1,
-				"·¢»õ");
+				"å‘è´§");
 		tsc.addText(100, 595, LabelCommand.FONTTYPE.SIMPLIFIED_CHINESE, LabelCommand.ROTATION.ROTATION_0, LabelCommand.FONTMUL.MUL_1, LabelCommand.FONTMUL.MUL_1,
-				"Íøµã");
+				"ç½‘ç‚¹");
 
-		drawLine(tsc, 80, 550, 800, 1);//·¢»õÍøµãÉÏÃæºáÏß
-		drawLine(tsc, 160, 550, 1, 100);//·¢»õÍøµãÓÒ²àÊúÏß
+		drawLine(tsc, 80, 550, 800, 1);//å‘è´§ç½‘ç‚¹ä¸Šé¢æ¨ªçº¿
+		drawLine(tsc, 160, 550, 1, 100);//å‘è´§ç½‘ç‚¹å³ä¾§ç«–çº¿
 		tsc.addText(210, 565, LabelCommand.FONTTYPE.SIMPLIFIED_CHINESE, LabelCommand.ROTATION.ROTATION_0, LabelCommand.FONTMUL.MUL_1, LabelCommand.FONTMUL.MUL_1,
 				billInfo.getSendSiteName());
 
-		drawLine(tsc, 370, 550, 1, 120);//±¸×¢×ó²àÊúÏß
+		drawLine(tsc, 370, 550, 1, 120);//å¤‡æ³¨å·¦ä¾§ç«–çº¿
 		tsc.addText(390, 585, LabelCommand.FONTTYPE.SIMPLIFIED_CHINESE, LabelCommand.ROTATION.ROTATION_0, LabelCommand.FONTMUL.MUL_1, LabelCommand.FONTMUL.MUL_1,
-				"±¸×¢");
-		drawLine(tsc, 460, 550, 1, 120);//±¸×¢ÓÒ²àÊúÏß
+				"å¤‡æ³¨");
+		drawLine(tsc, 460, 550, 1, 120);//å¤‡æ³¨å³ä¾§ç«–çº¿
 		tsc.addText(450, 575, LabelCommand.FONTTYPE.SIMPLIFIED_CHINESE, LabelCommand.ROTATION.ROTATION_0, LabelCommand.FONTMUL.MUL_1, LabelCommand.FONTMUL.MUL_1,
 				billInfo.getRemark());
 
-		tsc.addFeed(2);
+		tsc.addFeed(16);
 
-		tsc.addPrint(1, 1); // ´òÓ¡±êÇ©
-		tsc.addSound(2, 100); // ´òÓ¡±êÇ©ºó ·äÃùÆ÷Ïì
+		tsc.addPrint(1, 1); // æ‰“å°æ ‡ç­¾
+		tsc.addSound(2, 100); // æ‰“å°æ ‡ç­¾å èœ‚é¸£å™¨å“
 
-		Vector<Byte> datas = tsc.getCommand(); // ·¢ËÍÊı¾İ
+		Vector<Byte> datas = tsc.getCommand(); // å‘é€æ•°æ®
 		byte[] bytes = GpUtils.ByteTo_byte(datas);
 		String str = Base64.encodeToString(bytes, Base64.DEFAULT);
 		int rel;

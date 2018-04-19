@@ -20,6 +20,7 @@ import com.exam.longtian.adapter.ViewHolder;
 import com.exam.longtian.entity.BillInfo;
 import com.exam.longtian.entity.ScanDetail;
 import com.exam.longtian.entity.SiteInfo;
+import com.exam.longtian.entity.SubBillDetailInfo;
 import com.exam.longtian.presenter.PresenterQuery;
 import com.exam.longtian.presenter.PresenterUtil;
 import com.exam.longtian.printer.bluetooth.PrintUtil;
@@ -159,6 +160,11 @@ public class ReceiveDetailActivity extends BaseActivity {
 	 * @see com.exam.longtian.activity.BaseActivity#clickRight(android.view.View)
 	 */
 	public void clickRight(View v){
+		
+		if(currPos < 0){
+			CommandTools.showToast("请选择一条数据打印");
+			return;
+		}
 
 		if (MainMenuActivity.mGpService == null) {
 			CommandTools.showToast("打印机服务启动失败，请检查打印机");
@@ -186,29 +192,39 @@ public class ReceiveDetailActivity extends BaseActivity {
 			return;
 		}
 
-		if(currPos < 0){
-			CommandTools.showToast("请选择一条数据打印");
-			return;
-		}
-
 		CommandTools.showChooseDialog(ReceiveDetailActivity.this, "确认打印该条数据？", new CommandToolsCallback() {
 
 			@Override
 			public void callback(int position) {
 
 				if(position == 0){
-					startPrint();
+					//startPrint();
+					ScanDetail scanDetail = dataList.get(currPos);
+					getSubBillcode(scanDetail.getBillCode());
 				}
 			}
 		});
 	}
 
-	public void startPrint(){
+	public void getSubBillcode(String billCode){
+
+		PresenterUtil.waybillSub_getSubListByBillCode(ReceiveDetailActivity.this, billCode, new ObjectCallback() {
+
+			@Override
+			public void callback(boolean success, String message, String code, Object data) {
+
+				List<SubBillDetailInfo> list = (ArrayList<SubBillDetailInfo>) data;
+				startPrint(list);
+			}
+		});
+	}
+
+	public void startPrint(List<SubBillDetailInfo> list){
 
 		ScanDetail scanDetail = dataList.get(currPos);
 		BillInfo info = new BillInfo();
 
-		info.setBillCode(scanDetail.getBillCode());
+		info.setSubBillcode(scanDetail.getBillCode());
 		info.setPackageKindName(scanDetail.getPackageKindName());
 		info.setSendDate(scanDetail.getSendDate());
 		info.setDestSiteName(scanDetail.getSendSiteName());
@@ -220,17 +236,29 @@ public class ReceiveDetailActivity extends BaseActivity {
 		info.setSendSiteName(scanDetail.getSendSiteName());
 		info.setRemark(scanDetail.getRemark());
 
-		PrintUtil.printLabel(info, 1, 1, new CallBack() {
+		List<BillInfo> printList = new ArrayList<BillInfo>();
+		int len = list.size();
+		for(int i=0; i<len; i++){
+
+			SubBillDetailInfo subBillDetailInfo = list.get(i);
+			info.setBillCode(subBillDetailInfo.getBillCode());
+			info.setTotalWeight(subBillDetailInfo.getWeight());
+			info.setTotalVolume(subBillDetailInfo.getVolume());
+
+			printList.add(info);
+		}
+
+		PrintUtil.printLabelList(printList, new CallBack() {
 
 			@Override
 			public void callback(int pos) {
 				// TODO Auto-generated method stub
 				if(pos == 0){
-					
 					CommandTools.showToast("打印成功");
 				}
 			}
 		});
 
 	}
+
 }

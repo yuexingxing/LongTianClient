@@ -117,6 +117,7 @@ public class CustomerListActivity extends BaseActivity {
 	public void initData() {
 		// TODO Auto-generated method stub
 
+		setTitle("Ñ¡Ôñ");
 		type = getIntent().getIntExtra("type", 1);
 
 		PCustom.customer_list(this,  new ObjectCallback() {

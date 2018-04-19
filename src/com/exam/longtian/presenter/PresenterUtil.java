@@ -13,6 +13,7 @@ import com.exam.longtian.entity.ChildBillInfo;
 import com.exam.longtian.entity.CompareResultInfo;
 import com.exam.longtian.entity.DictInfo;
 import com.exam.longtian.entity.JoinBillInfo;
+import com.exam.longtian.entity.SubBillDetailInfo;
 import com.exam.longtian.util.API;
 import com.exam.longtian.util.CommandTools;
 import com.exam.longtian.util.OkHttpUtil;
@@ -436,4 +437,42 @@ public class PresenterUtil {
 			}
 		});
 	}
+
+	/**
+	 * 根据billCode获取子单号
+	 * @param context
+	 * @param callback
+	 */
+	public static void waybillSub_getSubListByBillCode(final Context context, String billCode, final ObjectCallback callback){
+
+		OkHttpUtil.get(context, API.waybillSub_getSubListByBillCode + billCode, new ObjectCallback() {
+
+			@Override
+			public void callback(boolean success, String message, String code, Object data) {
+				// TODO Auto-generated method stub
+
+				if(success){
+					
+					if(data == null){
+						return;
+					}
+					JSONArray jsonArray = (JSONArray) data;
+//					CommandTools.showDialog(context, data.toString());
+
+					List<SubBillDetailInfo> list = new ArrayList<SubBillDetailInfo>();
+					int len = jsonArray.length();
+					for(int i=0; i<len; i++){
+
+						JSONObject jsonObject = jsonArray.optJSONObject(i);
+						SubBillDetailInfo info = new GsonBuilder().create().fromJson(jsonObject.toString(), new TypeToken<SubBillDetailInfo>(){}.getType());
+
+						list.add(info);
+					}
+
+					callback.callback(success, message, code, list);
+				}
+			}
+		});
+	}
+
 }

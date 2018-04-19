@@ -51,4 +51,6 @@ public class API {
 	public static final String sign_add = "sign/add";//签收
 	public static final String imageServer_uploadImg = "imageServer/uploadImg";//图片上传
 	public static final String waybillImage_add = "waybillImage/add";//图片上传成功后调用此接口
+	
+	public static final String waybillSub_getSubListByBillCode = "waybillSub/getSubListByBillCode/";
 }

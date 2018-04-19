@@ -46,6 +46,19 @@
             android:text="打印测试"
             android:textColor="@color/black"
             android:textSize="13sp" />
+        
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/selector_btn_button"
+            android:onClick="printCheck"
+            android:text="纸张校对"
+            android:visibility="invisible"
+            android:textColor="@color/black"
+            android:textSize="13sp" />
     </LinearLayout>
 
 </LinearLayout>
