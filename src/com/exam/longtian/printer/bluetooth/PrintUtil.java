@@ -2,14 +2,21 @@ package com.exam.longtian.printer.bluetooth;
 
 import java.util.List;
 import java.util.Vector;
+
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Handler;
 import android.os.Message;
 import android.os.RemoteException;
 import android.text.TextUtils;
 import android.util.Base64;
+
+import com.exam.longtian.MyApplication;
+import com.exam.longtian.R;
 import com.exam.longtian.activity.MainMenuActivity;
 import com.exam.longtian.entity.BillInfo;
 import com.exam.longtian.entity.PrintInfoData;
+import com.exam.longtian.util.CommandTools;
 import com.gprinter.command.GpCom;
 import com.gprinter.command.GpUtils;
 import com.gprinter.command.LabelCommand;
@@ -19,6 +26,7 @@ import com.gprinter.command.LabelCommand.DIRECTION;
 import com.gprinter.command.LabelCommand.MIRROR;
 import com.gprinter.command.LabelCommand.READABEL;
 import com.gprinter.command.LabelCommand.ROTATION;
+import com.gprinter.command.LabelCommand.SPEED;
 
 /** 
  * 打印操作类
@@ -76,6 +84,7 @@ public class PrintUtil {
 		tsc.addReference(0, 0);// 设置原点坐标
 		tsc.addTear(ENABLE.OFF); // 撕纸模式开启
 		tsc.addCls();// 清除打印缓冲区
+		tsc.addSpeed(SPEED.SPEED4);
 		//		tsc.addSelectJustification(JUSTIFICATION.CENTER);//设置打印居中
 
 		//		tsc.addHome();//校准标签纸
@@ -136,8 +145,16 @@ public class PrintUtil {
 		tsc.addText(20, 550, LabelCommand.FONTTYPE.SIMPLIFIED_CHINESE, LabelCommand.ROTATION.ROTATION_0, LabelCommand.FONTMUL.MUL_1, LabelCommand.FONTMUL.MUL_1,
 				"信息");
 
+		String strLength = billInfo.getTotalWeight() + "kg" + " " + billInfo.getTotalVolume() + "m";
 		tsc.addText(110, 490, LabelCommand.FONTTYPE.SIMPLIFIED_CHINESE, LabelCommand.ROTATION.ROTATION_0, LabelCommand.FONTMUL.MUL_1, LabelCommand.FONTMUL.MUL_1,
-				billInfo.getTotalWeight() + "kg" + " " + billInfo.getTotalVolume() + "m3");//长宽高 m³
+				strLength);//长宽高 m³
+
+		tsc.addText(110 + strLength.length() * 12, 485, LabelCommand.FONTTYPE.SIMPLIFIED_CHINESE, LabelCommand.ROTATION.ROTATION_0, LabelCommand.FONTMUL.MUL_1, LabelCommand.FONTMUL.MUL_1,
+				"3");
+
+		//		Bitmap bitmap = CommandTools.convertStringToIcon(billInfo.getTotalWeight() + "kg" + " " + billInfo.getTotalVolume() + "3");
+		//		Bitmap    bmp = BitmapFactory.decodeResource(MyApplication.getInstance().getResources(), R.drawable.pass_close);  
+		//		tsc.addBitmap(110, 490,  30, bmp);
 
 		drawLine(tsc, 270, 470, 1, 80);//收件人左侧竖线
 		drawLine(tsc, 390, 470, 1, 80);//收件人右侧竖线

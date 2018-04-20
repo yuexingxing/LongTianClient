@@ -22,6 +22,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
+import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.os.Environment;
 import android.telephony.TelephonyManager;
@@ -50,7 +51,7 @@ public class CommandTools {
 	public static abstract class CommandToolsCallback {
 		public abstract void callback(int position);
 	}
-	
+
 	public static String getTimes() {
 		Date date = new Date();
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
@@ -350,7 +351,7 @@ public class CommandTools {
 				callback.callback(0);
 			}
 		});
-		
+
 		dialog.setNegativeButton("取消", new OnClickListener() {
 
 			@Override
@@ -359,7 +360,7 @@ public class CommandTools {
 				callback.callback(-1);
 			}
 		});
-		
+
 		dialog.setCancelable(false);//对话框外部不可点击
 
 		dialog.show();
@@ -415,7 +416,7 @@ public class CommandTools {
 	 * @param bitmap 
 	 */  
 	public static File compressImage(Bitmap bitmap) {  
-		
+
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();  
 		bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);//质量压缩方法，这里100表示不压缩，把压缩后的数据存放到baos中  
 		int options = 100;  
@@ -441,7 +442,7 @@ public class CommandTools {
 		} catch (FileNotFoundException e) {  
 			e.printStackTrace();  
 		}  
-//		recycleBitmap(bitmap);  
+		//		recycleBitmap(bitmap);  
 		return file;  
 	}  
 
@@ -456,7 +457,7 @@ public class CommandTools {
 			}  
 		}  
 	}  
-	
+
 	/**
 	 * 验证手机是否合法
 	 * 
@@ -476,38 +477,64 @@ public class CommandTools {
 		else
 			return mobiles.matches(telRegex);
 	}
-	
-	/**
-     * 对象转byte
-     * @param obj
-     * @return
-     */
-    public static byte[] ObjectToByte(Object obj) {  
-    	
-        byte[] bytes = null;  
-        try {  
-            // object to bytearray  
-            ByteArrayOutputStream bo = new ByteArrayOutputStream();  
-            ObjectOutputStream oo = new ObjectOutputStream(bo);  
-            oo.writeObject(obj);  
-      
-            bytes = bo.toByteArray();  
-      
-            bo.close();  
-            oo.close();  
-        } catch (Exception e) {  
-            System.out.println("translation" + e.getMessage());  
-            e.printStackTrace();  
-        }  
-        return bytes;  
-    } 
-    
-    public static void requestFolcus(EditText edt){
-    	
-    	edt.setFocusable(true);  
-    	edt.setFocusableInTouchMode(true); 
-    }
 
+	/**
+	 * 对象转byte
+	 * @param obj
+	 * @return
+	 */
+	public static byte[] ObjectToByte(Object obj) {  
+
+		byte[] bytes = null;  
+		try {  
+			// object to bytearray  
+			ByteArrayOutputStream bo = new ByteArrayOutputStream();  
+			ObjectOutputStream oo = new ObjectOutputStream(bo);  
+			oo.writeObject(obj);  
+
+			bytes = bo.toByteArray();  
+
+			bo.close();  
+			oo.close();  
+		} catch (Exception e) {  
+			System.out.println("translation" + e.getMessage());  
+			e.printStackTrace();  
+		}  
+		return bytes;  
+	} 
+
+	public static void requestFolcus(EditText edt){
+
+		edt.setFocusable(true);  
+		edt.setFocusableInTouchMode(true); 
+	}
+
+	/**
+	 * string转成bitmap
+	 * 
+	 * @param st
+	 */
+	public static Bitmap convertStringToIcon(String st)
+	{
+		// OutputStream out;
+		Bitmap bitmap = null;
+		try
+		{
+			// out = new FileOutputStream("/sdcard/aa.jpg");
+			byte[] bitmapArray;
+			bitmapArray = Base64.decode(st, Base64.DEFAULT);
+			bitmap =
+					BitmapFactory.decodeByteArray(bitmapArray, 0,
+							bitmapArray.length);
+			// bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
+			return bitmap;
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+			return null;
+		}
+	}
 }
 
 
